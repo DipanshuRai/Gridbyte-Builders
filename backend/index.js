@@ -1,4 +1,3 @@
-// server.js
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -9,6 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
+const cors = require('cors');
+
 const connectDatabase = require('./config/database.js');
 const errorMiddleware = require('./middlewares/error');
 
@@ -30,6 +31,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+app.use(cors({
+  origin: process.env.FRONTEND_URL, 
+  credentials: true, 
+}));
+
 // middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,26 +48,16 @@ app.use('/api/v1', require('./routes/productRoute'));
 app.use('/api/v1', require('./routes/orderRoute'));
 app.use('/api/v1', require('./routes/paymentRoute'));
 
+app.get('/', (req, res) => {
+  res.send('Server is Running! 🚀');
+});
+
 // global error handler
 app.use(errorMiddleware);
 
-// deployment: serve React build in production
-const __root = path.resolve();
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__root, 'frontend', 'build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__root, 'frontend', 'build', 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => {
-    res.send('Server is Running! 🚀');
-  });
-}
-
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on PORT: ${PORT}`);
 });
 
 // handle unhandled promise rejections
