@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
+const morgan = require('morgan')
 const cors = require('cors');
 
 const connectDatabase = require('./config/database.js');
@@ -40,6 +41,7 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan("dev"));
 app.use(fileUpload());
 
 // import routes
