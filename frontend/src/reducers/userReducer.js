@@ -42,15 +42,24 @@ import {
     REMOVE_USER_DETAILS,
 } from '../constants/userConstants';
 
-export const userReducer = (state = { user: {} }, { type, payload }) => {
+const initialState = {
+    loading: false,
+    isAuthenticated: false,
+    user: null,
+    error: null,
+};
+
+export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case LOGIN_USER_REQUEST:
         case REGISTER_USER_REQUEST:
         case LOAD_USER_REQUEST:
             return {
+                ...state, // Spread the existing state to keep user/error info if needed
                 loading: true,
-                isAuthenticated: false,
+                isAuthenticated: false, // Explicitly set isAuthenticated to false on new load
             };
+
         case LOGIN_USER_SUCCESS:
         case REGISTER_USER_SUCCESS:
         case LOAD_USER_SUCCESS:
@@ -59,13 +68,18 @@ export const userReducer = (state = { user: {} }, { type, payload }) => {
                 loading: false,
                 isAuthenticated: true,
                 user: payload,
+                error: null, // Clear previous errors on success
             };
+
         case LOGOUT_USER_SUCCESS:
+            // Return to the clean initial state on logout
             return {
                 loading: false,
                 user: null,
                 isAuthenticated: false,
+                error: null,
             };
+
         case LOGIN_USER_FAIL:
         case REGISTER_USER_FAIL:
             return {
@@ -75,24 +89,28 @@ export const userReducer = (state = { user: {} }, { type, payload }) => {
                 user: null,
                 error: payload,
             };
+
         case LOAD_USER_FAIL:
             return {
                 loading: false,
                 isAuthenticated: false,
                 user: null,
-                error: payload,
-            }
+                error: payload, // You might want to set this to null if "no user" isn't an "error"
+            };
+
         case LOGOUT_USER_FAIL:
             return {
                 ...state,
                 loading: false,
                 error: payload,
-            }
+            };
+
         case CLEAR_ERRORS:
             return {
                 ...state,
                 error: null,
             };
+
         default:
             return state;
     }
