@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
+const morgan = require('morgan')
 const cors = require('cors');
 const Fuse = require("fuse.js");
 
@@ -110,10 +111,10 @@ app.use(errorMiddleware);
 // Start server
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on PORT: ${PORT}`);
+  console.log(`Server running on PORT: ${PORT}`);
 });
 
-// Graceful shutdown
+// handle unhandled promise rejections
 process.on('unhandledRejection', err => {
   console.error('Unhandled Rejection:', err.message);
   server.close(() => process.exit(1));
