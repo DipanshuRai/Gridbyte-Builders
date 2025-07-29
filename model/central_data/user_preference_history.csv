@@ -1,0 +1,325 @@
+user_id,searched_category,interested_rating_above
+user_101,Beauty & Personal Care,4.3
+user_101,Home & Kitchen,4.0
+user_101,Automotive,4.6
+user_101,Musical Instruments,4.1
+user_101,"Arts, Crafts & Sewing",4.4
+user_101,Musical Instruments,3.8
+user_101,Baby Products,4.1
+user_101,Men,4.5
+user_101,Health & Household,3.9
+user_101,Beauty,4.5
+user_101,Cell Phones & Accessories,4.3
+user_101,Sports & Outdoors,4.7
+user_101,"Patio, Lawn & Garden",3.6
+user_101,Musical Instruments,4.8
+user_101,Men,4.2
+user_101,Pet Supplies,4.3
+user_101,Health & Household,4.8
+user_101,Pet Supplies,4.5
+user_101,CDs & Vinyl,4.2
+user_101,Women,3.7
+user_101,CDs & Vinyl,4.1
+user_101,Video Games,4.7
+user_101,CDs & Vinyl,4.8
+user_101,Tools & Home Improvement,4.4
+user_101,Automotive,4.7
+user_101,Automotive,4.1
+user_101,"Arts, Crafts & Sewing",4.6
+user_101,Health & Household,3.8
+user_101,Women,4.1
+user_101,Hunting & Fishing,3.8
+user_101,"Arts, Crafts & Sewing",4.2
+user_101,"Clothing, Shoes & Jewelry",3.9
+user_101,Electronics,4.6
+user_101,Baby Products,3.8
+user_101,"Clothing, Shoes & Jewelry",4.1
+user_101,Kitchen & Dining,4.0
+user_101,Video Games,4.5
+user_101,Health & Household,4.8
+user_101,"Clothing, Shoes & Jewelry",3.6
+user_101,CDs & Vinyl,4.0
+user_101,Automotive,3.9
+user_101,Sports & Outdoors,4.7
+user_101,Beauty & Personal Care,3.9
+user_101,Women,4.4
+user_101,Home & Kitchen,4.2
+user_101,Toys & Games,4.7
+user_101,Grocery & Gourmet Food,3.7
+user_101,Pet Supplies,3.7
+user_101,CDs & Vinyl,3.9
+user_101,"Arts, Crafts & Sewing",3.5
+user_101,Electronics,4.8
+user_101,Health & Household,4.0
+user_101,CDs & Vinyl,4.3
+user_101,Toys & Games,4.1
+user_101,Men,4.7
+user_101,Grocery & Gourmet Food,3.5
+user_101,Appliances,4.7
+user_101,Women,4.4
+user_101,Beauty,4.0
+user_101,"Clothing, Shoes & Jewelry",3.8
+user_101,Cell Phones & Accessories,4.8
+user_101,Home & Kitchen,4.3
+user_101,Health & Household,3.8
+user_101,"Patio, Lawn & Garden",3.8
+user_101,Home & Kitchen,4.7
+user_101,Kitchen & Dining,4.2
+user_101,Kitchen & Dining,4.5
+user_102,Grocery & Gourmet Food,3.8
+user_102,Tools & Home Improvement,4.0
+user_102,Toys & Games,4.2
+user_102,Pet Supplies,3.7
+user_102,Musical Instruments,4.0
+user_102,CDs & Vinyl,4.2
+user_102,Video Games,4.1
+user_102,Appliances,4.5
+user_102,Pet Supplies,4.6
+user_102,Home & Kitchen,3.7
+user_102,Beauty,4.0
+user_102,Health & Household,3.7
+user_102,Power & Hand Tools,4.5
+user_102,Grocery & Gourmet Food,4.4
+user_102,Men,3.5
+user_102,Baby Products,4.1
+user_102,Pet Supplies,3.5
+user_102,Kitchen & Dining,4.8
+user_102,Automotive,3.8
+user_102,Hunting & Fishing,3.7
+user_102,Toys & Games,3.7
+user_102,Appliances,4.4
+user_102,Hunting & Fishing,4.4
+user_102,Women,3.7
+user_102,Automotive,4.3
+user_102,Automotive,3.7
+user_102,Sports & Outdoors,3.7
+user_102,Home & Kitchen,4.0
+user_102,Cell Phones & Accessories,4.8
+user_102,Electronics,4.8
+user_102,Cell Phones & Accessories,3.9
+user_102,Cell Phones & Accessories,4.2
+user_102,Hunting & Fishing,4.5
+user_102,Cell Phones & Accessories,4.3
+user_102,Office Products,3.7
+user_102,Appliances,4.4
+user_102,Pet Supplies,4.0
+user_102,Sports & Outdoors,4.3
+user_102,Men,4.1
+user_102,Baby Products,4.5
+user_102,Motorcycle & Powersports,3.9
+user_102,Automotive,4.2
+user_102,Motorcycle & Powersports,3.9
+user_102,"Patio, Lawn & Garden",4.3
+user_102,Cell Phones & Accessories,4.7
+user_102,Video Games,3.9
+user_102,Power & Hand Tools,4.0
+user_102,Office Products,3.8
+user_102,Cell Phones & Accessories,3.7
+user_102,Motorcycle & Powersports,3.5
+user_102,Grocery & Gourmet Food,4.1
+user_102,"Patio, Lawn & Garden",4.7
+user_102,Electronics,4.2
+user_102,Grocery & Gourmet Food,4.1
+user_102,Tools & Home Improvement,4.0
+user_102,Electronics,4.5
+user_102,Sports & Outdoors,3.8
+user_102,Home & Kitchen,4.6
+user_102,Cell Phones & Accessories,4.4
+user_102,"Clothing, Shoes & Jewelry",3.9
+user_102,Power & Hand Tools,4.6
+user_102,Baby Products,4.0
+user_103,Health & Household,3.6
+user_103,Grocery & Gourmet Food,3.8
+user_103,Office Products,3.8
+user_103,Baby Products,4.3
+user_103,Video Games,4.3
+user_103,Electronics,4.3
+user_103,"Arts, Crafts & Sewing",4.2
+user_103,Pet Supplies,4.4
+user_103,Beauty & Personal Care,4.2
+user_103,Pet Supplies,3.7
+user_103,Baby Products,4.1
+user_103,Men,4.8
+user_103,Automotive,3.7
+user_103,Women,4.1
+user_103,CDs & Vinyl,4.5
+user_103,Motorcycle & Powersports,3.7
+user_103,Baby Products,3.7
+user_103,Hunting & Fishing,3.8
+user_103,Sports & Outdoors,3.6
+user_103,CDs & Vinyl,3.7
+user_103,"Patio, Lawn & Garden",4.5
+user_103,"Patio, Lawn & Garden",4.2
+user_103,Cell Phones & Accessories,4.7
+user_103,Tools & Home Improvement,3.6
+user_103,"Clothing, Shoes & Jewelry",4.7
+user_103,Toys & Games,4.3
+user_103,Pet Supplies,3.5
+user_103,Pet Supplies,4.1
+user_103,Men,4.4
+user_103,"Arts, Crafts & Sewing",4.2
+user_103,Electronics,3.8
+user_103,Musical Instruments,4.4
+user_103,Automotive,4.0
+user_103,Cell Phones & Accessories,4.6
+user_103,Home & Kitchen,4.7
+user_103,Power & Hand Tools,3.8
+user_103,Sports & Outdoors,3.9
+user_103,"Clothing, Shoes & Jewelry",3.7
+user_103,Beauty & Personal Care,4.3
+user_103,Video Games,3.6
+user_103,Office Products,4.6
+user_103,Grocery & Gourmet Food,4.2
+user_103,Health & Household,4.6
+user_103,Pet Supplies,4.4
+user_103,Electronics,3.9
+user_103,Toys & Games,4.4
+user_103,Grocery & Gourmet Food,3.5
+user_103,Beauty & Personal Care,4.5
+user_103,Power & Hand Tools,4.2
+user_103,Musical Instruments,4.5
+user_103,"Clothing, Shoes & Jewelry",4.0
+user_103,"Clothing, Shoes & Jewelry",4.6
+user_103,"Arts, Crafts & Sewing",4.0
+user_103,Tools & Home Improvement,4.8
+user_103,Sports & Outdoors,4.3
+user_103,Sports & Outdoors,3.5
+user_103,Toys & Games,4.1
+user_103,CDs & Vinyl,4.5
+user_103,Cell Phones & Accessories,4.1
+user_103,Men,3.7
+user_103,Video Games,3.7
+user_103,Health & Household,4.3
+user_103,Appliances,4.5
+user_103,Office Products,3.5
+user_104,Men,4.4
+user_104,Baby Products,4.6
+user_104,"Patio, Lawn & Garden",4.2
+user_104,Women,3.7
+user_104,Men,4.3
+user_104,Office Products,4.5
+user_104,Power & Hand Tools,4.1
+user_104,Video Games,4.2
+user_104,Women,4.4
+user_104,Musical Instruments,4.3
+user_104,Baby Products,4.1
+user_104,"Arts, Crafts & Sewing",4.4
+user_104,Automotive,4.7
+user_104,Men,4.4
+user_104,Beauty,4.4
+user_104,Toys & Games,4.0
+user_104,Beauty,3.6
+user_104,Pet Supplies,3.7
+user_104,Video Games,4.8
+user_104,Kitchen & Dining,4.2
+user_104,Power & Hand Tools,3.7
+user_104,Motorcycle & Powersports,4.8
+user_104,Cell Phones & Accessories,4.0
+user_104,Pet Supplies,4.3
+user_104,Appliances,4.2
+user_104,Power & Hand Tools,4.2
+user_104,Automotive,4.7
+user_104,Pet Supplies,3.7
+user_104,Baby Products,4.2
+user_104,"Arts, Crafts & Sewing",3.6
+user_104,Video Games,3.9
+user_104,Industrial & Scientific,3.6
+user_104,Office Products,4.5
+user_104,Beauty & Personal Care,4.5
+user_104,Women,4.7
+user_104,Appliances,3.7
+user_104,"Clothing, Shoes & Jewelry",4.1
+user_104,Baby Products,4.3
+user_104,Beauty & Personal Care,4.1
+user_104,Grocery & Gourmet Food,4.5
+user_104,Grocery & Gourmet Food,4.2
+user_104,Pet Supplies,3.7
+user_104,"Clothing, Shoes & Jewelry",4.3
+user_104,Women,4.0
+user_104,"Arts, Crafts & Sewing",4.5
+user_104,"Patio, Lawn & Garden",4.7
+user_104,"Arts, Crafts & Sewing",4.5
+user_104,"Patio, Lawn & Garden",4.3
+user_104,Tools & Home Improvement,3.6
+user_104,Hunting & Fishing,3.6
+user_104,Automotive,4.7
+user_104,Office Products,4.5
+user_104,Hunting & Fishing,4.6
+user_104,Baby Products,3.8
+user_104,Beauty & Personal Care,3.9
+user_104,Men,3.7
+user_104,Women,4.7
+user_104,Office Products,3.8
+user_104,Kitchen & Dining,3.9
+user_104,Electronics,3.8
+user_104,CDs & Vinyl,4.2
+user_104,Video Games,3.9
+user_104,Industrial & Scientific,3.8
+user_104,Power & Hand Tools,4.1
+user_104,Power & Hand Tools,3.8
+user_104,"Patio, Lawn & Garden",4.1
+user_104,Electronics,3.7
+user_105,Musical Instruments,3.5
+user_105,Tools & Home Improvement,4.2
+user_105,Beauty,4.1
+user_105,Video Games,4.3
+user_105,Electronics,3.5
+user_105,Office Products,3.9
+user_105,Beauty & Personal Care,4.3
+user_105,Power & Hand Tools,3.8
+user_105,CDs & Vinyl,4.4
+user_105,Men,4.2
+user_105,Appliances,3.6
+user_105,Cell Phones & Accessories,4.6
+user_105,Kitchen & Dining,4.2
+user_105,"Clothing, Shoes & Jewelry",4.7
+user_105,Musical Instruments,4.8
+user_105,Tools & Home Improvement,4.3
+user_105,Industrial & Scientific,4.4
+user_105,Beauty,4.3
+user_105,"Arts, Crafts & Sewing",4.0
+user_105,Power & Hand Tools,3.9
+user_105,Appliances,4.7
+user_105,Tools & Home Improvement,3.9
+user_105,Musical Instruments,3.6
+user_105,Power & Hand Tools,4.5
+user_105,Automotive,3.5
+user_105,Cell Phones & Accessories,4.2
+user_105,Hunting & Fishing,4.5
+user_105,"Clothing, Shoes & Jewelry",4.6
+user_105,Sports & Outdoors,4.1
+user_105,Women,4.1
+user_105,"Patio, Lawn & Garden",4.7
+user_105,Appliances,4.2
+user_105,Office Products,3.6
+user_105,Cell Phones & Accessories,3.6
+user_105,Power & Hand Tools,4.2
+user_105,Musical Instruments,4.0
+user_105,Office Products,3.5
+user_105,Home & Kitchen,4.0
+user_105,Power & Hand Tools,4.4
+user_105,Electronics,3.7
+user_105,Office Products,3.7
+user_105,Industrial & Scientific,4.2
+user_105,Sports & Outdoors,3.7
+user_105,Sports & Outdoors,4.4
+user_105,Power & Hand Tools,4.4
+user_105,Tools & Home Improvement,3.6
+user_105,Cell Phones & Accessories,4.2
+user_105,Health & Household,4.4
+user_105,Pet Supplies,4.4
+user_105,Hunting & Fishing,4.2
+user_105,Health & Household,4.1
+user_105,Sports & Outdoors,4.6
+user_105,Power & Hand Tools,4.5
+user_105,Tools & Home Improvement,4.7
+user_105,Industrial & Scientific,4.5
+user_105,Video Games,3.7
+user_105,"Arts, Crafts & Sewing",4.4
+user_105,Cell Phones & Accessories,3.5
+user_105,"Clothing, Shoes & Jewelry",4.2
+user_105,Musical Instruments,4.7
+user_105,Automotive,4.3
+user_105,Home & Kitchen,3.6
+user_105,Video Games,4.4
+user_105,"Arts, Crafts & Sewing",4.7
