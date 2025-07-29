@@ -1,0 +1,130 @@
+.header-container {
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  width: 100%;
+  z-index: 10;
+  height: 5rem;
+  display: flex;
+}
+
+.header-content {
+  width: 100%;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo-link {
+  height: 4rem;
+  margin-right: 0.25rem;
+}
+
+.logo-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 0.25rem;
+  gap: 0.125rem;
+  position: relative;
+}
+
+.login-button {
+  padding: 0.125rem 0.75rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #3f3f3f;
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.user-dropdown,
+.more-dropdown {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #3f3f3f;
+  font-weight: 500;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.more-dropdown {
+  display: none;
+}
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #3f3f3f; 
+  font-weight: 500;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.cart-item-count {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.5rem;
+  background-color: #ef4444;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  position: absolute;
+  top: -0.5rem;
+  left: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+}
+
+@media (min-width: 640px) {
+  .header-content {
+    width: 75%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .logo-link {
+    margin-right: 1rem;
+  }
+
+  .header-right {
+    margin-left: 0;
+    gap: 1.75rem;
+  }
+
+  .login-button {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+  
+  .more-dropdown {
+    display: flex;
+  }
+}
