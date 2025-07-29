@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axiosInstance from '../../../utils/axiosInstance';
 import SearchIcon from '@mui/icons-material/Search';
+import HistoryIcon from '@mui/icons-material/History';
 import MicIcon from '@mui/icons-material/Mic';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+import { useDetectOutsideClick } from '../../../Hooks/useDetectOutsideClick';
 import './Searchbar.css';
 
 const Searchbar = () => {
     const [keyword, setKeyword] = useState("");
-    const navigate = useNavigate();
+    const [searchHistory, setSearchHistory] = useState([]);
+    const [showHistory, setShowHistory] = useState(false);
 
+    const navigate = useNavigate();
+    const searchContainerRef = useRef(null);
+    const searchInputRef = useRef(null);
+    const silenceTimerRef = useRef(null);
+    const lastTranscriptRef = useRef("");
+
+    useDetectOutsideClick(searchContainerRef, () => setShowHistory(false));
+
+    const { isAuthenticated } = useSelector((state) => state.user);
+
+    // Speech recognition hook setup
     const {
         transcript,
         listening,
@@ -16,66 +33,186 @@ const Searchbar = () => {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition();
 
-    // This useEffect will update the input field whenever the transcript changes.
     useEffect(() => {
         setKeyword(transcript);
     }, [transcript]);
 
-    // Add this useEffect for debugging
-    // useEffect(() => {
-    //     console.log('Transcript:', transcript);
-    //     console.log('Listening:', listening);
-    // }, [transcript, listening]);
+    // Auto-stop mechanism when user stops speaking
+    useEffect(() => {
+        if (!listening) return;
 
+        if (silenceTimerRef.current) {
+            clearTimeout(silenceTimerRef.current);
+        }
+
+        if (transcript === lastTranscriptRef.current) {
+            silenceTimerRef.current = setTimeout(() => {
+                if (listening) {
+                    SpeechRecognition.stopListening();
+                }
+            }, 2000);
+        } else {
+            lastTranscriptRef.current = transcript;
+        }
+
+        return () => {
+            if (silenceTimerRef.current) {
+                clearTimeout(silenceTimerRef.current);
+            }
+        };
+    }, [transcript, listening]);
+
+    useEffect(() => {
+        return () => {
+            if (silenceTimerRef.current) {
+                clearTimeout(silenceTimerRef.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        let maxDurationTimer;
+        
+        if (listening) {
+            maxDurationTimer = setTimeout(() => {
+                SpeechRecognition.stopListening();
+            }, 30000);
+        }
+
+        return () => {
+            if (maxDurationTimer) {
+                clearTimeout(maxDurationTimer);
+            }
+        };
+    }, [listening]);
+
+    const fetchHistory = async () => {
+        if (!isAuthenticated) return;
+        try {
+            const { data } = await axiosInstance.get('/api/v1/history');
+            if (data.success) {
+                setSearchHistory(data.history);
+            }
+        } catch (error) {
+            console.error("Failed to fetch search history", error);
+        }
+    };
+
+    const saveSearch = async (query) => {
+        if (!isAuthenticated || !query.trim()) return;
+        try {
+            await axiosInstance.post('/api/v1/history', { query });
+        } catch (error) {
+            console.error("Failed to save search history", error);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        if (silenceTimerRef.current) {
+            clearTimeout(silenceTimerRef.current);
+        }
+        
+        if (listening) {
+            SpeechRecognition.stopListening();
+        }
+        
         if (keyword.trim()) {
+            saveSearch(keyword);
             navigate(`/products/${keyword}`);
+            setShowHistory(false);
         } else {
             navigate('/products');
         }
+        
         resetTranscript();
+        lastTranscriptRef.current = "";
+        searchInputRef.current.blur();
     };
 
-    // Toggles microphone on and off
+    // Shows the history dropdown when the input is focused
+    const handleFocus = () => {
+        setShowHistory(true);
+        fetchHistory();
+    };
+
+    // Handles clicking on a search history item
+    const handleHistoryClick = (query) => {
+        setKeyword(query);
+        navigate(`/products/${query}`);
+        setShowHistory(false);
+    };
+
+    // Toggles continuous voice search on and off
     const handleVoiceSearch = (e) => {
-        e.preventDefault(); // prevent form submission
+        e.preventDefault();
+        
         if (listening) {
+            if (silenceTimerRef.current) {
+                clearTimeout(silenceTimerRef.current);
+            }
             SpeechRecognition.stopListening();
         } else {
             resetTranscript();
-            // Pass the language code for better accuracy, e.g., 'en-US'
-            SpeechRecognition.startListening({ language: 'en-US' });
+            lastTranscriptRef.current = "";
+            SpeechRecognition.startListening({ 
+                continuous: true, 
+                language: 'en-US'
+            });
+        }
+        
+        if (searchInputRef.current) {
+            searchInputRef.current.focus();
         }
     };
 
     if (!browserSupportsSpeechRecognition) {
-        // Render nothing or a message if the browser doesn't support the API
         return null;
     }
 
     return (
-        <form onSubmit={handleSubmit} className="searchbar">
-            <button type="submit" className="search-button">
-                <SearchIcon />
-            </button>
-            <input
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                className="search-input"
-                type="text"
-                placeholder={listening ? "Listening..." : "Search for products, brands and more"}
-            />
-            {/* The mic button is now a standard button to avoid form submission issues */}
-            <button
-                type="button" // Important: type="button" to prevent form submission
-                onClick={handleVoiceSearch}
-                className={`mic-button ${listening ? 'listening' : ''}`}
-            >
-                <MicIcon />
-            </button>
-        </form>
+        <div ref={searchContainerRef} className="search-container">
+            <form onSubmit={handleSubmit} className="searchbar">
+                <button type="submit" className="search-button" title="Search">
+                    <SearchIcon />
+                </button>
+
+                <input
+                    ref={searchInputRef}
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onFocus={handleFocus}
+                    className="search-input"
+                    type="text"
+                    placeholder={listening ? "Listening... speak now" : "Search for products, brands and more"}
+                />
+
+                <button
+                    type="button"
+                    onClick={handleVoiceSearch}
+                    className={`mic-button ${listening ? 'listening' : ''}`}
+                    title="Search by voice"
+                >
+                    <MicIcon />
+                </button>
+            </form>
+
+            {showHistory && isAuthenticated && searchHistory.length > 0 && (
+                <ul className="search-history-list">
+                    {searchHistory.map((query, index) => (
+                        <li
+                            key={index}
+                            className="search-history-item"
+                            onMouseDown={() => handleHistoryClick(query)}
+                        >
+                           <HistoryIcon sx={{ fontSize: '18px', color: '#878787' }}/>
+                           <span>{query}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
     );
 };
 

@@ -5,7 +5,7 @@
   padding: 0 1rem;
   display: flex;
   align-items: center;
-  background-color: #f0f5ff; /* Light bluish background */
+  background-color: #f0f5ff;
   border-radius: 8px;
   box-shadow: none;
   margin-right: 1rem;
@@ -19,7 +19,7 @@
   border: none;
   color: #727272;
   background: transparent;
-  padding: 0.5rem 2.5rem 0.5rem 0.75rem; /* Added right padding for mic */
+  padding: 0.5rem 3.5rem 0.5rem 0.75rem;
 }
 
 .search-input::placeholder {
@@ -35,8 +35,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;   /* Increase width */
-  height: 1rem;  /* Increase height */
+  width: 1rem;  
+  height: 1rem; 
   font-size: 1rem;
 }
 
@@ -60,6 +60,45 @@
 .mic-button.listening {
   background-color: #e0e0e0;
   animation: pulse 1.5s infinite;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-history-list {
+    position: absolute;
+    max-width: 75%;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 2px 0 0 0;
+    z-index: 100;
+}
+
+.search-history-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    color: #333;
+    font-size: 1rem;
+}
+
+.search-history-item:hover {
+    background-color: #f0f5ff;
+}
+
+.searchbar {
+    position: relative;
+    z-index: 101;
 }
 
 @keyframes pulse {

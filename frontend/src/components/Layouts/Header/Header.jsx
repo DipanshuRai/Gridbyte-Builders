@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,28 +15,22 @@ const Header = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { cartItems } = useSelector(state => state.cart);
 
-  const {
-    isActive: isPrimaryDropDownActive,
-    setIsActive: setIsPrimaryDropDownActive,
-    triggerRef: primaryTriggerRef,
-    nodeRef: primaryNodeRef,
-  } = useDetectOutsideClick(false);
+  const [isPrimaryDropDownActive, setIsPrimaryDropDownActive] = useState(false);
+  const primaryDropDownRef = useRef(null);
+  useDetectOutsideClick(primaryDropDownRef, () => setIsPrimaryDropDownActive(false));
 
-  const {
-    isActive: isSecondaryDropDownActive,
-    setIsActive: setIsSecondaryDropDownActive,
-    triggerRef: secondaryTriggerRef,
-    nodeRef: secondaryNodeRef,
-  } = useDetectOutsideClick(false);
+  const [isSecondaryDropDownActive, setIsSecondaryDropDownActive] = useState(false);
+  const secondaryDropDownRef = useRef(null);
+  useDetectOutsideClick(secondaryDropDownRef, () => setIsSecondaryDropDownActive(false));
 
   const handlePrimaryDropDownToggle = () => {
     setIsSecondaryDropDownActive(false);
-    setIsPrimaryDropDownActive(!isPrimaryDropDownActive);
+    setIsPrimaryDropDownActive(prev => !prev);
   };
 
   const handleSecondaryDropDownToggle = () => {
     setIsPrimaryDropDownActive(false);
-    setIsSecondaryDropDownActive(!isSecondaryDropDownActive);
+    setIsSecondaryDropDownActive(prev => !prev);
   };
 
   return (
@@ -53,46 +47,36 @@ const Header = () => {
           {isAuthenticated === false ? (
             <Link to="/login" className="login-button">Login</Link>
           ) : (
-            <span
-              ref={primaryTriggerRef}
-              className="user-dropdown"
-              onClick={handlePrimaryDropDownToggle}
-            >
-              {user?.name && user.name.split(" ", 1)}
+            <div ref={primaryDropDownRef} className="dropdown-container">
+              <span className="user-dropdown" onClick={handlePrimaryDropDownToggle}>
+                {user?.name && user.name.split(" ", 1)}
+                <span>
+                  {isPrimaryDropDownActive ?
+                    <ExpandLessIcon sx={{ fontSize: "16px" }} /> :
+                    <ExpandMoreIcon sx={{ fontSize: "16px" }} />
+                  }
+                </span>
+              </span>
+              {isPrimaryDropDownActive && (
+                <PrimaryDropDownMenu setTogglePrimaryDropDown={setIsPrimaryDropDownActive} user={user} />
+              )}
+            </div>
+          )}
+
+          <div ref={secondaryDropDownRef} className="dropdown-container">
+            <span className="more-dropdown" onClick={handleSecondaryDropDownToggle}>
+              More
               <span>
-                {isPrimaryDropDownActive ? 
-                  <ExpandLessIcon sx={{ fontSize: "16px" }} /> : 
+                {isSecondaryDropDownActive ?
+                  <ExpandLessIcon sx={{ fontSize: "16px" }} /> :
                   <ExpandMoreIcon sx={{ fontSize: "16px" }} />
                 }
               </span>
             </span>
-          )}
-
-          {isPrimaryDropDownActive && (
-            <div ref={primaryNodeRef}>
-              <PrimaryDropDownMenu setTogglePrimaryDropDown={setIsPrimaryDropDownActive} user={user} />
-            </div>
-          )}
-
-          <span
-            ref={secondaryTriggerRef}
-            className="more-dropdown"
-            onClick={handleSecondaryDropDownToggle}
-          >
-            More
-            <span>
-              {isSecondaryDropDownActive ? 
-                <ExpandLessIcon sx={{ fontSize: "16px" }} /> : 
-                <ExpandMoreIcon sx={{ fontSize: "16px" }} />
-              }
-            </span>
-          </span>
-
-          {isSecondaryDropDownActive && (
-            <div ref={secondaryNodeRef}>
+            {isSecondaryDropDownActive && (
               <SecondaryDropDownMenu />
-            </div>
-          )}
+            )}
+          </div>
 
           <Link to="/cart" className="cart-link">
             <span><ShoppingCartIcon /></span>
