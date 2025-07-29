@@ -1,6 +1,5 @@
 from elasticsearch import Elasticsearch
 
-# --- Configuration ---
 ES_HOST = "http://localhost:9200"
 INDEX_NAME = "autosuggest_index"
 SUGGESTER_NAME = "product-suggester"
@@ -13,16 +12,10 @@ class AutosuggestService:
             raise ConnectionError("Could not connect to Elasticsearch")
         print("Service Initialized Successfully.")
 
-    # Inside the AutosuggestService class in autosuggest_service.py
-    # In the AutosuggestService class in autosuggest_service.py
-
-    # In the AutosuggestService class in autosuggest_service.py
-
     def get_suggestions(self, prefix: str, user_context: str = None, limit: int = 10):
         if not prefix:
             return []
 
-        # Define the core of the completion query
         completion_config = {
             "field": "suggest",
             "size": limit,
@@ -30,13 +23,11 @@ class AutosuggestService:
             "fuzzy": { "fuzziness": "AUTO" }
         }
 
-        # IMPORTANT: Only add the 'contexts' block if a user_context is actually provided
         if user_context:
             completion_config["contexts"] = {
                 "category_context": user_context
             }
         
-        # Construct the final query
         suggest_query = {
             "suggest": {
                 SUGGESTER_NAME: {
@@ -59,7 +50,6 @@ class AutosuggestService:
                 
         return suggestions
 
-# Initialize a single instance of the service
 autosuggest_service = AutosuggestService()
 
 # from elasticsearch import Elasticsearch
