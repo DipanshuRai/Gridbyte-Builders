@@ -1,25 +1,80 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
+import MicIcon from '@mui/icons-material/Mic';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import './Searchbar.css';
 
 const Searchbar = () => {
-
     const [keyword, setKeyword] = useState("");
     const navigate = useNavigate();
 
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+
+    // This useEffect will update the input field whenever the transcript changes.
+    useEffect(() => {
+        setKeyword(transcript);
+    }, [transcript]);
+
+    // Add this useEffect for debugging
+    // useEffect(() => {
+    //     console.log('Transcript:', transcript);
+    //     console.log('Listening:', listening);
+    // }, [transcript, listening]);
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(keyword.trim()){
-            navigate(`/products/${keyword}`)
+        if (keyword.trim()) {
+            navigate(`/products/${keyword}`);
         } else {
             navigate('/products');
         }
+        resetTranscript();
+    };
+
+    // Toggles microphone on and off
+    const handleVoiceSearch = (e) => {
+        e.preventDefault(); // prevent form submission
+        if (listening) {
+            SpeechRecognition.stopListening();
+        } else {
+            resetTranscript();
+            // Pass the language code for better accuracy, e.g., 'en-US'
+            SpeechRecognition.startListening({ language: 'en-US' });
+        }
+    };
+
+    if (!browserSupportsSpeechRecognition) {
+        // Render nothing or a message if the browser doesn't support the API
+        return null;
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full sm:w-9/12 px-1 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white rounded-sm overflow-hidden">
-            <input value={keyword} onChange={(e) => setKeyword(e.target.value)} className="text-sm flex-1 outline-none border-none placeholder-gray-500" type="text" placeholder="Search for products, brands and more" />
-            <button type="submit" className="text-primary-blue"><SearchIcon /></button>
+        <form onSubmit={handleSubmit} className="searchbar">
+            <button type="submit" className="search-button">
+                <SearchIcon />
+            </button>
+            <input
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                className="search-input"
+                type="text"
+                placeholder={listening ? "Listening..." : "Search for products, brands and more"}
+            />
+            {/* The mic button is now a standard button to avoid form submission issues */}
+            <button
+                type="button" // Important: type="button" to prevent form submission
+                onClick={handleVoiceSearch}
+                className={`mic-button ${listening ? 'listening' : ''}`}
+            >
+                <MicIcon />
+            </button>
         </form>
     );
 };

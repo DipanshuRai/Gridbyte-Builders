@@ -1,0 +1,64 @@
+.primary-dropdown {
+  position: absolute;
+  width: 17rem;
+  left: -6rem;
+  top: 2.75rem;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #212121;
+  transition: background 0.2s ease;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.logout {
+  cursor: pointer;
+}
+
+.icon.blue {
+  color: #2874f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlist-count {
+  margin-left: auto;
+  background: #e8eaf6;
+  color: #1a237e;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.dropdown-arrow-container {
+  position: absolute;
+  top: -8px;
+  left: 48px;
+}
+
+.dropdown-arrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
