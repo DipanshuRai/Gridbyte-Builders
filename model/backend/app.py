@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from .autosuggest_service import autosuggest_service
 from .search_service import search_service
 
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+import traceback
+
 app = FastAPI(
     title="Flipkart GRID Search API",
     description="API for Autosuggest and Search Results Page systems.",
@@ -37,3 +41,12 @@ def search(q: str):
         
     search_results = search_service.search_products(user_query=q)
     return search_results
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    print("🔥 Unhandled Exception:", traceback.format_exc())
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)},
+    )
