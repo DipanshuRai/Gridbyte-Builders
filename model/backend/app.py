@@ -29,10 +29,29 @@ def read_root():
 @app.get("/autosuggest", tags=["Autosuggest"])
 def get_autosuggestions(q: str):
     if not q:
-        return []
+        return {"suggestions": []}
     
     suggestions = autosuggest_service.get_suggestions(prefix=q)
+    
+    # 🔄 Get related categories (departments) using same query
+    facets = search_service.search_products(user_query=q, limit=0).get("facets", {})
+    categories = facets.get("departments", [])
+
+    for cat in categories[:4]:  # Limit to top 4 categories
+        suggestions.append({
+            "suggestion": cat["key"],
+            "type": "category"
+        })
+    
     return {"suggestions": suggestions}
+
+# @app.get("/autosuggest", tags=["Autosuggest"])
+# def get_autosuggestions(q: str):
+#     if not q:
+#         return []
+    
+#     suggestions = autosuggest_service.get_suggestions(prefix=q)
+#     return {"suggestions": suggestions}
 
 @app.get("/search", tags=["Search"])
 def search(q: str):

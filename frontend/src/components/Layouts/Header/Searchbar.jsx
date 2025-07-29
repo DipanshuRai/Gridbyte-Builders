@@ -181,7 +181,18 @@ const Searchbar = () => {
             {/* 🔽 Suggestions Dropdown */}
             {suggestions.length > 0 && (
                 <ul className="absolute top-full left-0 right-0 bg-white border shadow-lg z-10 max-h-60 overflow-y-auto">
+
                     {suggestions.map((item, index) => (
+    <li
+        key={index}
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+        onMouseDown={() => handleSuggestionClick(item.suggestion)}
+    >
+        {item.type === "category" ? `📂 ${item.suggestion}` : item.suggestion}
+    </li>
+))}
+
+                    {/* {suggestions.map((item, index) => (
                         <li
                             key={index}
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
@@ -189,7 +200,7 @@ const Searchbar = () => {
                         >
                             {item.suggestion}
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
             )}
 
