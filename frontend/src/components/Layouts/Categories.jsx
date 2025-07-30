@@ -10,59 +10,42 @@ import grocery from '../../assets/images/Categories/grocery.png';
 import { Link } from 'react-router-dom';
 
 const catNav = [
-    {
-        name: "Mobiles",
-        icon: mobiles,
-    },
-    {
-        name: "Fashion",
-        icon: fashion,
-    },
-    {
-        name: "Electronics",
-        icon: electronics,
-    },
-    {
-        name: "Home",
-        icon: home,
-    },
-    {
-        name: "Travel",
-        icon: travel,
-    },
-    {
-        name: "Appliances",
-        icon: appliances,
-    },
-    {
-        name: "Furniture",
-        icon: furniture,
-    },
-    {
-        name: "Beauty,Toys & more",
-        icon: beauty,
-    },
-    {
-        name: "Grocery",
-        icon: grocery,
-    },
-]
+    { name: "Mobiles", icon: mobiles },
+    { name: "Fashion", icon: fashion },
+    { name: "Electronics", icon: electronics },
+    { name: "Home", icon: home },
+    { name: "Travel", icon: travel },
+    { name: "Appliances", icon: appliances },
+    { name: "Furniture", icon: furniture },
+    { name: "Beauty, Toys & More", icon: beauty },
+    { name: "Grocery", icon: grocery },
+];
 
 const Categories = () => {
     return (
-        <section className="hidden sm:block bg-white mt-10 mb-4 min-w-full px-12 py-1 shadow overflow-hidden">
-
-            <div className="flex items-center justify-between mt-4">
-
-                {catNav.map((item, i) => (
-                    <Link to={`/products?category=${item.name}`} className="flex flex-col gap-1 items-center p-2 group" key={i}>
-                        <div className="h-16 w-16">
-                            <img draggable="false" className="h-full w-full object-contain" src={item.icon} alt={item.name} />
-                        </div>
-                        <span className="text-sm text-gray-800 font-medium group-hover:text-primary-blue">{item.name}</span>
-                    </Link>
-                ))}
-
+        <section className="hidden sm:block bg-white mt-4 mb-4 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between py-2 space-x-4 overflow-x-auto scrollbar-hide flex-nowrap">
+                    {catNav.map((item, i) => (
+                        <Link
+                            to={`/products?category=${item.name}`}
+                            key={i}
+                            className="flex flex-col items-center justify-center flex-shrink-0 w-28 p-2 group"
+                        >
+                            <div className="h-30 w-30 p-1">
+                                <img
+                                    draggable="false"
+                                    className="h-full w-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-110"
+                                    src={item.icon}
+                                    alt={item.name}
+                                />
+                            </div>
+                            <span className="text-sm text-center text-gray-800 font-medium transition-colors duration-200 group-hover:text-primary-blue">
+                                {item.name}
+                            </span>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </section>
     );
