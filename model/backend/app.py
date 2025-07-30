@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware 
-from .autosuggest_service import autosuggest_service
-from .search_service import search_service
+from autosuggest_service import autosuggest_service
+from search_service import search_service
 
 app = FastAPI(
     title="Flipkart GRID Search API",
@@ -22,16 +22,21 @@ def read_root():
     return {"message": "Welcome to the Flipkart Search API"}
 
 @app.get("/autosuggest", tags=["Autosuggest"])
-def get_autosuggestions(q: str, context: str = None):
-    """
-    Provides intelligent search suggestions for a given query prefix.
-    - Handles typos and provides corrections.
-    - Ranks suggestions based on popularity and user context.
-    """
+def get_autosuggestions(q: str):
     if not q:
-        return []
+        return {"suggestions": []}
     
-    suggestions = autosuggest_service.get_suggestions(prefix=q, user_context=context)
+    suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
+
+    # Add top 4 departments (categories)
+    facets = search_service.search_products(user_query=q, limit=0).get("facets", {})
+    categories = facets.get("departments", [])
+    for cat in categories[:4]:
+        suggestions.append({
+            "suggestion": cat["key"],
+            "type": "category"
+        })
+
     return {"suggestions": suggestions}
 
 @app.get("/search", tags=["Search"])
