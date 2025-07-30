@@ -19,6 +19,7 @@ import { categories } from '../../utils/constants';
 import MetaData from '../Layouts/MetaData';
 import { getRandomProducts } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Products = () => {
 
@@ -38,7 +39,30 @@ const Products = () => {
     const [categoryToggle, setCategoryToggle] = useState(true);
     const [ratingsToggle, setRatingsToggle] = useState(true);
 
-    const { products, loading, error, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
+    // products state
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [error,setError] = useState(null)
+    const productsCount=products?.length || 0;
+    const resultPerPage = 5;
+    const filteredProductsCount= 5;
+
+    useEffect(()=>{
+        setLoading(true)
+        const fetchProducts = async ()=>{
+            try {
+                const res=await axios.get(`http://localhost:8000/search?q=${params.keyword}`)
+                console.log(res.data.results[0])
+                setProducts(res.data.results)
+            } catch (err) {
+                setError(err.message)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProducts();
+    },[params.keyword])
+    // const { products, loading, error, productsCount, resultPerPage, filteredProductsCount } = useSelector((state) => state.products);
     const keyword = params.keyword;
 
     const priceHandler = (e, newPrice) => {

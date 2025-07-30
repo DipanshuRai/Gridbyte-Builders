@@ -40,7 +40,6 @@ const Searchbar = () => {
                 setSuggestions([]);
                 return;
             }
-
             try {
                 const res = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
                 setSuggestions(res.data.suggestions || []);
@@ -193,7 +192,7 @@ const Searchbar = () => {
 ))}
 
                     {/* {suggestions.map((item, index) => (
-                        <li
+                        <lic
                             key={index}
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                             onMouseDown={() => handleSuggestionClick(item.suggestion)}
