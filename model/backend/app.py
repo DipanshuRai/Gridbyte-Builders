@@ -26,6 +26,26 @@ app.add_middleware(
 def read_root():
     return {"message": "Welcome to the Flipkart Search API"}
 
+# @app.get("/autosuggest", tags=["Autosuggest"])
+# def get_autosuggestions(q: str):
+#     if not q:
+#         return {"suggestions": []}
+    
+#     suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
+
+#     # Add top 4 departments (categories)
+#     facets = search_service.search_products(user_query=q, limit=0).get("facets", {})
+#     categories = facets.get("departments", [])
+#     for cat in categories[:4]:
+#         suggestions.append({
+#             "suggestion": cat["key"],
+#             "type": "category"
+#         })
+
+#     return {"suggestions": suggestions}
+
+
+
 @app.get("/autosuggest", tags=["Autosuggest"])
 def get_autosuggestions(q: str):
     if not q:
@@ -44,6 +64,9 @@ def get_autosuggestions(q: str):
         })
     
     return {"suggestions": suggestions}
+
+
+
 
 # @app.get("/autosuggest", tags=["Autosuggest"])
 # def get_autosuggestions(q: str):

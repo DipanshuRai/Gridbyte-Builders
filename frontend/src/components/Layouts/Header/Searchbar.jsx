@@ -178,31 +178,35 @@ const Searchbar = () => {
                 </button>
             </form>
 
+
             {/* 🔽 Suggestions Dropdown */}
-            {suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border shadow-lg z-10 max-h-60 overflow-y-auto">
-
-                    {suggestions.map((item, index) => (
-    <li
+{suggestions.length > 0 && (
+  <ul className="absolute top-full left-0 right-0 bg-white border shadow-lg z-10 max-h-60 overflow-y-auto rounded-md">
+    {suggestions.map((item, index) => (
+      <li
         key={index}
-        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
         onMouseDown={() => handleSuggestionClick(item.suggestion)}
-    >
-        {item.type === "category" ? `📂 ${item.suggestion}` : item.suggestion}
-    </li>
-))}
+        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
+      >
+        {item.image && (
+          <img
+            src={item.image}
+            alt="product"
+            className="w-6 h-6 object-cover rounded"
+          />
+        )}
 
-                    {/* {suggestions.map((item, index) => (
-                        <li
-                            key={index}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                            onMouseDown={() => handleSuggestionClick(item.suggestion)}
-                        >
-                            {item.suggestion}
-                        </li>
-                    ))} */}
-                </ul>
-            )}
+        <div className="flex flex-col">
+          <span className="text-sm text-gray-800">{item.suggestion}</span>
+          {item.type === "category" && (
+            <span className="text-xs text-gray-500">(Category)</span>
+          )}
+        </div>
+      </li>
+    ))}
+  </ul>
+)}
+
 
             {/* 🕘 History */}
             {showHistory && isAuthenticated && searchHistory.length > 0 && (
