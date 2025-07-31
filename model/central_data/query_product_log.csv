@@ -1,99 +1,90 @@
 user_id,search_query,clicked_asin,is_purchase
-user_101,hunter fan company,B01CDGCQG4,False
-user_101,tools & home improvement,B09X56FJY7,False
-user_101,"arts, crafts & sewing",B0090B8K8O,False
-user_101,powera,B0CCW73KL3,False
-user_101,buffalo david bitton,B07KQCBT7Z,False
-user_101,hunter tools & home improvement,B01CDGCQG4,False
-user_101,4th of,B0CY242B8P,False
-user_101,beauty,B01G6KZAJ8,False
-user_101,backpack strap,B08SBVRYVH,False
-user_101,cooljob 100%,B0BXD59XYK,True
-user_101,"clothing, shoes & jewelry",B08BTYWSGF,False
-user_101,poetic,B08R97JZQ9,False
-user_101,"oshkosh b'gosh clothing, shoes & jewelry",B016QAN2RA,False
-user_101,greenworks 24v,B09FK6XXKZ,False
-user_101,ltinist electronics,B0CHYFK238,False
-user_101,"inflatable patio, lawn & garden",B0CHP3XNVD,False
-user_102,sports & outdoors,B086VZLS12,False
-user_102,binami,B08QGM47L2,False
-user_102,tools & home improvement,B09JQN5YTQ,False
-user_102,pet supplies,B01MYUYX33,False
-user_102,collapsible sports & outdoors,B0776W7JM5,True
-user_102,home & kitchen,B085NWKYJX,True
-user_102,cell9102,B083S6S7VG,False
-user_102,reinforced cat,B09TCZ414H,False
-user_102,ambesonne,B07YNNJGNP,False
-user_102,belugadesign,B08JHHG53C,False
-user_102,child ariel,B01KBEY1P4,True
-user_102,planet dog,B007QW6NQ0,True
-user_102,nautica men's,B08BTYWSGF,True
-user_102,"steve clothing, shoes & jewelry",B01L1BYSUO,False
-user_102,alleson athletic,B076BP7CBZ,False
-user_102,samsung full,B09ZBM2MLY,True
-user_102,"gloria clothing, shoes & jewelry",B079GSGX9N,True
-user_102,glamorise,B01N9SFH0B,False
-user_102,"clothing, shoes & jewelry",B07KTWPYVW,False
-user_102,mangopop,B082HGJFB7,False
-user_102,musical instruments,B001UO05YG,False
-user_102,closetmaid 1036,B01F7QECQE,False
-user_102,universal electronics,B08KZLR9CZ,False
-user_102,adidas unisex-child,B09Q4QN3SZ,False
-user_103,health & household,B018WSR9N2,False
-user_103,buffalo david bitton,B07KQCBT7Z,False
-user_103,kmc electronics,B0832V7FJ6,False
-user_103,sanjie door,B07PG6FQR2,False
-user_103,binami 2,B08QGM47L2,False
-user_103,automotive,B0CKLDX52J,False
-user_103,bio-oil,B08XMPKJ1L,True
-user_103,tools & home improvement,B0B9HPXNWK,True
-user_103,hghyjrxfkl,B0BL2CTZBS,True
-user_103,sanita men's,B0064U0DYS,False
-user_103,navitas health & household,B06ZYKZ3VS,True
-user_103,yssoa pet supplies,B0C2CJH9QD,False
-user_103,super toys & games,B07MM2T9NV,False
-user_103,ti-too cell phones & accessories,B09LGYJ5F4,False
-user_103,sigma bc,B01LXPH452,False
-user_103,the step,B0BXFFQ9XW,False
-user_103,tools & home improvement,B0BL2CTZBS,False
-user_103,"dr. clothing, shoes & jewelry",B094C1J77Y,True
-user_103,"clothing, shoes & jewelry",B08BPBG6HX,False
-user_103,"patio, lawn & garden",B002WKK86M,False
-user_104,"clothing, shoes & jewelry",B07XF5J7DK,False
-user_104,kamik,B07N11DQ9S,False
-user_104,"clothing, shoes & jewelry",B08LYJ1VCK,False
-user_104,owin,B09WR6Z67Z,False
-user_104,coco reef,B092RD98M5,False
-user_104,beyove,B086145R2W,False
-user_104,nature's bounty,B002Y27MRQ,False
-user_104,the step,B0BXFFQ9XW,True
-user_104,automotive,B07MHJK2MP,True
-user_104,home & kitchen,B01D1S4KD0,True
-user_104,3-color tools & home improvement,B0C73CBMKT,False
-user_104,vadania tools & home improvement,B08C4ZMKP1,True
-user_104,"clothing, shoes & jewelry",B08JMD4LMM,False
-user_104,"clothing, shoes & jewelry",B093QJ39ZS,False
-user_105,brushed home & kitchen,B09Y69LVTS,False
-user_105,beukei cell phones & accessories,B0BW2T7S4H,False
-user_105,coleman,B01J4C2O4Y,False
-user_105,champion,B095GG6QDN,False
-user_105,tools & home improvement,B083S6S7VG,True
-user_105,"clothing, shoes & jewelry",B08TKN9CWF,False
-user_105,learning clock,B0BXNWPRSX,False
-user_105,blackstone,B076MFM8LX,False
-user_105,lane linen home & kitchen,B09FZT5BYV,False
-user_105,hunter tools & home improvement,B01CDGCQG4,False
-user_105,bfjlife home & kitchen,B0CQ43MLGW,False
-user_105,vivohome stadium,B0CKV4ZN8G,False
-user_105,fanmats,B08NW4N1R1,False
-user_105,grocery & gourmet food,B00H4H84XC,False
-user_105,k-swiss men's,B08PK9XYZJ,False
-user_105,home & kitchen,B09C85ZRQT,False
-user_105,toys & games,B07CVDFV3D,False
-user_105,sports & outdoors,B08SMMWPCJ,True
-user_105,brother office products,B00JPBZOJ2,False
-user_105,rxomega-3 health & household,B018WSR9N2,False
-user_105,tfroco tactical,B091GSNZ8Z,False
-user_105,home & kitchen,B0CJXKM5B4,False
-user_105,bugani,B08BKY3KVL,False
-user_105,sports & outdoors,B082NP96XX,False
+user_101,venum,B01J4MMPJS,False
+user_101,rotring,B091Y7B6N2,False
+user_101,j.west,B09B26QQJ8,False
+user_101,fmfunctex home & kitchen,B088CP6VMP,True
+user_101,"clothing, shoes & jewelry",B08LYJ1VCK,True
+user_101,automotive,B0B1373CQD,False
+user_101,hercules,B09KXCVYQ6,True
+user_101,mizuno padded,B00GUO5T3S,False
+user_101,double braided,B09MT3PL2B,False
+user_101,best4cat pet supplies,B07PV6YWYV,False
+user_101,zagg cell phones & accessories,B09C6SKF7Q,True
+user_101,hemway beauty & personal care,B08JSQB7DY,False
+user_101,home & kitchen,B09JCLB24V,True
+user_101,"clothing, shoes & jewelry",B08TR8LR6V,False
+user_101,sports & outdoors,B08FD9XQYY,False
+user_101,aromatherapy health & household,B0BKFTMXJ7,True
+user_101,home & kitchen,B012SKEA1O,False
+user_101,tools & home improvement,B001E5L19O,False
+user_101,"amazon clothing, shoes & jewelry",B08P63FLH3,True
+user_102,samsung cell phones & accessories,B0939K5M9Q,False
+user_102,beauty,B08JV31QW4,True
+user_102,roof tools & home improvement,B01EBLY81U,False
+user_102,"arts, crafts & sewing",B0090B8K8O,False
+user_102,braun se5-895,B07PX6QSH2,True
+user_102,all good,B00NPA2WEY,False
+user_102,"clothing, shoes & jewelry",B00KBZQEAE,True
+user_102,office products,B015G7T7UA,False
+user_102,"crysting arts, crafts & sewing",B0B8CP57MN,False
+user_102,bgment home & kitchen,B09ZQHBZM2,False
+user_102,keya beauty,B078Q55M95,False
+user_102,automotive,B07PFL4YTN,True
+user_102,lodge sports & outdoors,B07NLKLFNB,False
+user_103,dunwell office products,B09QM2BMPG,True
+user_103,beauty,B09CQB6FZF,True
+user_103,blowfish,B08XFDYNKJ,False
+user_103,tools & home improvement,B084111VK1,False
+user_103,puma unisex-adult,B08ZXWMVCP,False
+user_103,"patio, lawn & garden",B01K119TPY,False
+user_103,ytfggy office products,B08QMCQYGM,False
+user_103,vp home,B07L19BHH6,False
+user_103,home & kitchen,B0C9C8QYD9,False
+user_103,vaadi herbals,B00WSPJUPG,True
+user_103,adidas men's,B07S8NRRWR,True
+user_104,hansgo,B09C8K67W6,False
+user_104,toys & games,B09MF3C16V,False
+user_104,bzlaha,B0C4H1137B,False
+user_104,powera video games,B0CCW73KL3,False
+user_104,"resin teak patio, lawn & garden",B0BL6RM9WX,False
+user_104,"daniel arts, crafts & sewing",B003TU057Q,False
+user_104,hanes baby,B07YGGBZ18,False
+user_104,"lifestride clothing, shoes & jewelry",B081CPNNSB,False
+user_104,dritz,B0053A9PKS,False
+user_104,furnish home & kitchen,B08N1KL9SM,False
+user_104,16 pcs,B0BMQ3DP3Y,False
+user_104,kitdacnin,B09JCLB24V,False
+user_104,aulzaju cell phones & accessories,B0CSDZ2YLC,False
+user_104,tfroco,B091GSNZ8Z,False
+user_104,in the swim,B002WKK86M,False
+user_104,greenworks tools & home improvement,B09FK6XXKZ,False
+user_104,irwin tools,B00IZFI0VI,False
+user_104,wolverine men's,B00U4ADYCM,False
+user_104,office products,B00006IEBL,True
+user_104,balanced co.,B09H2C4197,False
+user_104,"the clothing, shoes & jewelry",B09PNSHSGS,False
+user_104,parag fragrances,B07Z2WBY5M,False
+user_104,automotive,B0CKLDX52J,False
+user_105,ldr 310,B01FLH4TC6,False
+user_105,start here,B00VRMEOKW,False
+user_105,"asics clothing, shoes & jewelry",B0BRF3STLH,False
+user_105,tools & home improvement,B08K7G25J3,False
+user_105,mushie flatware,B08GLH22YT,True
+user_105,oxyglow herbals,B07PDRD1KT,False
+user_105,"new balance clothing, shoes & jewelry",B0815MWTRS,False
+user_105,balanced co. sports & outdoors,B09H2C4197,False
+user_105,swanson raw,B003HLZ3IS,False
+user_105,"aqua select patio, lawn & garden",B0C1HSC43Y,False
+user_105,kitdacnin,B09JCLB24V,False
+user_105,vearter,B09HTWWXSV,False
+user_105,office products,B093BDK1TV,False
+user_105,aothia dual-sided,B0CQTMGXHD,False
+user_105,kelty sports & outdoors,B08X9FK4RB,False
+user_105,trq front,B0747ZWCGN,False
+user_105,demeter,B009W7LW4U,False
+user_105,vevor sports & outdoors,B0CZ87GYJT,False
+user_105,home & kitchen,B00CPSF2U8,False
+user_105,kohler tools & home improvement,B002C61V7Q,False
+user_105,home & kitchen,B09VL925TR,False
+user_105,home & kitchen,B07L3SWQRX,False
+user_105,"clothing, shoes & jewelry",B08CXGTXN1,False

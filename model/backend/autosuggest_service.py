@@ -37,7 +37,8 @@ class AutosuggestService:
             suggestions.append({
                 "suggestion": option['_source']['title'],
                 "type": "product",
-                "score": option['_score']
+                "score": option['_score'],
+                "image": option['_source'].get('image')
             })
 
         return suggestions

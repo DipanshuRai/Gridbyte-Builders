@@ -26,6 +26,7 @@ def create_index(client: Elasticsearch, embedding_dim: int):
         "properties": {
             "title": {"type": "text", "analyzer": "english"},
             "brand": {"type": "keyword"},
+            "image": {"type": "keyword"},
             "description": {"type": "text", "analyzer": "english"},
             "department": {"type": "keyword"},
             "embedding": {"type": "dense_vector", "dims": embedding_dim},
@@ -47,6 +48,7 @@ def index_products():
     try:
         products_df = pd.read_csv(PRODUCTS_PATH)
         embeddings_df = pd.read_csv(EMBEDDINGS_PATH)
+        products_df['image_url'] = products_df['image_url'].fillna('')
     except FileNotFoundError as e:
         print(f"Error: A required data file was not found. {e}")
         return
@@ -65,6 +67,7 @@ def index_products():
         doc = {
             "title": row['title'],
             "brand": row['brand'],
+            "image": row['image_url'],
             "description": row['description'],
             "department": row['department'],
             "embedding": json.loads(row['embedding']),

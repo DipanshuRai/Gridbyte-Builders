@@ -26,18 +26,21 @@ def get_autosuggestions(q: str):
     if not q:
         return {"suggestions": []}
     
-    suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
-
+    category_suggestions = []
+    
     # Add top 4 departments (categories)
     facets = search_service.search_products(user_query=q, limit=0).get("facets", {})
     categories = facets.get("departments", [])
     for cat in categories[:4]:
-        suggestions.append({
+        category_suggestions.append({
             "suggestion": cat["key"],
             "type": "category"
         })
+    
+    product_suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
+    final_suggestions = category_suggestions + product_suggestions
 
-    return {"suggestions": suggestions}
+    return {"suggestions": final_suggestions}
 
 @app.get("/search", tags=["Search"])
 def search(q: str):
