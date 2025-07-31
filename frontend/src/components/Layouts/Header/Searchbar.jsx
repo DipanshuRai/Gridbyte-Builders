@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -17,23 +16,20 @@ const Searchbar = () => {
     const [keyword, setKeyword] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [searchHistory, setSearchHistory] = useState([]);
-    const [showHistory, setShowHistory] = useState(false);
-
+    
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.user);
-
+    
     const searchContainerRef = useRef(null);
     const searchInputRef = useRef(null);
-    const silenceTimerRef = useRef(null);
-    const lastTranscriptRef = useRef("");
-
-    useDetectOutsideClick(searchContainerRef, () => setShowHistory(false));
-
+    
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    useDetectOutsideClick(searchContainerRef, () => setIsDropdownVisible(false));
+    
     const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
-
+    
     const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-    // 🟢 Handle autosuggestions
     useEffect(() => {
         const fetchSuggestions = async () => {
             if (!keyword.trim()) {
@@ -41,49 +37,26 @@ const Searchbar = () => {
                 return;
             }
             try {
-                const res = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
-                setSuggestions(res.data.suggestions || []);
+                const { data } = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
+                setSuggestions(data.suggestions || []);
             } catch (err) {
                 console.error("Autosuggest error:", err);
+                setSuggestions([]);
             }
         };
-
         const debounce = setTimeout(fetchSuggestions, 300);
         return () => clearTimeout(debounce);
     }, [keyword]);
-
-    // 🟢 Speech recognition sets keyword
+    
     useEffect(() => {
         setKeyword(transcript);
     }, [transcript]);
 
-    // 🟢 Silence handling
     useEffect(() => {
-        if (!listening) return;
-
-        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-
-        if (transcript === lastTranscriptRef.current) {
-            silenceTimerRef.current = setTimeout(() => {
-                SpeechRecognition.stopListening();
-            }, 2000);
-        } else {
-            lastTranscriptRef.current = transcript;
+        if (keyword.trim() === '' && isDropdownVisible) {
+            fetchHistory();
         }
-
-        return () => clearTimeout(silenceTimerRef.current);
-    }, [transcript, listening]);
-
-    // 🟢 Max duration voice input
-    useEffect(() => {
-        let maxTimer;
-        if (listening) {
-            maxTimer = setTimeout(() => {
-                SpeechRecognition.stopListening();
-            }, 30000);
-        }
-        return () => clearTimeout(maxTimer);
-    }, [listening]);
+    }, [keyword, isDropdownVisible]);
 
     const fetchHistory = async () => {
         if (!isAuthenticated) return;
@@ -92,6 +65,13 @@ const Searchbar = () => {
             if (data.success) setSearchHistory(data.history);
         } catch (err) {
             console.error("History fetch failed", err);
+        }
+    };
+    
+    const handleFocus = () => {
+        setIsDropdownVisible(true);
+        if (!keyword.trim()) {
+            fetchHistory();
         }
     };
 
@@ -106,68 +86,92 @@ const Searchbar = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         if (listening) SpeechRecognition.stopListening();
-
-        if (keyword.trim()) {
-            saveSearch(keyword);
-            navigate(`/products/${keyword}`);
-            setShowHistory(false);
+        
+        const finalKeyword = keyword.trim();
+        if (finalKeyword) {
+            saveSearch(finalKeyword);
+            navigate(`/products/${finalKeyword}`);
         } else {
             navigate('/products');
         }
-
-        resetTranscript();
-        lastTranscriptRef.current = "";
+        
+        setIsDropdownVisible(false);
         searchInputRef.current.blur();
-    };
-
-    const handleFocus = () => {
-        setShowHistory(true);
-        fetchHistory();
+        resetTranscript();
     };
 
     const handleVoiceSearch = (e) => {
         e.preventDefault();
-
         if (listening) {
-            if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
             SpeechRecognition.stopListening();
         } else {
             resetTranscript();
-            lastTranscriptRef.current = "";
+            setKeyword("");
             SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
         }
-
         searchInputRef.current?.focus();
     };
-
-    const handleSuggestionClick = (suggestion) => {
-        setKeyword(suggestion);
+    
+    const handleSuggestionClick = (item) => {
+        const suggestionText = item.suggestion;
+        setKeyword(suggestionText);
         setSuggestions([]);
-        saveSearch(suggestion);
-        navigate(`/products/${suggestion}`);
+        saveSearch(suggestionText); 
+        navigate(`/products/${suggestionText}`);
+        setIsDropdownVisible(false);
     };
 
     const handleHistoryClick = (query) => {
         setKeyword(query);
         navigate(`/products/${query}`);
-        setShowHistory(false);
+        setIsDropdownVisible(false);
     };
 
     if (!browserSupportsSpeechRecognition) return null;
 
+    const renderDropdownContent = () => {
+        if (keyword.trim().length > 0 && suggestions.length > 0) {
+            return suggestions.map((item, index) => (
+                <li key={index} className="suggestion-item" onMouseDown={() => handleSuggestionClick(item)}>
+                    <div className="suggestion-image-container">
+                        {item.image ? (
+                            <img src={item.image} alt={item.suggestion} className="suggestion-image" />
+                        ) : (
+                            <SearchIcon className="suggestion-icon" />
+                        )}
+                    </div>
+                    <span className="suggestion-text">{item.suggestion}</span>
+                </li>
+            ));
+        }
+
+        if (isAuthenticated && searchHistory.length > 0) {
+            return searchHistory.map((query, index) => (
+                <li key={index} className="search-history-item" onMouseDown={() => handleHistoryClick(query)}>
+                    <HistoryIcon className="history-icon" />
+                    <span className="history-text">{query}</span>
+                </li>
+            ));
+        }
+        return null;
+    };
+
+    const dropdownContent = isDropdownVisible && (!keyword.trim() || (keyword.trim() && suggestions.length > 0)) ? renderDropdownContent() : null;
+
     return (
-        <div ref={searchContainerRef} className="relative w-full sm:w-9/12">
-            <form onSubmit={handleSubmit} className="px-1 sm:px-4 py-1.5 flex justify-between items-center shadow-md bg-white rounded-sm overflow-hidden">
-                <button type="submit" className="text-primary-blue"><SearchIcon /></button>
+        <div ref={searchContainerRef} className="search-container">
+            <form onSubmit={handleSubmit} className="searchbar">
+                <button type="submit" className="search-button">
+                    <SearchIcon />
+                </button>
 
                 <input
                     ref={searchInputRef}
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                     onFocus={handleFocus}
-                    className="text-sm flex-1 outline-none border-none placeholder-gray-500"
+                    className="search-input"
                     type="text"
                     placeholder={listening ? "Listening... speak now" : "Search for products, brands and more"}
                 />
@@ -177,45 +181,9 @@ const Searchbar = () => {
                 </button>
             </form>
 
-            {/* 🔽 Suggestions Dropdown */}
-            {suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border shadow-lg z-10 max-h-60 overflow-y-auto">
-
-                    {suggestions.map((item, index) => (
-    <li
-        key={index}
-        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-        onMouseDown={() => handleSuggestionClick(item.suggestion)}
-    >
-        {item.type === "category" ? `📂 ${item.suggestion}` : item.suggestion}
-    </li>
-))}
-
-                    {/* {suggestions.map((item, index) => (
-                        <lic
-                            key={index}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                            onMouseDown={() => handleSuggestionClick(item.suggestion)}
-                        >
-                            {item.suggestion}
-                        </li>
-                    ))} */}
-                </ul>
-            )}
-
-            {/* 🕘 History */}
-            {showHistory && isAuthenticated && searchHistory.length > 0 && (
-                <ul className="search-history-list">
-                    {searchHistory.map((query, index) => (
-                        <li
-                            key={index}
-                            className="search-history-item"
-                            onMouseDown={() => handleHistoryClick(query)}
-                        >
-                            <HistoryIcon sx={{ fontSize: '18px', color: '#878787' }} />
-                            <span>{query}</span>
-                        </li>
-                    ))}
+            {dropdownContent && (
+                <ul className="search-dropdown">
+                    {dropdownContent}
                 </ul>
             )}
         </div>
@@ -223,5 +191,3 @@ const Searchbar = () => {
 };
 
 export default Searchbar;
-
-
