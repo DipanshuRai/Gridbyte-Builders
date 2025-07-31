@@ -38,6 +38,7 @@ def get_autosuggestions(q: str):
         })
     
     product_suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
+    product_suggestions.sort(key=lambda item: item.get('score', 0), reverse=True)
     final_suggestions = category_suggestions + product_suggestions
 
     return {"suggestions": final_suggestions}

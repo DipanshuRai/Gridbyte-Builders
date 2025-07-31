@@ -1,4 +1,5 @@
 import axiosInstance from "../utils/axiosInstance";
+import axios from "axios";
 import {
     ALL_PRODUCTS_FAIL,
     ALL_PRODUCTS_REQUEST,
@@ -33,17 +34,20 @@ import {
     SLIDER_PRODUCTS_FAIL,
 } from "../constants/productConstants";
 
+const baseURL = process.env.REACT_APP_API_BASE_URL;
+
 // Get All Products --- Filter/Search/Sort
 export const getProducts =
-    (keyword = "", category, price = [0, 200000], ratings = 0, currentPage = 1) => async (dispatch) => {
+    (keyword = "", category, price = [0, 200000], ratings = 0, discount = 0, currentPage = 1) => async (dispatch) => {
         try {
             dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-            let url = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
+            let url = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&discount[gte]=${discount}&page=${currentPage}`;
+            
             if (category) {
-                url = `/api/v1/products?keyword=${keyword}&category=${category}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}&page=${currentPage}`;
+                url += `&category=${category}`;
             }
-            const { data } = await axiosInstance.get(url);
+            const { data } = await axios.get(`${baseURL}/url`);
 
             dispatch({
                 type: ALL_PRODUCTS_SUCCESS,

@@ -14,30 +14,31 @@ const Products = () => {
     const params = useParams();
     const keyword = params.keyword || "";
 
-    // State for filters
     const [price, setPrice] = useState([0, 200000]);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
+    const [discount, setDiscount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // State for fetching products
     const [allProducts, setAllProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const resultPerPage = 8;
 
-    // Fetch products from the backend
     useEffect(() => {
         setLoading(true);
+        setError(null);
         const fetchProducts = async () => {
             try {
                 const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);
+                console.log(data.results);
+                
                 setAllProducts(data.results || []);
             } catch (err) {
                 setError(err.message);
-                console.error("Failed to fetch products:", err);
+                setAllProducts([]);
             } finally {
                 setLoading(false);
             }
@@ -45,24 +46,25 @@ const Products = () => {
         fetchProducts();
     }, [keyword]);
 
-    // Apply filters whenever products or filter criteria change
     useEffect(() => {
         let tempProducts = [...allProducts];
 
-        // Price Filter
-        tempProducts = tempProducts.filter(p => p.final_price >= price[0] && p.final_price <= price[1]);
-        
-        // Category Filter (if a category is selected)
+        if (price) {
+            tempProducts = tempProducts.filter(p => p.final_price >= price[0] && p.final_price <= price[1]);
+        }
         if (category) {
             tempProducts = tempProducts.filter(p => p.department === category);
         }
-
-        // Ratings Filter
-        tempProducts = tempProducts.filter(p => p.rating >= ratings);
+        if (ratings > 0) {
+            tempProducts = tempProducts.filter(p => p.rating >= ratings);
+        }
+        if (discount > 0) {
+            tempProducts = tempProducts.filter(p => p.discount_percentage >= discount);
+        }
 
         setFilteredProducts(tempProducts);
         setCurrentPage(1);
-    }, [allProducts, price, category, ratings]);
+    }, [allProducts, price, category, ratings, discount]);
 
     const priceHandler = (e, newPrice) => {
         setPrice(newPrice);
@@ -72,17 +74,17 @@ const Products = () => {
         setPrice([0, 200000]);
         setCategory("");
         setRatings(0);
+        setDiscount(0);
     };
 
-    // Pagination logic
-    const count = Math.ceil(filteredProducts.length / resultPerPage);
+    const pageCount = Math.ceil(filteredProducts.length / resultPerPage);
     const currentPagedProducts = filteredProducts.slice((currentPage - 1) * resultPerPage, currentPage * resultPerPage);
 
     return (
         <>
-            <MetaData title="All Products | Flipkart" />
+            <MetaData title="All Products | Search" />
             <MinCategory />
-            <main className="products-page-container">
+            <main className="products-page-main">
                 <div className="products-page-layout">
                     <FilterSidebar
                         price={price}
@@ -91,38 +93,43 @@ const Products = () => {
                         setCategory={setCategory}
                         ratings={ratings}
                         setRatings={setRatings}
+                        discount={discount}
+                        setDiscount={setDiscount}
                         clearFilters={clearFilters}
                     />
 
                     <div className="products-column">
-                        {loading ? <Loader /> : (
-                            <>
-                                {currentPagedProducts.length === 0 ? (
-                                    <div className="no-results-container">
-                                        <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="Search Not Found" />
-                                        <h1 className="no-results-title">Sorry, no results found!</h1>
-                                        <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
-                                    </div>
-                                ) : (
-                                    <div className="products-display-container">
-                                        <div className="products-grid">
-                                            {currentPagedProducts.map((product) => (
-                                                <Product {...product} key={product.asin} />
-                                            ))}
-                                        </div>
-                                        {count > 1 && (
-                                            <div className="pagination-container">
-                                                <Pagination
-                                                    count={count}
-                                                    page={currentPage}
-                                                    onChange={(e, val) => setCurrentPage(val)}
-                                                    color="primary"
-                                                />
-                                            </div>
-                                        )}
+                        {loading ? (
+                            <Loader />
+                        ) : error ? (
+                            <div className="error-container">
+                                <h1>Error</h1>
+                                <p>{error}</p>
+                            </div>
+                        ) : currentPagedProducts.length === 0 ? (
+                            <div className="no-results-container">
+                                <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="No Results Found" />
+                                <h1 className="no-results-title">Sorry, no results found!</h1>
+                                <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
+                            </div>
+                        ) : (
+                            <div className="products-view">
+                                <div className="products-grid">
+                                    {currentPagedProducts.map((product) => (
+                                        <Product {...product} key={product.asin} />
+                                    ))}
+                                </div>
+                                {pageCount > 1 && (
+                                    <div className="pagination-container">
+                                        <Pagination
+                                            count={pageCount}
+                                            page={currentPage}
+                                            onChange={(e, val) => setCurrentPage(val)}
+                                            color="primary"
+                                        />
                                     </div>
                                 )}
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import pandas as pd
 import random
 import os
 
-DB_PATH = '../central_data/cleaned-amazon-products.csv'
+DB_PATH = '../central_data/cleaned-flipkart-products.csv'
 USER_PREF_PATH = '../central_data/user_preference_history.csv'
 OUTPUT_PATH = '../central_data/query_product_log.csv'
 
@@ -39,7 +39,7 @@ def generate_interaction_log():
         user_ids = users_df['user_id'].unique().tolist()
     except FileNotFoundError as e:
         print(f"Error: Could not find a required file. {e}")
-        print("Please ensure 'cleaned-amazon-products.csv' and 'user_preference_history.csv' exist.")
+        print("Please ensure 'cleaned-flipkart-products.csv' and 'user_preference_history.csv' exist.")
         return
 
     print(f"Loaded {len(products_df)} products and {len(user_ids)} users.")

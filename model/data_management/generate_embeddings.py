@@ -4,7 +4,7 @@ import numpy as np
 import os
 import json
 
-DB_PATH = '../central_data/cleaned-amazon-products.csv'
+DB_PATH = '../central_data/cleaned-flipkart-products.csv'
 OUTPUT_PATH = '../central_data/product_embeddings.csv'
 
 def generate_embeddings():

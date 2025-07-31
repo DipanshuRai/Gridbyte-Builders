@@ -8,7 +8,7 @@ import os
 # --- Configuration ---
 ES_HOST = "http://localhost:9200"  # Use https if you have security enabled
 INDEX_NAME = "autosuggest_index"
-PRODUCTS_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'cleaned-amazon-products.csv')
+PRODUCTS_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'cleaned-flipkart-products.csv')
 
 def create_es_client():
     """Creates the Elasticsearch client."""

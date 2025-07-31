@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishlistAction';
 import { useSnackbar } from 'notistack';
 
-const Product = ({ _id, title, image, rating, reviews_count, final_price }) => {
+const Product = ({ _id, title, image, rating, reviews_count, final_price, discount_percentage }) => {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const discountAmount = Math.abs(Math.random() - 0.5);
@@ -50,10 +50,10 @@ const Product = ({ _id, title, image, rating, reviews_count, final_price }) => {
                 </span>
 
                 <div className="product-price">
-                    <span>₹{(Math.round((1 - discountAmount) * final_price)).toLocaleString()}</span>
-                    <span className="price-strike">₹{final_price.toLocaleString()}</span>
+                    <span>₹{final_price}</span>
+                    <span className="price-strike">₹{Math.round(final_price / (1 - discount_percentage / 100))}</span>
                     <span className="price-discount">
-                        {getDiscount(Math.round((1 - discountAmount) * final_price), final_price)}% off
+                        {Math.round(discount_percentage)}% off
                     </span>
                 </div>
             </div>

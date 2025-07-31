@@ -10,10 +10,13 @@ import StarIcon from '@mui/icons-material/Star';
 import { categories } from '../../utils/constants';
 import './FilterSidebar.css';
 
-const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, setRatings, clearFilters }) => {
+const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, setRatings, discount, setDiscount, clearFilters }) => {
 
     const [categoryToggle, setCategoryToggle] = useState(true);
     const [ratingsToggle, setRatingsToggle] = useState(true);
+    const [discountToggle, setDiscountToggle] = useState(true);
+
+    const discountOptions = [50, 40, 30, 20, 10];
 
     return (
         <div className="filter-sidebar">
@@ -26,6 +29,7 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                 </div>
 
                 <div className="filter-sections-wrapper">
+                    {/* Price Filter */}
                     <div className="filter-section">
                         <span className="filter-section-title">PRICE</span>
                         <Slider
@@ -43,12 +47,12 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                         </div>
                     </div>
 
+                    {/* Category Filter */}
                     <div className="filter-section">
                         <div className="filter-toggle-header" onClick={() => setCategoryToggle(!categoryToggle)}>
                             <p className="filter-section-title uppercase">Category</p>
                             {categoryToggle ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </div>
-
                         {categoryToggle && (
                             <div className="filter-options-container">
                                 <FormControl>
@@ -67,12 +71,36 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                         )}
                     </div>
 
+                    {/* --- NEW DISCOUNT FILTER --- */}
+                    <div className="filter-section">
+                        <div className="filter-toggle-header" onClick={() => setDiscountToggle(!discountToggle)}>
+                            <p className="filter-section-title uppercase">Discount</p>
+                            {discountToggle ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                        </div>
+                        {discountToggle && (
+                            <div className="filter-options-container">
+                                <FormControl>
+                                    <RadioGroup
+                                        aria-labelledby="discount-radio-buttons-group"
+                                        onChange={(e) => setDiscount(e.target.value)}
+                                        value={discount}
+                                        name="discount-radio-buttons"
+                                    >
+                                        {discountOptions.map((el, i) => (
+                                            <FormControlLabel value={el} key={i} control={<Radio size="small" />} label={<span className="radio-label">{el}% or more</span>} />
+                                        ))}
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Ratings Filter */}
                     <div className="filter-section">
                         <div className="filter-toggle-header" onClick={() => setRatingsToggle(!ratingsToggle)}>
                             <p className="filter-section-title uppercase">ratings</p>
                             {ratingsToggle ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </div>
-
                         {ratingsToggle && (
                             <div className="filter-options-container">
                                 <FormControl>
@@ -96,7 +124,6 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                     </div>
 
                 </div>
-
             </div>
         </div>
     );

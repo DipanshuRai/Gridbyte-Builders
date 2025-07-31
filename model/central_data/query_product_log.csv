@@ -1,90 +1,85 @@
 user_id,search_query,clicked_asin,is_purchase
-user_101,venum,B01J4MMPJS,False
-user_101,rotring,B091Y7B6N2,False
-user_101,j.west,B09B26QQJ8,False
-user_101,fmfunctex home & kitchen,B088CP6VMP,True
-user_101,"clothing, shoes & jewelry",B08LYJ1VCK,True
-user_101,automotive,B0B1373CQD,False
-user_101,hercules,B09KXCVYQ6,True
-user_101,mizuno padded,B00GUO5T3S,False
-user_101,double braided,B09MT3PL2B,False
-user_101,best4cat pet supplies,B07PV6YWYV,False
-user_101,zagg cell phones & accessories,B09C6SKF7Q,True
-user_101,hemway beauty & personal care,B08JSQB7DY,False
-user_101,home & kitchen,B09JCLB24V,True
-user_101,"clothing, shoes & jewelry",B08TR8LR6V,False
-user_101,sports & outdoors,B08FD9XQYY,False
-user_101,aromatherapy health & household,B0BKFTMXJ7,True
-user_101,home & kitchen,B012SKEA1O,False
-user_101,tools & home improvement,B001E5L19O,False
-user_101,"amazon clothing, shoes & jewelry",B08P63FLH3,True
-user_102,samsung cell phones & accessories,B0939K5M9Q,False
-user_102,beauty,B08JV31QW4,True
-user_102,roof tools & home improvement,B01EBLY81U,False
-user_102,"arts, crafts & sewing",B0090B8K8O,False
-user_102,braun se5-895,B07PX6QSH2,True
-user_102,all good,B00NPA2WEY,False
-user_102,"clothing, shoes & jewelry",B00KBZQEAE,True
-user_102,office products,B015G7T7UA,False
-user_102,"crysting arts, crafts & sewing",B0B8CP57MN,False
-user_102,bgment home & kitchen,B09ZQHBZM2,False
-user_102,keya beauty,B078Q55M95,False
-user_102,automotive,B07PFL4YTN,True
-user_102,lodge sports & outdoors,B07NLKLFNB,False
-user_103,dunwell office products,B09QM2BMPG,True
-user_103,beauty,B09CQB6FZF,True
-user_103,blowfish,B08XFDYNKJ,False
-user_103,tools & home improvement,B084111VK1,False
-user_103,puma unisex-adult,B08ZXWMVCP,False
-user_103,"patio, lawn & garden",B01K119TPY,False
-user_103,ytfggy office products,B08QMCQYGM,False
-user_103,vp home,B07L19BHH6,False
-user_103,home & kitchen,B0C9C8QYD9,False
-user_103,vaadi herbals,B00WSPJUPG,True
-user_103,adidas men's,B07S8NRRWR,True
-user_104,hansgo,B09C8K67W6,False
-user_104,toys & games,B09MF3C16V,False
-user_104,bzlaha,B0C4H1137B,False
-user_104,powera video games,B0CCW73KL3,False
-user_104,"resin teak patio, lawn & garden",B0BL6RM9WX,False
-user_104,"daniel arts, crafts & sewing",B003TU057Q,False
-user_104,hanes baby,B07YGGBZ18,False
-user_104,"lifestride clothing, shoes & jewelry",B081CPNNSB,False
-user_104,dritz,B0053A9PKS,False
-user_104,furnish home & kitchen,B08N1KL9SM,False
-user_104,16 pcs,B0BMQ3DP3Y,False
-user_104,kitdacnin,B09JCLB24V,False
-user_104,aulzaju cell phones & accessories,B0CSDZ2YLC,False
-user_104,tfroco,B091GSNZ8Z,False
-user_104,in the swim,B002WKK86M,False
-user_104,greenworks tools & home improvement,B09FK6XXKZ,False
-user_104,irwin tools,B00IZFI0VI,False
-user_104,wolverine men's,B00U4ADYCM,False
-user_104,office products,B00006IEBL,True
-user_104,balanced co.,B09H2C4197,False
-user_104,"the clothing, shoes & jewelry",B09PNSHSGS,False
-user_104,parag fragrances,B07Z2WBY5M,False
-user_104,automotive,B0CKLDX52J,False
-user_105,ldr 310,B01FLH4TC6,False
-user_105,start here,B00VRMEOKW,False
-user_105,"asics clothing, shoes & jewelry",B0BRF3STLH,False
-user_105,tools & home improvement,B08K7G25J3,False
-user_105,mushie flatware,B08GLH22YT,True
-user_105,oxyglow herbals,B07PDRD1KT,False
-user_105,"new balance clothing, shoes & jewelry",B0815MWTRS,False
-user_105,balanced co. sports & outdoors,B09H2C4197,False
-user_105,swanson raw,B003HLZ3IS,False
-user_105,"aqua select patio, lawn & garden",B0C1HSC43Y,False
-user_105,kitdacnin,B09JCLB24V,False
-user_105,vearter,B09HTWWXSV,False
-user_105,office products,B093BDK1TV,False
-user_105,aothia dual-sided,B0CQTMGXHD,False
-user_105,kelty sports & outdoors,B08X9FK4RB,False
-user_105,trq front,B0747ZWCGN,False
-user_105,demeter,B009W7LW4U,False
-user_105,vevor sports & outdoors,B0CZ87GYJT,False
-user_105,home & kitchen,B00CPSF2U8,False
-user_105,kohler tools & home improvement,B002C61V7Q,False
-user_105,home & kitchen,B09VL925TR,False
-user_105,home & kitchen,B07L3SWQRX,False
-user_105,"clothing, shoes & jewelry",B08CXGTXN1,False
+user_101,clothing,TSHDZ5ZJ5NNVQHT9,False
+user_101,urban urban girl foundation brush (pack of 7),BAREGJ8B2Y3TPUWH,True
+user_101,clothing,ACBECT5UXKDWDRRE,False
+user_101,anuradha jewellery,BCHEG22KWJHNVX7P,False
+user_101,viha clothing,FABEH3PHY4AFAZ6U,False
+user_101,computers,RTRD6352VX7RZSWG,False
+user_101,bms lifestyle mobiles & accessories,ACCE4YC4KH8TXAGM,False
+user_101,equinox beauty and personal care,BFAD3ZJYYCXDAVGH,False
+user_101,computers,USGEE27EHJBEYVVA,False
+user_101,home decor & festive needs,PTGEE9APWGGDTTMM,False
+user_101,lady stark,DREEBSFYMUHT9NJX,True
+user_101,dfr footwear,SNDEBS8AHG8YQZRY,True
+user_101,clothing,BRAEJPHBUCZAAZUY,False
+user_101,enthopia mobiles & accessories,ACCDVHJPRYJMJYFQ,False
+user_101,gwyn lingerie clothing,SKIEG6R7Y6N66FS5,True
+user_101,meee clothing,SHTE8GCDEMKSUYHQ,False
+user_101,allure auto,CRTECN2RCWZTMS2F,True
+user_101,white,BRAEFSFYYUGGQTKQ,False
+user_101,smartpro,ACCEGZ65UFENYQG5,False
+user_101,adroitz exclusive,SUDEGGB5XKHZ8YRV,False
+user_101,wajbee clothing,SWSEDHHRPHUECYAY,False
+user_101,multicolor,BRAEDUVZUVNNFF3F,False
+user_101,galz4ever jewellery,NKCEAGXHHH8ADGUN,True
+user_101,fasense clothing,NDNEBA9VUFJGTDEE,False
+user_102,jewellery,NKCEBFWTHMVVNRDP,True
+user_102,clothing,LJGE8WRFWEFGPV8H,False
+user_102,allure automotive,CRTECN2QWWAZZX58,False
+user_102,home decor & festive needs,STIEEHYJZBYHET4F,False
+user_102,lathero full,JCKEHETDXKFYJ3EB,False
+user_102,fabhomedecor furniture,SBEEH3QGYGHFUEXN,False
+user_102,ethna clothing,SHTE6YYZTJU2UUG3,False
+user_102,selfie footwear,SNDECJAMZFFBC2UG,False
+user_102,bms mobiles & accessories,ACCE5VYMHACWSNZS,True
+user_102,thelostpuppy mobiles & accessories,ACCE9Y6PUYZSQP7W,False
+user_102,veronica loafers,SHOEJMAVUZPYPFAP,False
+user_102,avaron jewellery,BCHEGAZ8PJG7ZQRR,True
+user_103,toys & school supplies,PBXE6677Y5PZBJEX,True
+user_103,home decor & festive needs,VAAEGPSQHXCY7WVF,False
+user_103,bachelors n,BZREHY5S4DCBDFGE,True
+user_103,provogue footwear,SHODQ3FUZVFEZFKQ,False
+user_103,dragon toys & school supplies,PBXECB2GXAP58DXR,True
+user_103,redesign,JUMEJCDRCWWKBQSX,False
+user_103,nihar,SHIE8M9PWUF5H4SF,True
+user_103,hoa baby care,NPYE5QUHW3Y8TGMY,False
+user_103,mz health & personal care appliances,SHVE9VHFFYAY8HBT,False
+user_103,destudio large,STIEJPM3D8HYQRTN,False
+user_103,speedwav,VMREGZPQY4E6YXE6,False
+user_103,soy impulse,BLBE2GTCQEHHRMC9,False
+user_104,indi clothing,DREE5M4ZGQHEQQU7,True
+user_104,jewelswonder wood,NKCEAYDJBTCDHMBY,False
+user_104,regular clothing,SHTE6XPTSZWHHRD7,True
+user_104,voylla jewellery,NKCDU4RZGHFC9JKV,False
+user_104,radiant bay jewellery,RNGEDAPUZZDP3HYJ,False
+user_104,jewelizer,NKCEDCT9HMYQSMGV,False
+user_104,jogur full,JCKEE8F6SYDX4HCY,False
+user_104,clothing,JCKEJNH2UGZFF5QZ,False
+user_104,petrol pcbbl67,WATDTWRZQASCHSMK,False
+user_104,cameras & accessories,ACCDVFK6WVS2MYUX,True
+user_104,la zoire,DREEYYFSRJVG8XYE,False
+user_104,o clothing,TSHE3H9TYXGMS6GV,False
+user_105,jewellery,RNGE7GVYYPQFPGYD,False
+user_105,clothing,DREECR3HFXYFPHD4,True
+user_105,mobiles & accessories,ACCEDD2QZTSXUA74,False
+user_105,golden petals jewellery,NKCE9Z2JQGBBSMTM,True
+user_105,etti esj72_multi,NKCE96SXDK3JFZC3,False
+user_105,dfh,TFHEDAGBZTUSQ7ZV,False
+user_105,clothing,TSHE9CK2GZVJGDSG,False
+user_105,fs clothing,TKPE6GJCZT9AAJRH,True
+user_105,zink clothing,TOPE5F53CXYGPVTC,False
+user_105,visaga plastic,NKCE3HVU4WDF4APE,False
+user_105,wrangler printed,TSHEA3YDNVHHGTHZ,False
+user_105,purpleyou cotton,FABE88MGTZAX5KGG,False
+user_105,lula baby care,BOLEGKFE8HMS4AFH,False
+user_105,uptown jewellery,NKCE8P4V9ZQCAYZN,True
+user_105,voylla,NKCE2YCPGMPDFUPF,False
+user_105,liza footwear,SNDE6678HFJTZCX6,True
+user_105,eye sunglasses,SGLEJVKF8UNGUJYG,False
+user_105,white clothing,BRAED8GVYPBJ7HEX,True
+user_105,clothing,TSHE6VH6HQ9NKYRG,False
+user_105,navaksha necktie,ACBECFGTHYEUNK4C,False
+user_105,karatcraft two,RNGE7GVYXGJFVZUJ,False
+user_105,status clothing,BRAE2GWBKZZTD3VH,False
+user_105,clothing,SKIEBXFEMA4PCGWM,True
+user_105,fayon,NKCDV7N6PQKSXEWH,True
