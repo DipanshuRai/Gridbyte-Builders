@@ -5,13 +5,18 @@ import { Link } from 'react-router-dom';
 import { getDiscount } from '../../utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishlistAction';
+import { useFirstWorkingImage } from '../../Hooks/useFirstWorkingImage';
 import { useSnackbar } from 'notistack';
 
-const Product = ({ _id, title, image, rating, reviews_count, final_price, discount_percentage }) => {
+const Product = ({ _id, title, images, rating, reviews_count, final_price, discount_percentage }) => {
+
+    const displayImage = useFirstWorkingImage(images);
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const discountAmount = Math.abs(Math.random() - 0.5);
     const { wishlistItems } = useSelector((state) => state.wishlist);
+
+
 
     const itemInWishlist = wishlistItems.some((i) => i.product === _id);
 
@@ -32,7 +37,7 @@ const Product = ({ _id, title, image, rating, reviews_count, final_price, discou
                     <img
                         draggable="false"
                         className="product-img"
-                        src={image}
+                        src={displayImage}
                         alt=""
                     />
                 </div>

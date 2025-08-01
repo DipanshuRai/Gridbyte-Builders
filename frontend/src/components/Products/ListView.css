@@ -1,0 +1,141 @@
+.products-list-view {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-list-item {
+    display: flex;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    padding-right: 5rem;
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    color: inherit;
+    gap: 1.5rem;
+}
+.product-list-item:last-child {
+    border-bottom: none;
+}
+
+.list-item-image-container {
+    width: 200px;
+    height: 200px;
+    margin-left: 5rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-item-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.list-item-details-container {
+    flex-grow: 1;
+    padding: 0 5rem;
+}
+
+.list-item-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #212121;
+    margin-bottom: 0.5rem;
+}
+
+.list-item-rating-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.list-item-rating {
+    display: flex;
+    align-items: center;
+    background-color: #388e3c;
+    color: white;
+    font-size: 1rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+.list-item-rating .MuiSvgIcon-root {
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+.list-item-reviews {
+    font-size: 1rem;
+    color: #878787;
+    font-weight: 500;
+}
+
+.list-item-specs {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #3b3b3b;
+}
+
+.list-item-specs li {
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.list-item-specs li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #878787;
+}
+
+.list-item-description {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.list-item-pricing-container {
+    width: 150px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.list-item-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212121;
+}
+
+.list-item-discount-container {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: baseline;
+    margin-top: 0.25rem;
+}
+
+.list-item-initial-price {
+    text-decoration: line-through;
+    color: #878787;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.list-item-discount {
+    color: #388e3c;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.list-item-delivery {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}

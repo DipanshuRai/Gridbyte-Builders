@@ -25,6 +25,7 @@ def create_index(client: Elasticsearch, embedding_dim: int):
             "title": {"type": "text", "analyzer": "english"},
             "brand": {"type": "keyword"},
             "image": {"type": "keyword"},
+            "images": {"type": "keyword"},
             "description": {"type": "text", "analyzer": "english"},
             "department": {"type": "keyword"},
             "embedding": {"type": "dense_vector", "dims": embedding_dim},
@@ -58,6 +59,7 @@ def index_products():
         return
 
     data_df = pd.merge(products_df, embeddings_df, on='asin')
+    data_df.fillna({'images': '[]', 'product_specifications': '[]'}, inplace=True)
     data_df.fillna(0, inplace=True)
 
     first_embedding = json.loads(data_df['embedding'].iloc[0])
@@ -73,10 +75,16 @@ def index_products():
         except (TypeError, json.JSONDecodeError):
             spec_list = []
 
+        try:
+            all_images_list = json.loads(row['images'])
+        except (TypeError, json.JSONDecodeError):
+            all_images_list = []
+
         doc = {
             "title": row['title'],
             "brand": row['brand'],
             "image": row['image_url'],
+            "images": all_images_list,
             "description": row['description'],
             "department": row['department'],
             "embedding": json.loads(row['embedding']),

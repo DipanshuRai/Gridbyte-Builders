@@ -14,6 +14,40 @@ class SearchService:
         
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
+        self.category_view_map = {
+            # Visual Categories -> Grid View
+            "Clothing": "grid",
+            "Jewellery": "grid",
+            "Footwear": "grid",
+            "Home Decor & Festive Needs": "grid",
+            "Beauty and Personal Care": "grid",
+            "Home Furnishing": "grid",
+            "Kitchen & Dining": "grid",
+            "Watches": "grid",
+            "Baby Care": "grid",
+            "Toys & School Supplies": "grid",
+            "Pens & Stationery": "grid",
+            "Bags, Wallets & Belts": "grid",
+            "Furniture": "grid",
+            "Sports & Fitness": "grid",
+            "Sunglasses": "grid",
+            "Pet Supplies": "grid",
+            "Home & Kitchen": "grid",
+            "Eyewear": "grid",
+            "Mobiles & Accessories": "grid",
+
+            # Informational Categories -> List View
+            "Automotive": "list",
+            "Computers": "list",
+            "Tools & Hardware": "list",
+            "Home Improvement": "list",
+            "Cameras & Accessories": "list",
+            "Health & Personal Care Appliances": "list",
+            "Gaming": "list",
+            "Home Entertainment": "list",
+            "eBooks": "list"
+        }
+
         model_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'ltr_model.joblib')
         vectorizer_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'tfidf_vectorizer.joblib')
         try:
@@ -29,7 +63,7 @@ class SearchService:
 
     def search_products(self, user_query: str, limit: int = 20, discount: int = 0, price_range=None, ratings: int = 0):
         if not user_query:
-            return {"results": [], "facets": {}}
+            return {"results": [], "facets": {}, "view_preference": "grid"}
 
         query_embedding = self.embedding_model.encode(user_query, normalize_embeddings=True)
 
@@ -75,10 +109,10 @@ class SearchService:
         
         response = self.es_client.search(index="products_index", body=es_query)
         candidates = [hit['_source'] for hit in response['hits']['hits']]
-        
+        facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
+
         if not candidates or not self.ltr_model:
-            facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
-            return {"results": candidates[:limit], "facets": facets}
+            return {"results": candidates[:limit], "facets": facets, "view_preference": "grid"}
 
         rerank_df = pd.DataFrame(candidates)
         rerank_df['search_query'] = user_query
@@ -100,8 +134,12 @@ class SearchService:
 
         reranked_results = rerank_df.sort_values(by='relevance_score', ascending=False).to_dict(orient='records')
 
-        facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
-        return {"results": reranked_results[:limit], "facets": facets}
+        view_preference = "grid"
+        if reranked_results:
+            top_product_department = reranked_results[0].get('department')
+            view_preference = self.category_view_map.get(top_product_department, 'grid')
+
+        return {"results": reranked_results[:limit], "facets": facets, "view_preference": view_preference}
 
 search_service = SearchService()
 

@@ -43,7 +43,7 @@ def train_ranking_model():
     training_data['query_length'] = training_data['search_query'].apply(len)
     
     features = [
-        'text_similarity', 'query_length', 'rating', 'reviews_count', 
+        'text_similarity', 'query_length', 'rating', 'rating_count', 
         'quality_score', 'discount_percentage', 'bought_past_month'
     ]
     label = 'is_purchase'

@@ -11,6 +11,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useDetectOutsideClick } from '../../../Hooks/useDetectOutsideClick';
+import placeholderImage from '../../../assets/image-placeholder.png';
 import './Searchbar.css';
 
 const Searchbar = () => {
@@ -26,10 +27,7 @@ const Searchbar = () => {
     const categoryDropdownRef = useRef(null);
 
     const [topDepartments, setTopDepartments] = useState([]);
-    const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
-
-    console.log("Top Dept: ", topDepartments);
-    
+    const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);    
     
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -60,6 +58,8 @@ const Searchbar = () => {
             }
             try {
                 const { data } = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
+                console.log(data.suggestions);
+                
                 setSuggestions(data.suggestions || []);
             } catch (err) {
                 console.error("Autosuggest error:", err);
@@ -152,6 +152,7 @@ const Searchbar = () => {
 
     const handleCategorySelect = (department) => {
         setIsCategoryDropdownVisible(false);
+        setKeyword(department);
         navigate(`/products/${department}`);
     };
 
@@ -162,10 +163,21 @@ const Searchbar = () => {
             return suggestions.map((item, index) => (
                 <li key={index} className="suggestion-item" onMouseDown={() => handleSuggestionClick(item)}>
                     <div className="suggestion-image-container">
-                        {item.image ? (
-                            <img src={item.image} alt={item.suggestion} className="suggestion-image" />
-                        ) : (
+                        {index < 4 ? (
                             <SearchIcon className="suggestion-icon" />
+                        ) : item.image ? (
+                            <img
+                                src={item.image}
+                                alt={item.suggestion}
+                                className="suggestion-image"
+                                onError={(e) => (e.target.src = placeholderImage)}
+                            />
+                        ) : (
+                            <img
+                                src={placeholderImage}
+                                alt="No preview"
+                                className="suggestion-image"
+                            />
                         )}
                     </div>
                     <span className="suggestion-text">{item.suggestion}</span>

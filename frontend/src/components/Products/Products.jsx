@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
-
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
-import Product from './Product';
 import FilterSidebar from './FilterSidebar';
 import MetaData from '../Layouts/MetaData';
+import GridView from './GridView';
+import ListView from './ListView';
 import './Products.css';
 
 const Products = () => {
@@ -24,8 +24,9 @@ const Products = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [viewMode, setViewMode] = useState('grid');
 
-    const resultPerPage = 8;
+    const resultPerPage = viewMode === 'grid' ? 8 : 5;
 
     useEffect(() => {
         setLoading(true);
@@ -33,9 +34,11 @@ const Products = () => {
         const fetchProducts = async () => {
             try {
                 const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);
+
                 console.log(data.results);
                 
                 setAllProducts(data.results || []);
+                setViewMode(data.view_preference || 'grid');
             } catch (err) {
                 setError(err.message);
                 setAllProducts([]);
@@ -80,6 +83,20 @@ const Products = () => {
     const pageCount = Math.ceil(filteredProducts.length / resultPerPage);
     const currentPagedProducts = filteredProducts.slice((currentPage - 1) * resultPerPage, currentPage * resultPerPage);
 
+    const renderProductView = () => {
+        if (currentPagedProducts.length === 0) {
+            return (
+                <div className="no-results-container">
+                    <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="No Results Found" />
+                    <h1 className="no-results-title">Sorry, no results found!</h1>
+                    <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
+                </div>
+            );
+        }
+
+        return viewMode === 'grid' ? <GridView products={currentPagedProducts} /> : <ListView products={currentPagedProducts} />;
+    };
+
     return (
         <>
             <MetaData title="All Products | Search" />
@@ -97,7 +114,6 @@ const Products = () => {
                         setDiscount={setDiscount}
                         clearFilters={clearFilters}
                     />
-
                     <div className="products-column">
                         {loading ? (
                             <Loader />
@@ -106,19 +122,9 @@ const Products = () => {
                                 <h1>Error</h1>
                                 <p>{error}</p>
                             </div>
-                        ) : currentPagedProducts.length === 0 ? (
-                            <div className="no-results-container">
-                                <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="No Results Found" />
-                                <h1 className="no-results-title">Sorry, no results found!</h1>
-                                <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
-                            </div>
                         ) : (
                             <div className="products-view">
-                                <div className="products-grid">
-                                    {currentPagedProducts.map((product) => (
-                                        <Product {...product} key={product.asin} />
-                                    ))}
-                                </div>
+                                {renderProductView()}
                                 {pageCount > 1 && (
                                     <div className="pagination-container">
                                         <Pagination
