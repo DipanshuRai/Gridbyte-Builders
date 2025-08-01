@@ -1,9 +1,10 @@
 from elasticsearch import Elasticsearch
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, util
 import joblib
 import pandas as pd
 import numpy as np
 import os
+from collections import Counter
 
 class SearchService:
     def __init__(self):
@@ -15,53 +16,30 @@ class SearchService:
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 
         self.category_view_map = {
-            # Visual Categories -> Grid View
-            "Clothing": "grid",
-            "Jewellery": "grid",
-            "Footwear": "grid",
-            "Home Decor & Festive Needs": "grid",
-            "Beauty and Personal Care": "grid",
-            "Home Furnishing": "grid",
-            "Kitchen & Dining": "grid",
-            "Watches": "grid",
-            "Baby Care": "grid",
-            "Toys & School Supplies": "grid",
-            "Pens & Stationery": "grid",
-            "Bags, Wallets & Belts": "grid",
-            "Furniture": "grid",
-            "Sports & Fitness": "grid",
-            "Sunglasses": "grid",
-            "Pet Supplies": "grid",
-            "Home & Kitchen": "grid",
-            "Eyewear": "grid",
-            "Mobiles & Accessories": "grid",
-
-            # Informational Categories -> List View
-            "Automotive": "list",
-            "Computers": "list",
-            "Tools & Hardware": "list",
-            "Home Improvement": "list",
-            "Cameras & Accessories": "list",
-            "Health & Personal Care Appliances": "list",
-            "Gaming": "list",
-            "Home Entertainment": "list",
-            "eBooks": "list"
+            "Clothing": "grid", "Jewellery": "grid", "Footwear": "grid",
+            "Home Decor & Festive Needs": "grid", "Beauty and Personal Care": "grid",
+            "Home Furnishing": "grid", "Kitchen & Dining": "grid", "Watches": "grid",
+            "Baby Care": "grid", "Toys & School Supplies": "grid", "Pens & Stationery": "grid",
+            "Bags, Wallets & Belts": "grid", "Furniture": "grid", "Sports & Fitness": "grid",
+            "Sunglasses": "grid", "Pet Supplies": "grid", "Home & Kitchen": "grid",
+            "Eyewear": "grid", "Mobiles & Accessories": "grid",
+            "Automotive": "list", "Computers": "list", "Tools & Hardware": "list",
+            "Home Improvement": "list", "Cameras & Accessories": "list",
+            "Health & Personal Care Appliances": "list", "Gaming": "list",
+            "Home Entertainment": "list", "eBooks": "list"
         }
 
         model_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'ltr_model.joblib')
-        vectorizer_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'tfidf_vectorizer.joblib')
         try:
             self.ltr_model = joblib.load(model_path)
-            self.tfidf_vectorizer = joblib.load(vectorizer_path)
-            print("Loaded LTR model and TF-IDF vectorizer successfully.")
+            print("Loaded LTR model successfully.")
         except FileNotFoundError:
-            print("Warning: LTR model or vectorizer not found. Search will fallback to basic ES ranking.")
+            print("Warning: LTR model not found.")
             self.ltr_model = None
-            self.tfidf_vectorizer = None
 
         print("Search Service Initialized Successfully.")
 
-    def search_products(self, user_query: str, limit: int = 20, discount: int = 0, price_range=None, ratings: int = 0):
+    def search_products(self, user_query: str, limit: int = 40, discount: int = 0, price_range=None, ratings: int = 0):
         if not user_query:
             return {"results": [], "facets": {}, "view_preference": "grid"}
 
@@ -69,77 +47,62 @@ class SearchService:
 
         filters = []
         if discount > 0:
-            filters.append({
-                "range": {
-                    "discount_percentage": {
-                        "gte": discount 
-                    }
-                }
-            })
+            filters.append({"range": {"discount_percentage": {"gte": discount}}})
         if price_range:
             filters.append({"range": {"final_price": {"gte": price_range[0], "lte": price_range[1]}}})
         if ratings > 0:
             filters.append({"range": {"rating": {"gte": ratings}}})
 
         es_query = {
-            "size": 100, 
+            "size": 100,
             "query": {
                 "bool": {
-                    "must": {
-                        "multi_match": {
-                            "query": user_query,
-                            "fields": ["title^3", "description^2", "brand", "product_specifications.value"],
-                            "fuzziness": "AUTO"
-                        }
-                    },
-                    "filter": filters  # Apply the list of filters here
+                    "must": {"multi_match": {"query": user_query, "fields": ["title^3", "description^2", "brand", "product_specifications.value"], "fuzziness": "AUTO"}},
+                    "filter": filters
                 }
             },
-            "knn": {
-                "field": "embedding",
-                "query_vector": query_embedding,
-                "k": 50,
-                "num_candidates": 100
-            },
-            "aggs": {
-                "brands": { "terms": { "field": "brand", "size": 10 } },
-                "departments": { "terms": { "field": "department", "size": 10 } }
-            }
+            "knn": {"field": "embedding", "query_vector": query_embedding, "k": 100, "num_candidates": 200},
+            "aggs": {"brands": {"terms": {"field": "brand", "size": 10}}, "departments": {"terms": {"field": "department", "size": 10}}}
         }
         
         response = self.es_client.search(index="products_index", body=es_query)
-        candidates = [hit['_source'] for hit in response['hits']['hits']]
+        
+        candidates = []
+        for hit in response['hits']['hits']:
+            product_data = hit['_source']
+            product_data['asin'] = hit['_id']
+            candidates.append(product_data)
+
         facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
 
-        if not candidates or not self.ltr_model:
-            return {"results": candidates[:limit], "facets": facets, "view_preference": "grid"}
-
-        rerank_df = pd.DataFrame(candidates)
-        rerank_df['search_query'] = user_query
+        if not candidates:
+            return {"results": [], "facets": facets, "view_preference": "grid"}
         
-        query_vec = self.tfidf_vectorizer.transform(rerank_df['search_query'])
-        title_vec = self.tfidf_vectorizer.transform(rerank_df['title'])
-        rerank_df['text_similarity'] = np.asarray(query_vec.multiply(title_vec).sum(axis=1)).flatten()
+        results_df = pd.DataFrame(candidates)
         
-        rerank_df['query_length'] = rerank_df['search_query'].apply(len)
+        # Calculate the semantic similarity for each product
+        product_embeddings = np.array([p['embedding'] for p in candidates]).astype(np.float32)
+        cosine_scores = util.cos_sim(query_embedding, product_embeddings)
+        results_df['semantic_similarity'] = cosine_scores.flatten()
+
+        # Sort the DataFrame directly by the new similarity score
+        semantically_ranked_results = results_df.sort_values(
+            by='semantic_similarity', 
+            ascending=False
+        ).to_dict(orient='records')
         
-        features_to_predict = [
-            'text_similarity', 'query_length', 'rating', 'reviews_count', 
-            'quality_score', 'discount_percentage', 'bought_past_month'
-        ]
-        X_predict = rerank_df[features_to_predict]
-
-        relevance_scores = self.ltr_model.predict_proba(X_predict)[:, 1]
-        rerank_df['relevance_score'] = relevance_scores
-
-        reranked_results = rerank_df.sort_values(by='relevance_score', ascending=False).to_dict(orient='records')
-
         view_preference = "grid"
-        if reranked_results:
-            top_product_department = reranked_results[0].get('department')
-            view_preference = self.category_view_map.get(top_product_department, 'grid')
+        query_as_category = user_query.strip().title()
+        if query_as_category in self.category_view_map:
+            view_preference = self.category_view_map[query_as_category]
+        else:
+            if semantically_ranked_results:
+                top_departments = [p.get('department') for p in semantically_ranked_results[:10] if p.get('department')]
+                if top_departments:
+                    most_common_department = Counter(top_departments).most_common(1)[0][0]
+                    view_preference = self.category_view_map.get(most_common_department, 'grid')
 
-        return {"results": reranked_results[:limit], "facets": facets, "view_preference": view_preference}
+        return {"results": semantically_ranked_results[:limit], "facets": facets, "view_preference": view_preference}
 
 search_service = SearchService()
 

@@ -12,6 +12,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useDetectOutsideClick } from '../../../Hooks/useDetectOutsideClick';
 import placeholderImage from '../../../assets/image-placeholder.png';
+import SuggestionIcon from './SuggestionIcon';
 import './Searchbar.css';
 
 const Searchbar = () => {
@@ -78,7 +79,7 @@ const Searchbar = () => {
         if (keyword.trim() === '' && isDropdownVisible) {
             fetchHistory();
         }
-    }, [keyword, isDropdownVisible]);
+    }, [keyword, isDropdownVisible, isAuthenticated]);
 
     const fetchHistory = async () => {
         if (!isAuthenticated) return;
@@ -136,11 +137,18 @@ const Searchbar = () => {
     };
     
     const handleSuggestionClick = (item) => {
-        const suggestionText = item.suggestion;
-        setKeyword(suggestionText);
+        // const suggestionText = item.suggestion;
+        // setKeyword(suggestionText);
+        // setSuggestions([]);
+        // saveSearch(suggestionText); 
+        // navigate(`/products/${suggestionText}`);
+        // setIsDropdownVisible(false);
+
+        const searchTerm = item.original_name || item.suggestion;
+        setKeyword(searchTerm);
         setSuggestions([]);
-        saveSearch(suggestionText); 
-        navigate(`/products/${suggestionText}`);
+        saveSearch(searchTerm); 
+        navigate(`/products/${searchTerm}`);
         setIsDropdownVisible(false);
     };
 
@@ -153,6 +161,7 @@ const Searchbar = () => {
     const handleCategorySelect = (department) => {
         setIsCategoryDropdownVisible(false);
         setKeyword(department);
+        saveSearch(department);
         navigate(`/products/${department}`);
     };
 
@@ -163,22 +172,7 @@ const Searchbar = () => {
             return suggestions.map((item, index) => (
                 <li key={index} className="suggestion-item" onMouseDown={() => handleSuggestionClick(item)}>
                     <div className="suggestion-image-container">
-                        {index < 4 ? (
-                            <SearchIcon className="suggestion-icon" />
-                        ) : item.image ? (
-                            <img
-                                src={item.image}
-                                alt={item.suggestion}
-                                className="suggestion-image"
-                                onError={(e) => (e.target.src = placeholderImage)}
-                            />
-                        ) : (
-                            <img
-                                src={placeholderImage}
-                                alt="No preview"
-                                className="suggestion-image"
-                            />
-                        )}
+                        <SuggestionIcon item={item} />
                     </div>
                     <span className="suggestion-text">{item.suggestion}</span>
                 </li>

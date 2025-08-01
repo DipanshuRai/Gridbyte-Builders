@@ -7,6 +7,31 @@ import json
 DB_PATH = '../central_data/cleaned-flipkart-products.csv'
 OUTPUT_PATH = '../central_data/product_embeddings.csv'
 
+def create_semantic_text(row):
+    """
+    Combines title, description, and key specifications into a single
+    rich text string for embedding.
+    """
+    title = str(row.get('title', ''))
+    
+    description = str(row.get('description', ''))
+
+    spec_values = []
+    try:
+        spec_list = json.loads(row.get('product_specifications', '[]'))
+        if isinstance(spec_list, list):
+            for spec in spec_list:
+                if isinstance(spec, dict) and 'value' in spec:
+                    spec_values.append(str(spec['value']))
+    except (TypeError, json.JSONDecodeError):
+        pass
+
+    # Combine everything into a single string.
+    # The format "title. title. specs. description" is a common and effective pattern.
+    combined_text = f"{title}. {title}. {' '.join(spec_values)}. {description}"
+    
+    return combined_text
+
 def generate_embeddings():
     """
     Generates text embeddings for each product using title and description.
@@ -28,7 +53,7 @@ def generate_embeddings():
 
     df['description'] = df['description'].fillna('')
     
-    texts_to_embed = (df['title'] + ". " + df['description']).tolist()
+    texts_to_embed = df.apply(create_semantic_text, axis=1).tolist()
     
     print(f"Preparing to generate embeddings for {len(texts_to_embed)} products...")
 

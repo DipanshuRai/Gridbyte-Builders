@@ -7,10 +7,9 @@ import Slider from '@mui/material/Slider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import StarIcon from '@mui/icons-material/Star';
-import { categories } from '../../utils/constants';
 import './FilterSidebar.css';
 
-const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, setRatings, discount, setDiscount, clearFilters }) => {
+const FilterSidebar = ({ price, priceHandler, category, setCategory, categories, ratings, setRatings, discount, setDiscount, clearFilters, maxPrice }) => {
 
     const [categoryToggle, setCategoryToggle] = useState(true);
     const [ratingsToggle, setRatingsToggle] = useState(true);
@@ -38,7 +37,7 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                             valueLabelDisplay="auto"
                             getAriaLabel={() => 'Price range slider'}
                             min={0}
-                            max={200000}
+                            max={maxPrice}
                         />
                         <div className="price-inputs-container">
                             <span className="price-input-box">₹{price[0].toLocaleString()}</span>
@@ -63,7 +62,12 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, ratings, se
                                         value={category}
                                     >
                                         {categories.map((el, i) => (
-                                            <FormControlLabel value={el} control={<Radio size="small" />} label={<span className="radio-label">{el}</span>} key={i} />
+                                            <FormControlLabel
+                                                key={i}
+                                                value={el}
+                                                control={<Radio size="small" />}
+                                                label={<span className="radio-label">{el}</span>}
+                                            />
                                         ))}
                                     </RadioGroup>
                                 </FormControl>

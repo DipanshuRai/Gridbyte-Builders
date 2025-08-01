@@ -42,7 +42,7 @@ const ProductListItem = ({ product }) => {
                     <span className="list-item-rating">
                         {product.rating} <StarIcon />
                     </span>
-                    <span className="list-item-reviews">({product.reviews_count.toLocaleString()} Reviews)</span>
+                    <span className="list-item-reviews">({product.rating_count.toLocaleString()} Ratings & {product.reviews_count.toLocaleString()} Reviews)</span>
                 </div>
                 {renderSummary()}
             </div>

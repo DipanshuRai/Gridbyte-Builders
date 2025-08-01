@@ -39,21 +39,10 @@ def get_autosuggestions(q: str):
         return {"suggestions": []}
     
     category_suggestions = []
-    
-    # Add top 4 departments (categories)
-    facets = search_service.search_products(user_query=q, limit=0).get("facets", {})
-    categories = facets.get("departments", [])
-    for cat in categories[:4]:
-        category_suggestions.append({
-            "suggestion": cat["key"],
-            "type": "category"
-        })
-    
-    product_suggestions = autosuggest_service.get_hybrid_suggestions(prefix=q)
-    product_suggestions.sort(key=lambda item: item.get('score', 0), reverse=True)
-    final_suggestions = category_suggestions + product_suggestions
 
-    return {"suggestions": final_suggestions}
+    suggestions = autosuggest_service.get_flipkart_style_suggestions(prefix=q)
+    
+    return {"suggestions": suggestions}
 
 @app.get("/search", tags=["Search"])
 def search(q: str):

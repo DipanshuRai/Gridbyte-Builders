@@ -1,98 +1,103 @@
 from elasticsearch import Elasticsearch
 from sentence_transformers import SentenceTransformer
-
-ES_HOST = "http://localhost:9200"
-INDEX_NAME = "products_index"
-SUGGESTER_INDEX = "autosuggest_index"
-SUGGESTER_NAME = "product-suggester"
+import os
 
 class AutosuggestService:
     def __init__(self):
         print("Initializing Autosuggest Service...")
-        self.es_client = Elasticsearch(ES_HOST)
+        self.es_client = Elasticsearch("http://localhost:9200")
         if not self.es_client.ping():
             raise ConnectionError("Could not connect to Elasticsearch")
         self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
         print("Service Initialized.")
 
-    def prefix_suggestions(self, prefix: str, limit: int = 5):
-        suggest_query = {
-            "suggest": {
-                SUGGESTER_NAME: {
-                    "prefix": prefix.lower(),
-                    "completion": {
-                        "field": "suggest",
-                        "size": limit,
-                        "skip_duplicates": True,
-                        "fuzzy": {"fuzziness": "AUTO"}
+    def get_query_suggestions(self, prefix: str, limit: int = 4):
+        """
+        Fetches the most popular, matching user search queries.
+        This provides the most relevant suggestions.
+        """
+        try:
+            body = {
+                "suggest": {
+                    "text": prefix, 
+                    "query_suggester": {
+                        "completion": {
+                            "field": "suggest", 
+                            "size": limit,
+                            "skip_duplicates": True,
+                            "fuzzy": {"fuzziness": "AUTO"}
+                        }
                     }
                 }
             }
-        }
+            response = self.es_client.search(index="queries_index", body=body)
+            return [{"suggestion": opt['_source']['query_text'], "type": "query"} for opt in response['suggest']['query_suggester'][0]['options']]
+        except Exception as e:
+            print(f"Could not fetch query suggestions: {e}")
+            return []
 
-        response = self.es_client.search(index=SUGGESTER_INDEX, body=suggest_query)
-
-        suggestions = []
-        for option in response['suggest'][SUGGESTER_NAME][0]['options']:
-            suggestions.append({
-                "suggestion": option['_source']['title'],
-                "type": "product",
-                "score": option['_score'],
-                "image": option['_source'].get('image')
-            })
-
-        return suggestions
-
-    def vector_suggestions(self, prefix: str, limit: int = 5):
-        query_embedding = self.embedding_model.encode(prefix, normalize_embeddings=True)
-
-        es_query = {
-            "size": limit,
-            "knn": {
-                "field": "embedding",
-                "query_vector": query_embedding,
-                "k": limit,
-                "num_candidates": 50
-            },
-            "_source": ["title", "image"],  # include image if available
-            "query": {
-                "match": {
-                    "title": {
-                        "query": prefix,
-                        "fuzziness": "AUTO"
-                    }
-                }
+    def get_product_suggestions(self, prefix: str, limit: int = 3):
+        """
+        Fetches the most semantically relevant products.
+        This is for users who are looking for a specific item.
+        """
+        try:
+            query_embedding = self.embedding_model.encode(prefix, normalize_embeddings=True)
+            body = {
+                "size": limit,
+                "knn": {"field": "embedding", "query_vector": query_embedding, "k": limit, "num_candidates": 50},
+                "_source": ["title", "image"],
+                "query": {"match": {"title": {"query": prefix, "fuzziness": "AUTO"}}}
             }
-        }
+            response = self.es_client.search(index="products_index", body=body)
+            return [{"suggestion": hit['_source']['title'], "image": hit['_source'].get("image"), "type": "product"} for hit in response['hits']['hits']]
+        except Exception as e:
+            print(f"Could not fetch product suggestions: {e}")
+            return []
 
-        response = self.es_client.search(index=INDEX_NAME, body=es_query)
+    def get_category_suggestions(self, prefix: str, limit: int = 2):
+        """
+        Fetches matching categories for navigational suggestions.
+        e.g., "in Laptops"
+        """
+        try:
+            body = {"size": limit, "query": {"match_phrase_prefix": {"name": prefix}}}
+            response = self.es_client.search(index="categories_index", body=body)
+            return [{"suggestion": f"in {hit['_source']['name']}", "original_name": hit['_source']['name'], "type": "category"} for hit in response['hits']['hits']]
+        except Exception as e:
+            print(f"Could not fetch category suggestions: {e}")
+            return []
+        
+    def get_brand_suggestions(self, prefix: str, limit: int = 1):
+        """Fetches matching brands."""
+        try:
+            body = {"size": limit, "query": {"match_phrase_prefix": {"name": prefix}}}
+            response = self.es_client.search(index="brands_index", body=body)
+            return [{"suggestion": hit['_source']['name'], "type": "brand"} for hit in response['hits']['hits']]
+        except Exception as e:
+            print(f"Could not fetch brand suggestions: {e}")
+            return []
 
-        suggestions = []
-        seen_titles = set()
-        for hit in response['hits']['hits']:
-            title = hit['_source']['title']
-            if title in seen_titles:
-                continue
-            seen_titles.add(title)
-            suggestions.append({
-                "suggestion": title,
-                "type": "product",
-                "score": hit['_score'],
-                "image": hit['_source'].get("image")  # optional
-            })
+    def get_flipkart_style_suggestions(self, prefix: str):
+        """
+        Orchestrates fetching all suggestion types and blends them into a single,
+        prioritized list for the best user experience.
+        """
+        queries = self.get_query_suggestions(prefix)
+        products = self.get_product_suggestions(prefix)
+        categories = self.get_category_suggestions(prefix)
+        brands = self.get_brand_suggestions(prefix)
+        
+        final_suggestions = []
+        seen_suggestions = set()
 
-        return suggestions
+        all_sugs_in_order = queries + categories + products + brands
+        
+        for sug in all_sugs_in_order:
+            if sug['suggestion'].lower() not in seen_suggestions:
+                final_suggestions.append(sug)
+                seen_suggestions.add(sug['suggestion'].lower())
 
-    def get_hybrid_suggestions(self, prefix: str, limit: int = 10):
-        prefix_sugs = self.prefix_suggestions(prefix, limit=limit//2)
-        vector_sugs = self.vector_suggestions(prefix, limit=limit)
-
-        seen = set(s['suggestion'] for s in prefix_sugs)
-        for s in vector_sugs:
-            if s['suggestion'] not in seen:
-                prefix_sugs.append(s)
-                seen.add(s['suggestion'])
-
-        return prefix_sugs
+        return final_suggestions[:15]
 
 autosuggest_service = AutosuggestService()
