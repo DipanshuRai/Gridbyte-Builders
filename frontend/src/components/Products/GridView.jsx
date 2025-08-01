@@ -1,5 +1,5 @@
 import React from 'react';
-import Product from './Product'; // Assuming Product is your card component
+import Product from './Product';
 import './GridView.css';
 
 const GridView = ({ products }) => {

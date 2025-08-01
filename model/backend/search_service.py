@@ -4,7 +4,11 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+import json
 from collections import Counter
+
+AD_DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'advertisement_dataset.csv')
+BANNER_DATA_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'banners.json')
 
 class SearchService:
     def __init__(self):
@@ -29,19 +33,64 @@ class SearchService:
             "Home Entertainment": "list", "eBooks": "list"
         }
 
-        model_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'ltr_model.joblib')
         try:
-            self.ltr_model = joblib.load(model_path)
-            print("Loaded LTR model successfully.")
+            self.ads_df = pd.read_csv(AD_DATA_PATH)
+            print("Advertisement dataset loaded successfully.")
         except FileNotFoundError:
-            print("Warning: LTR model not found.")
-            self.ltr_model = None
+            self.ads_df = None
+            print("Warning: Advertisement dataset not found. No ads will be shown.")
 
+        try:
+            with open(BANNER_DATA_PATH, 'r') as f:
+                self.banners = json.load(f)
+            print("Banners loaded successfully.")
+        except FileNotFoundError:
+            self.banners = []
+            print("Warning: Banners not found.")
+            
         print("Search Service Initialized Successfully.")
+
+    def get_relevant_ads(self, dominant_category, num_ads=2):
+        if self.ads_df is None or self.ads_df.empty or not dominant_category:
+            return []
+        
+        relevant_ads = self.ads_df[self.ads_df['category'].str.contains(dominant_category, case=False, na=False)]
+        return relevant_ads.sample(min(num_ads, len(relevant_ads))).to_dict(orient='records')
+
+    def get_relevant_banner(self, dominant_category):
+        if not self.banners or not dominant_category:
+            return None
+        
+        for banner in self.banners:
+            if banner.get('category') == dominant_category:
+                return banner
+        return None
+
+    def blend_results(self, products, ads, banner):
+        final_page = []
+        product_idx = 0
+        ad_idx = 0
+        total_slots = len(products) + (1 if banner else 0) + len(ads)
+
+        for i in range(total_slots):
+            if i == 0 and banner:
+                final_page.append({"type": "banner", "data": banner})
+            elif i == 3 and ad_idx < len(ads):
+                final_page.append({"type": "ad", "data": ads[ad_idx]})
+                ad_idx += 1
+            elif i == 9 and ad_idx < len(ads):
+                final_page.append({"type": "ad", "data": ads[ad_idx]})
+                ad_idx += 1
+            else:
+                if product_idx < len(products):
+                    final_page.append({"type": "product", "data": products[product_idx]})
+                    product_idx += 1
+        
+        return final_page
 
     def search_products(self, user_query: str, limit: int = 40, discount: int = 0, price_range=None, ratings: int = 0):
         if not user_query:
-            return {"results": [], "facets": {}, "view_preference": "grid"}
+            return {"page_content": [], "facets": {}, "view_preference": "grid"}
 
         query_embedding = self.embedding_model.encode(user_query, normalize_embeddings=True)
 
@@ -55,12 +104,7 @@ class SearchService:
 
         es_query = {
             "size": 100,
-            "query": {
-                "bool": {
-                    "must": {"multi_match": {"query": user_query, "fields": ["title^3", "description^2", "brand", "product_specifications.value"], "fuzziness": "AUTO"}},
-                    "filter": filters
-                }
-            },
+            "query": {"bool": {"must": {"multi_match": {"query": user_query, "fields": ["title^3", "description^2", "brand", "product_specifications.value"], "fuzziness": "AUTO"}}, "filter": filters}},
             "knn": {"field": "embedding", "query_vector": query_embedding, "k": 100, "num_candidates": 200},
             "aggs": {"brands": {"terms": {"field": "brand", "size": 10}}, "departments": {"terms": {"field": "department", "size": 10}}}
         }
@@ -76,33 +120,37 @@ class SearchService:
         facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
 
         if not candidates:
-            return {"results": [], "facets": facets, "view_preference": "grid"}
-        
+            return {"page_content": [], "facets": facets, "view_preference": "grid"}
+
         results_df = pd.DataFrame(candidates)
         
-        # Calculate the semantic similarity for each product
         product_embeddings = np.array([p['embedding'] for p in candidates]).astype(np.float32)
         cosine_scores = util.cos_sim(query_embedding, product_embeddings)
         results_df['semantic_similarity'] = cosine_scores.flatten()
 
-        # Sort the DataFrame directly by the new similarity score
-        semantically_ranked_results = results_df.sort_values(
+        semantically_ranked_products = results_df.sort_values(
             by='semantic_similarity', 
             ascending=False
         ).to_dict(orient='records')
         
-        view_preference = "grid"
-        query_as_category = user_query.strip().title()
-        if query_as_category in self.category_view_map:
-            view_preference = self.category_view_map[query_as_category]
-        else:
-            if semantically_ranked_results:
-                top_departments = [p.get('department') for p in semantically_ranked_results[:10] if p.get('department')]
-                if top_departments:
-                    most_common_department = Counter(top_departments).most_common(1)[0][0]
-                    view_preference = self.category_view_map.get(most_common_department, 'grid')
+        dominant_category = None
+        if semantically_ranked_products:
+            top_departments = [p.get('department') for p in semantically_ranked_products[:10] if p.get('department')]
+            if top_departments:
+                dominant_category = Counter(top_departments).most_common(1)[0][0]
+        
+        relevant_ads = self.get_relevant_ads(dominant_category)
+        relevant_banner = self.get_relevant_banner(dominant_category)
 
-        return {"results": semantically_ranked_results[:limit], "facets": facets, "view_preference": view_preference}
+        final_page_content = self.blend_results(semantically_ranked_products, relevant_ads, relevant_banner)
+
+        view_preference = self.category_view_map.get(dominant_category, 'grid')
+
+        return {
+            "page_content": final_page_content[:limit],
+            "facets": facets, 
+            "view_preference": view_preference
+        }
 
 search_service = SearchService()
 

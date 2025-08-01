@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
+
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
 import FilterSidebar from './FilterSidebar';
@@ -9,6 +10,8 @@ import MetaData from '../Layouts/MetaData';
 import GridView from './GridView';
 import ListView from './ListView';
 import SortBar from './SortBar';
+import AdComponent from './AdComponent';
+import BannerComponent from './BannerComponent';
 import './Products.css';
 
 const Products = () => {
@@ -18,12 +21,13 @@ const Products = () => {
     const [maxPrice, setMaxPrice] = useState(200000);
     const [price, setPrice] = useState([0, 200000]);
     const [category, setCategory] = useState("");
-    const [categories, setCategories] = useState([]); // for top 5 departments
+    const [categories, setCategories] = useState([]);
     const [ratings, setRatings] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState('relevance');
 
+    const [pageContent, setPageContent] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,38 +39,41 @@ const Products = () => {
     useEffect(() => {
         setLoading(true);
         setError(null);
-        const fetchProducts = async () => {
+        
+        const fetchPageContent = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);
+                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);                
 
-                console.log(data);
-
-                const topDepartments = (data.facets?.departments || [])
-                    .sort((a, b) => b.doc_count - a.doc_count)
-                    .slice(0, 5)
-                    .map(dep => dep.key);
-
-                setCategories(topDepartments);
-                setCategory("");
-                const products = data.results || [];
-
-                const calculatedMaxPrice = products.reduce((max, p) => {
-                    return p.final_price > max ? p.final_price : max;
-                }, 0);
-
-                setMaxPrice(calculatedMaxPrice);
-                setPrice([0, calculatedMaxPrice*10]);
-                setAllProducts(products);
+                setPageContent(data.page_content || []);
                 setViewMode(data.view_preference || 'grid');
+
+                const productsOnly = (data.page_content || []).filter(item => item.type === 'product').map(item => item.data);
+                setAllProducts(productsOnly);
+
+                const topDepartments = (data.facets?.departments || []).map(dep => dep.key);
+                setCategories(topDepartments);
+                
+                const calculatedMaxPrice = productsOnly.reduce((max, product) => {
+                    return product.final_price > max ? product.final_price : max;
+                }, 0);
+                
+                const finalMaxPrice = calculatedMaxPrice > 0 ? calculatedMaxPrice : 200000;
+                setMaxPrice(finalMaxPrice);
+                setPrice([0, finalMaxPrice]);
+                setCategory("");
+                setRatings(0);
+                setDiscount(0);
 
             } catch (err) {
                 setError(err.message);
+                setPageContent([]);
                 setAllProducts([]);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
+        
+        fetchPageContent();
     }, [keyword]);
 
     useEffect(() => {
@@ -96,7 +103,6 @@ const Products = () => {
                 tempProducts.sort((a, b) => b.final_price - a.final_price);
                 break;
             case 'newest':
-                // tempProducts.sort((a, b) => new Date(b.date_added) - new Date(a.date_added));
                 break;
             case 'relevance':
             default:
@@ -108,13 +114,14 @@ const Products = () => {
     }, [allProducts, price, category, ratings, discount, sortOption]);
 
     const clearFilters = () => {
-        setPrice([0, 200000]);
+        setPrice([0, maxPrice]);
         setCategory("");
         setRatings(0);
         setDiscount(0);
         setSortOption('relevance');
     };
 
+    const nonProductContent = pageContent.filter(item => item.type !== 'product');
     const pageCount = Math.ceil(filteredProducts.length / resultPerPage);
     const currentPagedProducts = filteredProducts.slice((currentPage - 1) * resultPerPage, currentPage * resultPerPage);
 
@@ -140,6 +147,7 @@ const Products = () => {
                     <FilterSidebar
                         price={price}
                         priceHandler={(e, newPrice) => setPrice(newPrice)}
+                        maxPrice={maxPrice}
                         category={category}
                         setCategory={setCategory}
                         categories={categories}
@@ -148,17 +156,25 @@ const Products = () => {
                         discount={discount}
                         setDiscount={setDiscount}
                         clearFilters={clearFilters}
-                        maxPrice={maxPrice}
                     />
                     <div className="products-column">
-                        {loading ? <Loader /> : (
+                        <SortBar
+                            totalResults={filteredProducts.length}
+                            keyword={keyword}
+                            sortOption={sortOption}
+                            setSortOption={setSortOption}
+                        />
+                        {loading ? <Loader /> : error ? (
+                            <div className="error-container">
+                                <h1>Error</h1> <p>{error}</p>
+                            </div>
+                        ) : (
                             <div className="products-view">
-                                <SortBar 
-                                    totalResults={filteredProducts.length}
-                                    keyword={keyword}
-                                    sortOption={sortOption}
-                                    setSortOption={setSortOption}
-                                />
+                                {nonProductContent.map((item, index) => {
+                                    if (item.type === 'banner') return <BannerComponent {...item.data} key={`banner-${index}`} />;
+                                    if (item.type === 'ad') return <AdComponent {...item.data} key={`ad-${index}`} />;
+                                    return null;
+                                })}
                                 {renderProductView()}
                                 {pageCount > 1 && (
                                     <div className="pagination-container">

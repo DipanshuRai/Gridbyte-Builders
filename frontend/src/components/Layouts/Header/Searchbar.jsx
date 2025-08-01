@@ -59,7 +59,7 @@ const Searchbar = () => {
             }
             try {
                 const { data } = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
-                console.log(data.suggestions);
+                // console.log(data.suggestions);
                 
                 setSuggestions(data.suggestions || []);
             } catch (err) {

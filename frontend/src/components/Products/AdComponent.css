@@ -1,0 +1,42 @@
+.ad-card-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fafafa;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.ad-card-container:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.ad-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ad-badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #878787;
+    border: 1px solid #878787;
+    padding: 2px 4px;
+    border-radius: 2px;
+    align-self: flex-start;
+}
+
+.ad-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212121;
+}
+
+.ad-description {
+    font-size: 0.875rem;
+    color: #555;
+}

@@ -1,0 +1,14 @@
+.banner-container {
+    grid-column: 1 / -1; 
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.banner-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
