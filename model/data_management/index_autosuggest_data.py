@@ -8,13 +8,13 @@ import os
 # --- Configuration ---
 ES_HOST = "http://localhost:9200"  # Use https if you have security enabled
 INDEX_NAME = "autosuggest_index"
-PRODUCTS_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'cleaned-flipkart-products.csv')
+PRODUCTS_PATH = os.path.join(os.path.dirname(__file__), '..', 'central_data', 'flipkart-cleaned-dataset-hi.csv')
 
 def create_es_client():
     """Creates the Elasticsearch client."""
     # If you enabled security (Option 1 from before), use this:
     # return Elasticsearch(
-    #     hosts=["https://localhost:9200"],
+    #     hosts=["http://localhost:9200"],
     #     basic_auth=('elastic', 'YOUR_PASSWORD_HERE'),
     #     ca_certs='C:\\path\\to\\your\\http_ca.crt'
     # )
@@ -30,9 +30,11 @@ def create_suggester_index(client: Elasticsearch):
 
     # This mapping is crucial for the suggester feature
     mapping = {
-        "properties": {
+       "properties": {
             "title": {"type": "text"},
-            "suggest": {"type": "completion"},
+            "title_hi": {"type": "text"},
+            "suggest": {"type": "completion"},   # English suggestions
+            "suggest_hi": {"type": "completion"},  # Hindi suggestions
             "image": {"type": "keyword"} 
         }
     }
@@ -59,9 +61,18 @@ def index_suggestions():
     print(f"Generating documents for {len(products_df)} suggestions...")
     for _, row in products_df.iterrows():
         title = row['title']
+        title_hi=row['title_hi']
         doc = {
             "title": title,
-            "suggest": title,  # The field for the completion suggester
+            "title_hi": title_hi,
+            "suggest": {  # Completion object for English
+                "input": [title] + title.split(),
+                "weight": len(title)  # Weight by title length
+            },
+            "suggest_hi": {  # Completion object for Hindi
+                "input": [title_hi] + title_hi.split(),
+                "weight": len(title_hi)
+            },
             "image": row['image_url']
         }
         actions.append({"_index": INDEX_NAME, "_source": doc})

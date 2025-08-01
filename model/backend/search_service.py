@@ -4,6 +4,8 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+import regex as re
+import time
 
 class SearchService:
     def __init__(self):
@@ -12,7 +14,8 @@ class SearchService:
         if not self.es_client.ping():
             raise ConnectionError("Could not connect to Elasticsearch")
         
-        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.hindi_pattern = re.compile(r'[\p{Devanagari}]')
+        self.embedding_model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
         model_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'ltr_model.joblib')
         vectorizer_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'tfidf_vectorizer.joblib')
@@ -27,11 +30,18 @@ class SearchService:
 
         print("Search Service Initialized Successfully.")
 
+    def detect_language(self, text: str) -> str:
+        """Detects if text contains Hindi characters"""
+        if self.hindi_pattern.search(text):
+            return 'hi'
+        return 'en'
+
     def search_products(self, user_query: str, limit: int = 20, discount: int = 0, price_range=None, ratings: int = 0):
         if not user_query:
             return {"results": [], "facets": {}}
 
         query_embedding = self.embedding_model.encode(user_query, normalize_embeddings=True)
+        lang=self.detect_language(user_query)
 
         filters = []
         if discount > 0:
@@ -47,6 +57,9 @@ class SearchService:
         if ratings > 0:
             filters.append({"range": {"rating": {"gte": ratings}}})
 
+        title_field="title_hi" if lang=='hi' else "title"
+        description_field="description_hi" if lang=='hi' else "description"
+
         es_query = {
             "size": 100, 
             "query": {
@@ -54,7 +67,7 @@ class SearchService:
                     "must": {
                         "multi_match": {
                             "query": user_query,
-                            "fields": ["title^3", "description^2", "brand", "product_specifications.value"],
+                            "fields": [f"{title_field}^3", f"{description_field}^2", "brand", "product_specifications.value"],
                             "fuzziness": "AUTO"
                         }
                     },
@@ -99,6 +112,17 @@ class SearchService:
         rerank_df['relevance_score'] = relevance_scores
 
         reranked_results = rerank_df.sort_values(by='relevance_score', ascending=False).to_dict(orient='records')
+
+        # Format final results with language-appropriate titles/descriptions
+        for product in reranked_results[:limit]:
+            # Select title based on detected language
+            title = product['title_hi'] if lang == 'hi' and 'title_hi' in product else product['title']
+            
+            # Select description based on detected language
+            description = product['description_hi'] if lang == 'hi' and 'description_hi' in product else product['description']
+            
+            product['title']=title
+            product['description']=description
 
         facets = {"brands": response['aggregations']['brands']['buckets'], "departments": response['aggregations']['departments']['buckets']}
         return {"results": reranked_results[:limit], "facets": facets}

@@ -1,85 +1,187 @@
 user_id,search_query,clicked_asin,is_purchase
-user_101,clothing,TSHDZ5ZJ5NNVQHT9,False
-user_101,urban urban girl foundation brush (pack of 7),BAREGJ8B2Y3TPUWH,True
-user_101,clothing,ACBECT5UXKDWDRRE,False
-user_101,anuradha jewellery,BCHEG22KWJHNVX7P,False
-user_101,viha clothing,FABEH3PHY4AFAZ6U,False
-user_101,computers,RTRD6352VX7RZSWG,False
-user_101,bms lifestyle mobiles & accessories,ACCE4YC4KH8TXAGM,False
-user_101,equinox beauty and personal care,BFAD3ZJYYCXDAVGH,False
-user_101,computers,USGEE27EHJBEYVVA,False
-user_101,home decor & festive needs,PTGEE9APWGGDTTMM,False
-user_101,lady stark,DREEBSFYMUHT9NJX,True
-user_101,dfr footwear,SNDEBS8AHG8YQZRY,True
-user_101,clothing,BRAEJPHBUCZAAZUY,False
-user_101,enthopia mobiles & accessories,ACCDVHJPRYJMJYFQ,False
-user_101,gwyn lingerie clothing,SKIEG6R7Y6N66FS5,True
-user_101,meee clothing,SHTE8GCDEMKSUYHQ,False
-user_101,allure auto,CRTECN2RCWZTMS2F,True
-user_101,white,BRAEFSFYYUGGQTKQ,False
-user_101,smartpro,ACCEGZ65UFENYQG5,False
-user_101,adroitz exclusive,SUDEGGB5XKHZ8YRV,False
-user_101,wajbee clothing,SWSEDHHRPHUECYAY,False
-user_101,multicolor,BRAEDUVZUVNNFF3F,False
-user_101,galz4ever jewellery,NKCEAGXHHH8ADGUN,True
-user_101,fasense clothing,NDNEBA9VUFJGTDEE,False
-user_102,jewellery,NKCEBFWTHMVVNRDP,True
-user_102,clothing,LJGE8WRFWEFGPV8H,False
-user_102,allure automotive,CRTECN2QWWAZZX58,False
-user_102,home decor & festive needs,STIEEHYJZBYHET4F,False
-user_102,lathero full,JCKEHETDXKFYJ3EB,False
-user_102,fabhomedecor furniture,SBEEH3QGYGHFUEXN,False
-user_102,ethna clothing,SHTE6YYZTJU2UUG3,False
-user_102,selfie footwear,SNDECJAMZFFBC2UG,False
-user_102,bms mobiles & accessories,ACCE5VYMHACWSNZS,True
-user_102,thelostpuppy mobiles & accessories,ACCE9Y6PUYZSQP7W,False
-user_102,veronica loafers,SHOEJMAVUZPYPFAP,False
-user_102,avaron jewellery,BCHEGAZ8PJG7ZQRR,True
-user_103,toys & school supplies,PBXE6677Y5PZBJEX,True
-user_103,home decor & festive needs,VAAEGPSQHXCY7WVF,False
-user_103,bachelors n,BZREHY5S4DCBDFGE,True
-user_103,provogue footwear,SHODQ3FUZVFEZFKQ,False
-user_103,dragon toys & school supplies,PBXECB2GXAP58DXR,True
-user_103,redesign,JUMEJCDRCWWKBQSX,False
-user_103,nihar,SHIE8M9PWUF5H4SF,True
-user_103,hoa baby care,NPYE5QUHW3Y8TGMY,False
-user_103,mz health & personal care appliances,SHVE9VHFFYAY8HBT,False
-user_103,destudio large,STIEJPM3D8HYQRTN,False
-user_103,speedwav,VMREGZPQY4E6YXE6,False
-user_103,soy impulse,BLBE2GTCQEHHRMC9,False
-user_104,indi clothing,DREE5M4ZGQHEQQU7,True
-user_104,jewelswonder wood,NKCEAYDJBTCDHMBY,False
-user_104,regular clothing,SHTE6XPTSZWHHRD7,True
-user_104,voylla jewellery,NKCDU4RZGHFC9JKV,False
-user_104,radiant bay jewellery,RNGEDAPUZZDP3HYJ,False
-user_104,jewelizer,NKCEDCT9HMYQSMGV,False
-user_104,jogur full,JCKEE8F6SYDX4HCY,False
-user_104,clothing,JCKEJNH2UGZFF5QZ,False
-user_104,petrol pcbbl67,WATDTWRZQASCHSMK,False
-user_104,cameras & accessories,ACCDVFK6WVS2MYUX,True
-user_104,la zoire,DREEYYFSRJVG8XYE,False
-user_104,o clothing,TSHE3H9TYXGMS6GV,False
-user_105,jewellery,RNGE7GVYYPQFPGYD,False
-user_105,clothing,DREECR3HFXYFPHD4,True
-user_105,mobiles & accessories,ACCEDD2QZTSXUA74,False
-user_105,golden petals jewellery,NKCE9Z2JQGBBSMTM,True
-user_105,etti esj72_multi,NKCE96SXDK3JFZC3,False
-user_105,dfh,TFHEDAGBZTUSQ7ZV,False
-user_105,clothing,TSHE9CK2GZVJGDSG,False
-user_105,fs clothing,TKPE6GJCZT9AAJRH,True
-user_105,zink clothing,TOPE5F53CXYGPVTC,False
-user_105,visaga plastic,NKCE3HVU4WDF4APE,False
-user_105,wrangler printed,TSHEA3YDNVHHGTHZ,False
-user_105,purpleyou cotton,FABE88MGTZAX5KGG,False
-user_105,lula baby care,BOLEGKFE8HMS4AFH,False
-user_105,uptown jewellery,NKCE8P4V9ZQCAYZN,True
-user_105,voylla,NKCE2YCPGMPDFUPF,False
-user_105,liza footwear,SNDE6678HFJTZCX6,True
-user_105,eye sunglasses,SGLEJVKF8UNGUJYG,False
-user_105,white clothing,BRAED8GVYPBJ7HEX,True
-user_105,clothing,TSHE6VH6HQ9NKYRG,False
-user_105,navaksha necktie,ACBECFGTHYEUNK4C,False
-user_105,karatcraft two,RNGE7GVYXGJFVZUJ,False
-user_105,status clothing,BRAE2GWBKZZTD3VH,False
-user_105,clothing,SKIEBXFEMA4PCGWM,True
-user_105,fayon,NKCDV7N6PQKSXEWH,True
+user_101,"the bags, wallets & belts",CTPEJ66UMPKRTRPH,True
+user_101,clothing,SWSEEYBDRVBXGCBZ,False
+user_101,indian jewellery,NKCE6NHRZ7SZG4ZW,False
+user_101,jewels5,RNGE8RDFZZAPBPKB,True
+user_101,kitchen & dining,MUGEAGGKRGWGGBTW,True
+user_101,la clothing,DREEY9PFYPZY8P7Z,True
+user_101,scrap wood birdhouse furniture,BRHEDHHT2NQFVKPS,False
+user_101,jewellery,NKCE69P8TC88UPPC,False
+user_101,greenwich baby care,LJGEHB6FRGN73YZA,False
+user_101,slim clothing,SHTEEEWGVFRE79AH,True
+user_101,indi clothing,DREE5ZCFEGRDRVQM,False
+user_101,"justanned bags, wallets & belts",CHDEFJHEYC4DYMFP,False
+user_101,अआहौया आभूषण,NKCE4TV42BHDP63U,False
+user_101,सूक्ष्म कपड़े,LCHEG6EK2PHZDYRQ,False
+user_101,लुx लारा,LJGE9TGNDH2E4VRH,False
+user_101,रसोई और भोजन कक्ष,PACEAVZ3TFG7CAHS,True
+user_101,कपड़े,LCHEGN3ZCKYJENY2,False
+user_101,ड्रेसबेरी,CLTEHE9FNRZSJGNB,True
+user_101,हाल घड़ियाँ,WATEAUABHVPGRBAS,False
+user_101,सोटा 7945l01,WATDZ2ZQGWW4QGNK,False
+user_101,घड़ियाँ,WATEE8V3AZR5DRDK,False
+user_101,आभूषण,NKCE5ZHWVMKDR39H,False
+user_101,कपड़े,BRAEB9ZNEHJHNXNK,False
+user_101,राजदूत जूते,SHOEFM64NWDQABGH,False
+user_102,gkidz,TOPEGWUTW6GWYSBE,True
+user_102,jewellery,RNGEJYXAKNVDVDVV,True
+user_102,kuhuk jewellery,BBAEB9KWFEWVJZFB,True
+user_102,clothing,SHTE6GEJRVEYCJQV,False
+user_102,carter's baby care,BLAE7ZARKHFBHYE8,False
+user_102,ploomz clothing,BRAE8WPSG4FMHFXF,False
+user_102,palakz pens & stationery,PBXEAZ85KCZED6ST,False
+user_102,clothing,TSHE7RZJBEZCKSAH,False
+user_102,l'elegantae women's,SHTE96UAYNZMYZ5H,False
+user_102,madhyam art,BBAECETK8FQMJT22,False
+user_102,tp-link tl-wr841n,RTRD7HN3JJYF6WN2,False
+user_102,"smartpro 19.5v,3.9a",ACCEGZ65ZJHXZEVH,True
+user_102,clothing,TIEEEDNSPMTHCQFG,False
+user_102,चेनन मोबाइल और सहायक उपकरण,ACCEYWF8SHVQDXP4,False
+user_102,टाइकैब घर में सुधार,CAEE9Y64FBPZJUUH,False
+user_102,स्टूडेन्ट महिलाओं,SHTEBFDATZQGEAKG,True
+user_102,मार्क कपड़े,SHTEGQCHG5TRFMBC,False
+user_102,आर18jjjentc-farullu स्पल्स्कित,BBAE6HEHVQQYYTYJ,False
+user_102,वी संग्रह,ERGEACYRHAZAKU6A,False
+user_102,हैस जूते,SHOEYB2FN5Y2FH7N,False
+user_102,s4s स्टाइलिश,BRAEBBMQY9VZRC7G,False
+user_102,किओशा कपड़े,SHTEG88ZZRQ5GEZD,False
+user_102,वेल्डेकोर,RCLECBJ9HPGHCYCP,False
+user_102,जूते,SHOEBYZGZ682N4K2,True
+user_102,मैं केत,DREDZT5WZVYKN8JY,False
+user_102,हर्षा का,TOPEAKYKZKRHPMHX,False
+user_103,jewellery,NKCEA5FHCBGVS9XG,True
+user_103,joyeria milan jewellery,NKCE3JRMZFZEGEHT,False
+user_103,toys & school supplies,PBXE6FYZSHDUEZPZ,False
+user_103,easy walk,SNDEB2DMZXGFA9YM,False
+user_103,fisher-price baby care,LJGEHFBTFDGHGGWD,True
+user_103,home decor & festive needs,HOFEDQPJHSNFSYS2,False
+user_103,vinnis jewellery,NKCDYARBMAARKGFZ,False
+user_103,footwear,SHOEA4HAJ8FZ5HCX,False
+user_103,prixcracker mobiles & accessories,ACCE6FZPCEEPAPGM,False
+user_103,imbindass clothing,TSHEE4WNPAZGNG97,False
+user_103,clairol perfect,HRCEHF2CDHYWPFVN,True
+user_103,junk diva,NKCECFGDJGFGXYK3,True
+user_103,marcbeau kosher,SHOECJD9FYGHGTYX,False
+user_103,slim clothing,SHTEB9BVQ67VUZY6,False
+user_103,jewellery,NKCEFNPKZ9EE7MT3,True
+user_103,jewellery,NKCE5QSZUY9GPHHA,True
+user_103,jewellery,ERGE8D4ZCVTXFTMH,False
+user_103,london bee,CRGE3QD5W7C9QGKR,False
+user_103,lynda clothing,DREEBJ4NZZCGUFJV,False
+user_103,automotive,CRTECN2QXUGAJF8Y,True
+user_103,oggo footwear,SHOEHXFAM2NDZBHW,False
+user_103,jewellery,RNGDWKZMKNTUBPSF,False
+user_103,mobiles & accessories,ACCEA4DZHTPWDPFB,False
+user_103,brandwagon digiprint,PTGEG77MHGS9UZHT,True
+user_103,सुन्दरी स्कूल,PBXEANB7FQ7RECKA,False
+user_103,कपड़े,BRAE3WVQFNXCNJFS,False
+user_103,वाल्व्रिक बड़ा,STIE9F5U5QYS5FZ7,False
+user_103,होमईहब घर का फर्नीचर,CRNEEABUGTGCG87N,False
+user_103,एंथोपिया,ACCDVHJZA9FQWEZT,False
+user_103,( g02,NKCE84H9GHSAPR9C,True
+user_103,डीडब्ल्यूएम कपड़े,PTLEHK3XF6HH8ENC,False
+user_103,वर्ष सौंदर्य और व्यक्तिगत देखभाल,CAGE4GF7UWGZHN7J,False
+user_103,सीएट,TWTEHH2BQ29FYNGV,False
+user_103,laoपर कपड़े,DREEHPGGYTZB7WGH,True
+user_103,पिरामिड कोकोपीट उपकरण और हार्डवेयर,PCSEBD5MD3X6SGBK,True
+user_103,वोल्फाब्रोला आभूषण,NKCEFGFUZURHNH6R,False
+user_103,सौंदर्य और व्यक्तिगत देखभाल,CAGDV253GZSTRTWC,False
+user_103,नेनो पेन और स्टेशनरी,PBXEAT5Y8KFGHBGC,False
+user_103,घर की सजावट और उत्सव की ज़रूरतें,SHIE7X8ZWDHV9YZD,False
+user_103,वेट्रा,CTTEH9FUMRCAGPGM,False
+user_103,कपड़े,LJGE9TGNUKM2UGWC,True
+user_103,आभूषण,NKCE8RB5TUKH4USX,True
+user_103,ऑटोगढ़ ऑटोमोटिव,VLBEGFFDP9H6WG2T,True
+user_103,अफ्रीकाई यहूदी,BBAE9WX5WKFR3AH9,False
+user_103,स्मार्ट ट्रेडर्स जूते,SNDEG7MZHHKZ58D2,False
+user_103,रॉयल रॉयल सील क्रिएशन 40 एसटी रंग सिल्वर ज़िक्रोन एन...,RNGEH9Z2H9EDXZ9Y,False
+user_103,वाज्बी कपड़े,TOPEHZRBDNV4JJRW,True
+user_103,सन्‌ घर में सुधार,FSEEGBRNYWWBUTQH,True
+user_104,packy poda automotive,CRTEHSSCJK4PDGHP,True
+user_104,prithish kitchen & dining,MUGE8KXYGZ4F9EED,False
+user_104,jewellery,NKCED2ZGGAGZJEQF,False
+user_104,computers,RTREY9XYN7YUJTFR,False
+user_104,unique design home decor & festive needs,SHIE8M4ZWWF7EKN4,False
+user_104,karatcraft jewellery,RNGE7M92HHFJZZZM,True
+user_104,trinketbag jewellery,BBAE9K7BXFUTDNBK,False
+user_104,fashion jewellery jewellery,NKCEANMPGJAZ7BHE,False
+user_104,okane clothing,TSHECFE5GWV8T9DQ,True
+user_104,priknit full,JCKEDSH2YMYDYNDF,True
+user_104,reiki crystal,SHIEHY2BWXJSRZFZ,False
+user_104,clothing,TIEEEYH5TZSMRT2M,False
+user_104,ucc full,SWSEEF4TZ2HVKDZN,False
+user_104,minuut mnt-017-spt-blu,WATEAFA9PN5QVYXP,False
+user_104,homeehub,CRNEE84JVFQZDN5B,True
+user_104,r.b cotton,BTWEBGZ3YVTGG65G,False
+user_104,magiq clothing,BRAE9WNZYBZPXK2X,False
+user_104,floozy its,BRAEB9SJGNPZSFVH,False
+user_104,clothing,TSHEAQMBU5NYB263,False
+user_104,automotive,CRTEHSSCRG2GD659,False
+user_104,oviyon printed,TSHE993ZEGNZKBHV,True
+user_104,kashana women's,DREEBZB5XEMEEF3Z,True
+user_104,इसेलिया के,DREEAVBXKQUUVJUT,False
+user_104,pruron कपड़े,TOPEHWDGQD9NR6QD,False
+user_104,नीला थोथा आभूषण,RNGEC9RHPFCGF43U,False
+user_104,वॉनका कपड़े,JCKEDVZMPH4R7FNN,False
+user_104,आभूषण,NKCECZFZAFEHW73X,False
+user_104,घड़ियाँ,WATE7VE2MFQWBF4H,True
+user_104,बच्चों का पड़ाव कपड़े,TUNEH2MKQBCHNSZE,False
+user_104,"मेटा 2160,000",WATDG9F7TQKGHZHQ,False
+user_104,एपल मोबाइल और सहायक उपकरण,ACCE9DJZZKHSGD9Y,False
+user_104,sue cughse,TOPEGGEF7SEFQ2CZ,True
+user_104,खेल और फिटनेस,BALDFF7HX853MTHJ,False
+user_104,कपड़े,TOPEGGEFF5YJPDGE,False
+user_104,"पुरुषों बैग, वॉलेट और बेल्ट",SUSEDVUQPDV2ZJPZ,False
+user_104,रसोई और भोजन कक्ष,PACEB7GGJXVVDZFZ,False
+user_104,कपड़े,TOPE2HZRFKVVTCKU,False
+user_104,घंटे खेल और फिटनेस,PADEHZFHCNQGWNNS,False
+user_104,dssser डैस्लर स्लिम फिट महिलाओं की मल्टीकलर जींस,JEAEHUHKSYBRET3D,False
+user_104,सोनजी मोबाइल और सहायक उपकरण,OTAEHTCG45ECK7AD,False
+user_104,आभूषण,NKCECZG4HNVBZRYY,False
+user_104,घर का फर्नीचर,BLAE8YHUJYHGJYZE,False
+user_104,टेटेटली काल्ड,KRTECQSNKCF92SE3,False
+user_104,आभूषण,NKCEABATK2R74GPJ,True
+user_105,home furnishing,BTWEYXGCCHGW72PE,False
+user_105,kalrav clothing,SHTE7ZPZZY64JF72,False
+user_105,clothing,TSHE7FMPJGBGHGWD,True
+user_105,faballey clothing,TOPE7ZHYDE2MKNHF,False
+user_105,eshoppee home decor & festive needs,SHIE9WHT4M9FHMB5,False
+user_105,zobello,SHTEJZSEYHA2YFN3,False
+user_105,myesquire,AIRE98PZBVSXHCBG,True
+user_105,belly clothing,SHTE93RYMXUU7P6Q,False
+user_105,"cotonex black,",KLSEGVF48H5TYDKA,False
+user_105,clothing,SHTE34TJVTPCMB2N,False
+user_105,ploomz fashion,BRAE8WPSH2EVXGBM,False
+user_105,watches,WATEYAP3FEPWZ8MH,False
+user_105,jewellery,NKCE5TFVWFBSUVYW,False
+user_105,clothing,TSHEA7W9JAZQHYE8,False
+user_105,trinity,PTPEDDXTMZKMNXHX,True
+user_105,clothing,LCHEH4GTFX23CPZR,False
+user_105,craftuno handcrafted,SHIEB468NVUG5HMP,False
+user_105,thelostpuppy back,ACCE9Z2HTM86YFUP,True
+user_105,multicolor,BRAE5Y3XK4HGX4Z9,False
+user_105,blue clothing,BRAECTFY6FY5FHTZ,False
+user_105,vinnis jewellery,NKCEFG3CQ6WZZMMY,False
+user_105,uncle benit,CAPEG9RPZTKHTGPN,False
+user_105,रोम में,NKCE9YFBR7ZAMBNJ,False
+user_105,वॉलडिज़ाइन शिशु के देखभाल,STIE7KFHPXTBGJ6G,False
+user_105,कपड़े,TFHECYGABBG9NRZM,True
+user_105,स्टाइल वर्ल्ड,SNDEGGUTDYJCK7KZ,False
+user_105,तेंदुआ प्रिंट कपड़े,BRAEDGM2BGZJHGJG,False
+user_105,कपड़े,NSTEHCA9DUDHJHZH,True
+user_105,के- कपड़े,FABE8VYTQZZPBJEH,False
+user_105,जीवी कपड़े,SHTEANKUFFWHHJBU,False
+user_105,जूते,SHOEBZ65KFSBZKBT,True
+user_105,दिन कपड़े,TMLEERDZWGG2QYC5,True
+user_105,काटा खिलौने और स्कूल की आपूर्ति,PBXED6C4RXFZXDFY,False
+user_105,कपड़े,LJGE9FVXWEQRJHXU,False
+user_105,माकरिया masara सॉलिड महिलाओं का स्ट्रेट कुर्ता,KTAEHETVCXXZRXGK,False
+user_105,आभूषण,NKCE2F5HBUPEAAPZ,False
+user_105,शुद्ध न्यायिक,DEOEGDV8EGAVXPVR,False
+user_105,पेन और स्टेशनरी,PBXECNFSCHBSHZM9,False
+user_105,नंबरो कपड़े,TSHDVZHRWGGHMPZQ,False
+user_105,सेवा करनेवालों,SHIEHXZEWWACSXRQ,False
+user_105,पहला स्मार्ट सौदा उपकरण और हार्डवेयर,PCSEC86VEVSKD5ZY,True
+user_105,पेन और स्टेशनरी,PPMEBHMYDCFR5SPZ,False
+user_105,लाडली राजस्थान,SHIE9J6PFGP9DZAH,False
+user_105,कार्तिक सौंदर्य और व्यक्तिगत देखभाल,VANEGQCWHHXD34HX,False

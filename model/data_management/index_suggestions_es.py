@@ -9,7 +9,7 @@ INDEX_NAME = "products_index"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-PRODUCTS_PATH = os.path.join(ROOT_DIR, 'central_data', 'cleaned-flipkart-products.csv')
+PRODUCTS_PATH = os.path.join(ROOT_DIR, 'central_data', 'flipkart-cleaned-dataset-hi.csv')
 EMBEDDINGS_PATH = os.path.join(ROOT_DIR, 'central_data', 'product_embeddings.csv')
 
 def create_es_client():
@@ -19,13 +19,30 @@ def create_index(client: Elasticsearch, embedding_dim: int):
     if client.indices.exists(index=INDEX_NAME):
         print(f"Index '{INDEX_NAME}' already exists. Deleting it for re-indexing.")
         client.indices.delete(index=INDEX_NAME)
-
+    settings = {
+        "analysis": {
+            "analyzer": {
+                "hindi": {
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "hindi_stemmer"]
+                }
+            },
+            "filter": {
+                "hindi_stemmer": {
+                    "type": "stemmer",
+                    "language": "hindi"
+                }
+            }
+        }
+    }
     mapping = {
         "properties": {
             "title": {"type": "text", "analyzer": "english"},
+            "title_hi": {"type": "text", "analyzer": "hindi"},
             "brand": {"type": "keyword"},
             "image": {"type": "keyword"},
             "description": {"type": "text", "analyzer": "english"},
+            "description_hi": {"type": "text", "analyzer": "hindi"},
             "department": {"type": "keyword"},
             "embedding": {"type": "dense_vector", "dims": embedding_dim},
             "rating": {"type": "float"},
@@ -43,7 +60,7 @@ def create_index(client: Elasticsearch, embedding_dim: int):
             }
         }
     }
-    client.indices.create(index=INDEX_NAME, mappings=mapping)
+    client.indices.create(index=INDEX_NAME, mappings=mapping, settings=settings)
     print(f"Index '{INDEX_NAME}' created with nested mapping for specifications.")
 
 def index_products():
@@ -75,9 +92,11 @@ def index_products():
 
         doc = {
             "title": row['title'],
+            "title_hi": row['title_hi'],
             "brand": row['brand'],
             "image": row['image_url'],
             "description": row['description'],
+            "description_hi": row['description_hi'],
             "department": row['department'],
             "embedding": json.loads(row['embedding']),
             "rating": row['rating'],
