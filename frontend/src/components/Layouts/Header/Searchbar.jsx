@@ -7,6 +7,7 @@ import axiosInstance from '../../../utils/axiosInstance';
 import SearchIcon from '@mui/icons-material/Search';
 import HistoryIcon from '@mui/icons-material/History';
 import MicIcon from '@mui/icons-material/Mic';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useDetectOutsideClick } from '../../../Hooks/useDetectOutsideClick';
@@ -22,13 +23,34 @@ const Searchbar = () => {
     
     const searchContainerRef = useRef(null);
     const searchInputRef = useRef(null);
+    const categoryDropdownRef = useRef(null);
+
+    const [topDepartments, setTopDepartments] = useState([]);
+    const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);
+
+    console.log("Top Dept: ", topDepartments);
+    
     
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
     useDetectOutsideClick(searchContainerRef, () => setIsDropdownVisible(false));
-    
+    useDetectOutsideClick(categoryDropdownRef, () => setIsCategoryDropdownVisible(false));
+
     const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
     
     const baseURL = process.env.REACT_APP_API_BASE_URL;
+
+    useEffect(() => {
+        const fetchTopDepartments = async () => {
+            try {
+                const { data } = await axios.get(`${baseURL}/autosuggest/departments`);
+                setTopDepartments(data.departments || []);
+            } catch (err) {
+                console.error("Failed to fetch top departments:", err);
+            }
+        };
+        fetchTopDepartments();
+    }, [baseURL]);
 
     useEffect(() => {
         const fetchSuggestions = async () => {
@@ -128,6 +150,11 @@ const Searchbar = () => {
         setIsDropdownVisible(false);
     };
 
+    const handleCategorySelect = (department) => {
+        setIsCategoryDropdownVisible(false);
+        navigate(`/products/${department}`);
+    };
+
     if (!browserSupportsSpeechRecognition) return null;
 
     const renderDropdownContent = () => {
@@ -162,6 +189,22 @@ const Searchbar = () => {
     return (
         <div ref={searchContainerRef} className="search-container">
             <form onSubmit={handleSubmit} className="searchbar">
+                <div ref={categoryDropdownRef} className="category-dropdown-container">
+                    <button type="button" className="category-dropdown-button" onClick={() => setIsCategoryDropdownVisible(!isCategoryDropdownVisible)}>
+                        <span>All</span>
+                        <ArrowDropDownIcon />
+                    </button>
+                    {isCategoryDropdownVisible && (
+                        <ul className="category-dropdown-list">
+                            {topDepartments.map((dept, i) => (
+                                <li key={i} onMouseDown={() => handleCategorySelect(dept)}>
+                                    {dept}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
                 <button type="submit" className="search-button">
                     <SearchIcon />
                 </button>

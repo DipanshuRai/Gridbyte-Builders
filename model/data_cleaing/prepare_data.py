@@ -51,8 +51,8 @@ def generate_synthetic_engagement_data(df):
     
     return df
 
-def clean_new_dataset(input_path, output_path):
-    print("--- Starting Data Preparation with Product Specifications ---")
+def clean_new_dataset(input_path, output_path, departments_output_path):
+    print("--- Starting Data Preparation with Top Department Calculation ---")
 
     try:
         df = pd.read_csv(input_path)
@@ -126,18 +126,35 @@ def clean_new_dataset(input_path, output_path):
     df['department'] = df['categories'].apply(lambda cats: cats[0] if cats else 'NA')
     df.drop(columns=['category_tree'], inplace=True)
     
+    print("Calculating and saving top 15 departments by product count...")
+    top_departments = df['department'].value_counts().head(15)
+    top_departments_list = top_departments.index.tolist()
+    
+    try:
+        with open(departments_output_path, 'w') as f:
+            json.dump(top_departments_list, f)
+        print(f"✅ Top 15 departments saved to {departments_output_path}")
+    except Exception as e:
+        print(f"❌ Error saving top departments file: {e}")
+        
     try:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         df.to_csv(output_path, index=False)
-        print(f"✅ Success! Cleaned data saved.")
+        print(f"✅ Success! Cleaned data saved to {output_path}.")
     except Exception as e:
         print(f"❌ Error saving file: {e}")
 
 if __name__ == '__main__':
     INPUT_FILE_PATH = '../central_data/flipkart-products.csv'
     OUTPUT_FILE_PATH = '../central_data/cleaned-flipkart-products.csv'
-    clean_new_dataset(input_path=INPUT_FILE_PATH, output_path=OUTPUT_FILE_PATH)
-
+    DEPARTMENTS_JSON_PATH = '../central_data/top_departments.json'
+    
+    clean_new_dataset(
+        input_path=INPUT_FILE_PATH, 
+        output_path=OUTPUT_FILE_PATH,
+        departments_output_path=DEPARTMENTS_JSON_PATH
+    )
+    
 # import pandas as pd
 # import numpy as np
 # import ast
