@@ -28,6 +28,7 @@ const FilterSidebar = ({ price, priceHandler, category, setCategory, categories,
                 </div>
 
                 <div className="filter-sections-wrapper">
+                    
                     {/* Price Filter */}
                     <div className="filter-section">
                         <span className="filter-section-title">PRICE</span>

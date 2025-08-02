@@ -75,6 +75,24 @@ class SearchService:
             else:
                 if product_idx < len(products): final_page.append({"type": "product", "data": products[product_idx]}); product_idx += 1
         return final_page
+    
+    def get_product_by_asin(self, asin: str):
+        """
+        Retrieves a single product document from Elasticsearch by its ASIN (ID).
+        """
+        try:
+            response = self.es_client.get(index="products_index", id=asin)
+            
+            product_data = response['_source']
+            
+            product_data['asin'] = response['_id']
+            
+            return product_data
+        except NotFoundError:
+            return None
+        except Exception as e:
+            print(f"An error occurred while fetching product by ASIN: {e}")
+            return None
 
     def search_products(self, user_query: str, limit: int = 40, discount: int = 0, price_range=None, ratings: int = 0):
         if not user_query:

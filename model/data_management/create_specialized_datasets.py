@@ -4,7 +4,7 @@ from collections import defaultdict
 import random
 import ast
 
-DB_PATH = '../central_data/cleaned-flipkart-products.csv'
+DB_PATH = '../central_data/flipkart-products-with-hindi.csv'
 OUTPUT_DIR = '../central_data/'
 
 def create_categories_dataset(df):

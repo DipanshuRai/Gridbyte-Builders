@@ -9,7 +9,7 @@ INDEX_NAME = "products_index"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-PRODUCTS_PATH = os.path.join(ROOT_DIR, 'central_data', 'flipkart-cleaned-dataset-hi.csv')
+PRODUCTS_PATH = os.path.join(ROOT_DIR, 'central_data', 'flipkart-products-with-hindi.csv')
 EMBEDDINGS_PATH = os.path.join(ROOT_DIR, 'central_data', 'product_embeddings.csv')
 
 def create_es_client():

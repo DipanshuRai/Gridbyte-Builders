@@ -4,7 +4,7 @@ import os
 
 def add_precalculated_features():
     print("--- Starting Pre-calculation of Ranking Features (with synthetic data) ---")
-    db_path = '../central_data/cleaned-flipkart-products.csv'
+    db_path = '../central_data/flipkart-products-with-hindi.csv'
 
     try:
         df = pd.read_csv(db_path)

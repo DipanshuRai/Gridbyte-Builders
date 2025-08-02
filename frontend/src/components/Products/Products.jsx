@@ -42,8 +42,11 @@ const Products = () => {
         
         const fetchPageContent = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);                
-
+                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);  
+                
+                console.log(data);
+                
+                
                 setPageContent(data.page_content || []);
                 setViewMode(data.view_preference || 'grid');
 
@@ -140,23 +143,29 @@ const Products = () => {
 
     return (
         <>
-            <MetaData title="All Products | Search" />
-            <MinCategory />
+            <MetaData title="All Products | Search" />            
+            <MinCategory categories={categories}/>
             <main className="products-page-main">
                 <div className="products-page-layout">
-                    <FilterSidebar
-                        price={price}
-                        priceHandler={(e, newPrice) => setPrice(newPrice)}
-                        maxPrice={maxPrice}
-                        category={category}
-                        setCategory={setCategory}
-                        categories={categories}
-                        ratings={ratings}
-                        setRatings={setRatings}
-                        discount={discount}
-                        setDiscount={setDiscount}
-                        clearFilters={clearFilters}
-                    />
+                    <div className="sidebar-wrapper">
+                        {nonProductContent.map((item, index) => {
+                            if (item.type === 'ad') return <AdComponent {...item.data} key={`ad-${index}`} />;
+                            return null;
+                        })}
+                        <FilterSidebar
+                            price={price}
+                            priceHandler={(e, newPrice) => setPrice(newPrice)}
+                            maxPrice={maxPrice}
+                            category={category}
+                            setCategory={setCategory}
+                            categories={categories}
+                            ratings={ratings}
+                            setRatings={setRatings}
+                            discount={discount}
+                            setDiscount={setDiscount}
+                            clearFilters={clearFilters}
+                        />
+                    </div>
                     <div className="products-column">
                         <SortBar
                             totalResults={filteredProducts.length}
@@ -170,11 +179,7 @@ const Products = () => {
                             </div>
                         ) : (
                             <div className="products-view">
-                                {nonProductContent.map((item, index) => {
-                                    if (item.type === 'banner') return <BannerComponent {...item.data} key={`banner-${index}`} />;
-                                    if (item.type === 'ad') return <AdComponent {...item.data} key={`ad-${index}`} />;
-                                    return null;
-                                })}
+                                <BannerComponent />;
                                 {renderProductView()}
                                 {pageCount > 1 && (
                                     <div className="pagination-container">

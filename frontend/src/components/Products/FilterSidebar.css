@@ -2,68 +2,73 @@
     display: none;
 }
 
-@media (min-width: 640px) { 
+@media (min-width: 768px) {
     .filter-sidebar {
-        display: flex;
-        flex-direction: column;
-        width: 20%; 
-        padding: 0 0.25rem;
+        display: block;
+        width: 280px;
+        flex-shrink: 0;
     }
 }
 
 .filter-container {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 0.125rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
 }
 
 .filter-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.25rem;
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .filter-title {
     font-size: 1.125rem;
-    font-weight: 500;
+    font-weight: 600;
+    color: #212121;
 }
 
 .filter-clear-all {
     text-transform: uppercase;
     color: #2874f0;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .filter-sections-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem 0;
-    font-size: 0.875rem;
-    overflow: hidden;
+    padding: 0;
 }
 
 .filter-section {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 0 1rem 0.5rem 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
 }
+
 .filter-section:last-child {
     border-bottom: none;
 }
 
+.filter-toggle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+}
+
 .filter-section-title {
-    font-weight: 500;
-    font-size: 0.75rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #212121;
 }
 
 .price-inputs-container {
@@ -71,44 +76,54 @@
     gap: 0.75rem;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
-    min-width: 100%;
+    margin-top: 0.5rem;
 }
 
 .price-input-box {
-    flex: 1;
-    border: 1px solid #e5e7eb;
-    padding: 0.25rem 1rem;
-    border-radius: 0.125rem;
+    width: 100px;
+    border: 1px solid #e0e0e0;
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
     color: #374151;
-    background-color: #f9fafb;
+    background-color: #fafafa;
+    text-align: center;
+    font-size: 0.875rem;
 }
 
 .price-input-separator {
     font-weight: 500;
-    color: #9ca3af;
-}
-
-.filter-toggle-header {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    padding: 0.5rem 0;
-    align-items: center;
+    color: #878787;
 }
 
 .filter-options-container {
     display: flex;
     flex-direction: column;
-    padding-bottom: 0.25rem;
+    padding-top: 0.5rem;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.filter-options-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-options-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.filter-options-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
 
 .radio-label {
     font-size: 0.875rem;
+    color: #333;
 }
 
 .rating-label {
     display: flex;
     align-items: center;
     font-size: 0.875rem;
+    color: #333;
 }

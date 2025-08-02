@@ -38,8 +38,6 @@ def get_autosuggestions(q: str):
     if not q:
         return {"suggestions": []}
     
-    category_suggestions = []
-
     suggestions = autosuggest_service.get_flipkart_style_suggestions(prefix=q)
     
     return {"suggestions": suggestions}
@@ -51,3 +49,15 @@ def search(q: str):
         
     search_results = search_service.search_products(user_query=q)
     return search_results
+
+@app.get("/api/v1/product/{asin}", tags=["Products"])
+def get_product_details(asin: str):
+    """
+    Handles the API request to fetch a single product by its ASIN.
+    """
+    product = search_service.get_product_by_asin(asin=asin)
+    
+    if not product:
+        raise HTTPException(status_code=404, detail=f"Product with ID '{asin}' not found.")
+    
+    return {"product": product}

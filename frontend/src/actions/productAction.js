@@ -66,7 +66,7 @@ export const getSimilarProducts = (category) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-        const { data } = await axiosInstance.get(`/api/v1/products?category=${category}`);
+        const { data } = await axios.get(`${baseURL}/api/v1/products?category=${category}`);
 
         dispatch({
             type: ALL_PRODUCTS_SUCCESS,
@@ -81,11 +81,11 @@ export const getSimilarProducts = (category) => async (dispatch) => {
 };
 
 // Get Product Details
-export const getProductDetails = (id) => async (dispatch) => {
+export const getProductDetails = (asin) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-        const { data } = await axiosInstance.get(`/api/v1/product/${id}`);
+        const { data } = await axios.get(`${baseURL}/api/v1/product/${asin}`);
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,

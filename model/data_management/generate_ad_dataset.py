@@ -3,7 +3,7 @@ import os
 import random
 import ast 
 
-CLEANED_PRODUCTS_PATH = '../central_data/cleaned-flipkart-products.csv'
+CLEANED_PRODUCTS_PATH = '../central_data/flipkart-products-with-hindi.csv'
 CATEGORIES_SOURCE_PATH = '../central_data/hot_selling_dataset.csv'
 OUTPUT_DIR = '../central_data/'
 AD_OUTPUT_PATH = os.path.join(OUTPUT_DIR, 'advertisement_dataset.csv')

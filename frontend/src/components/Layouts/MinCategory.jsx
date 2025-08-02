@@ -2,24 +2,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 import './MinCategory.css';
 
-const categories = [
-    "Electronics",
-    "TVs & Appliances",
-    "Men",
-    "Women",
-    "Baby & Kids",
-    "Home & Furniture",
-    "Sports, Books & More",
-    "Flights",
-    "Offer Zone",
-    "Grocery",
-];
-
-const MinCategory = () => {
+const MinCategory = ({ categories }) => {
     return (
         <section className="min-category">
             <div className="min-category-wrapper">
-                {categories.map((el, i) => (
+                {categories.slice(0, 8).map((el, i) => (
                     <Link to="/products" key={i} className="category-link">
                         {el}
                         <span className="category-icon">

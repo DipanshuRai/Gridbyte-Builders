@@ -120,7 +120,7 @@ class AutosuggestService:
             }
             response = self.es_client.search(index="queries_index", body=body)
             query_field = "query_text_hi" if lang == "hi" else "query_text"
-            return [{"suggestion": opt['_source']['query_text'], "type": "query"} for opt in response['suggest']['query_suggester'][0]['options']]
+            return [{"suggestion": opt['_source'][query_field], "type": "query"} for opt in response['suggest']['query_suggester'][0]['options']]
         except Exception as e:
             print(f"Could not fetch query suggestions: {e}")
             return []

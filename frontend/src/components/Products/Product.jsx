@@ -1,22 +1,18 @@
-import './Product.css';
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
-import { getDiscount } from '../../utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishlistAction';
 import { useFirstWorkingImage } from '../../Hooks/useFirstWorkingImage';
 import { useSnackbar } from 'notistack';
+import './Product.css';
 
-const Product = ({ asin, title, images, rating, reviews_count, final_price, discount_percentage }) => {
+const Product = ({ asin, title, images, rating, reviews_count, final_price, discount_percentage }) => {    
 
     const displayImage = useFirstWorkingImage(images);
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
-    const discountAmount = Math.abs(Math.random() - 0.5);
     const { wishlistItems } = useSelector((state) => state.wishlist);
-
-
 
     const itemInWishlist = wishlistItems.some((i) => i.product === asin);
 
@@ -32,7 +28,8 @@ const Product = ({ asin, title, images, rating, reviews_count, final_price, disc
 
     return (
         <div className="product-card">
-            <Link to={`/product/${asin}`} className="product-link">
+            {/* <Link to={`/product/${asin}`} className="product-link"> */}
+            <div className="product-link">
                 <div className="product-image">
                     <img
                         draggable="false"
@@ -44,14 +41,14 @@ const Product = ({ asin, title, images, rating, reviews_count, final_price, disc
                 <h2 className="product-title">
                     {title.length > 85 ? `${title.substring(0, 85)}...` : title}
                 </h2>
-            </Link>
+            </div>
 
             <div className="product-details">
                 <span className="product-rating">
                     <span className="rating-badge">
                         {rating} <StarIcon sx={{ fontSize: "14px" }} />
                     </span>
-                    <span className="reviews-count">({reviews_count})</span>
+                    <span className="reviews-count">{reviews_count} Reviews</span>
                 </span>
 
                 <div className="product-price">
