@@ -7,7 +7,7 @@ import { useFirstWorkingImage } from '../../Hooks/useFirstWorkingImage';
 import { useSnackbar } from 'notistack';
 import './Product.css';
 
-const Product = ({ asin, title, images, rating, reviews_count, final_price, discount_percentage }) => {    
+const Product = ({ asin, title, images, rating, reviews_count, final_price, discount_percentage, isAvailable }) => {    
 
     const displayImage = useFirstWorkingImage(images);
     const dispatch = useDispatch();
@@ -27,8 +27,9 @@ const Product = ({ asin, title, images, rating, reviews_count, final_price, disc
     };
 
     return (
-        <div className="product-card">
+        <div className={`product-card ${!isAvailable ? 'out-of-stock' : ''}`}>
             {/* <Link to={`/product/${asin}`} className="product-link"> */}
+
             <div className="product-link">
                 <div className="product-image">
                     <img
@@ -58,6 +59,11 @@ const Product = ({ asin, title, images, rating, reviews_count, final_price, disc
                         {Math.round(discount_percentage)}% off
                     </span>
                 </div>
+                {!isAvailable && (
+                    <div className="not-available">
+                        <span className="stock-text">Not available at Current Location</span>
+                    </div>
+                )}
             </div>
 
             <span

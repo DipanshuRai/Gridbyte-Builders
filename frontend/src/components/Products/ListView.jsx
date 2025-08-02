@@ -52,7 +52,8 @@ const ProductListItem = ({ product }) => {
                     <span className="list-item-initial-price">₹{Math.round(product.final_price / (1 - product.discount_percentage / 100))}</span>
                     <span className="list-item-discount">{Math.round(product.discount_percentage)}% off</span>
                 </div>
-                <p className="list-item-delivery">Free Delivery</p>
+                {(product.isAvailable && <p className="list-item-delivery">Free Delivery</p>)}
+                {(!product.isAvailable && <p className="not-available">Not available at current location</p>)}
             </div>
         </Link>
     );

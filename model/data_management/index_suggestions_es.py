@@ -53,6 +53,7 @@ def create_index(client: Elasticsearch, embedding_dim: int):
             "discount_percentage": {"type": "float"},
             "quality_score": {"type": "float"},
             "bought_past_month": {"type": "integer"},
+            "isAvailable": {"type": "boolean"},
             "product_specifications": {
                 "type": "nested",
                 "properties": {
@@ -115,6 +116,7 @@ def index_products():
             "discount_percentage": row['discount_percentage'],
             "quality_score": row['quality_score'],
             "bought_past_month": row['bought_past_month'],
+            "isAvailable": row['isAvailable'],
             "product_specifications": spec_list
         }
         actions.append({"_index": INDEX_NAME, "_id": row['asin'], "_source": doc})

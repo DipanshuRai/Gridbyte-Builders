@@ -99,6 +99,10 @@ def clean_new_dataset(input_path, output_path, departments_output_path):
     
     df = generate_synthetic_engagement_data(df)
 
+    availability = [True, False]
+    probabilities = [0.8, 0.2]
+    df['isAvailable'] = np.random.choice(availability, size=len(df), p=probabilities)
+
     def parse_specifications(spec_string):
         if not isinstance(spec_string, str):
             return []

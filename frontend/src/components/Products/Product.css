@@ -95,6 +95,11 @@
   color: #388e3c;
 }
 
+.stock-text{
+  color: #ef4444;
+  font-weight: 500;
+}
+
 .wishlist-icon {
   position: absolute;
   top: 1.5rem;
