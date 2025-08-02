@@ -1,0 +1,14 @@
+[
+    {
+        "banner_id": "B01",
+        "category": "Mobiles & Accessories",
+        "image_url": "https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/aztec-mens-clothing-banner-template-a735u9d13d2929.webp",
+        "link": "/deals/mobiles"
+    },
+    {
+        "banner_id": "B02",
+        "category": "Clothing",
+        "image_url": "https://d3jmn01ri1fzgl.cloudfront.net/photoadking/webp_thumbnail/aztec-mens-clothing-banner-template-a735u9d13d2929.webp",
+        "link": "/deals/fashion"
+    }
+]

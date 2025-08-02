@@ -73,7 +73,7 @@ def generate_interaction_log():
     
     print("Simulating user search sessions...")
     for user_id in user_ids:
-        num_searches = random.randint(10, 25)
+        num_searches = random.randint(100, 140)
         
         for _ in range(num_searches):
             target_product = products_df.sample(1).iloc[0]

@@ -18,7 +18,7 @@ def add_precalculated_features():
     df['discount_percentage'] = discount.clip(lower=0, upper=100).fillna(0)
     print("Added 'discount_percentage' feature.")
 
-    df['quality_score'] = df['rating'] * np.log1p(df['reviews_count'])
+    df['quality_score'] = df['rating'] * np.log1p(df['rating_count'])
     
     max_score = df['quality_score'].max()
     if max_score > 0:

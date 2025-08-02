@@ -5,45 +5,75 @@ import Pagination from '@mui/material/Pagination';
 
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
-import Product from './Product';
 import FilterSidebar from './FilterSidebar';
 import MetaData from '../Layouts/MetaData';
+import GridView from './GridView';
+import ListView from './ListView';
+import SortBar from './SortBar';
+import AdComponent from './AdComponent';
+import BannerComponent from './BannerComponent';
 import './Products.css';
 
 const Products = () => {
     const params = useParams();
     const keyword = params.keyword || "";
 
+    const [maxPrice, setMaxPrice] = useState(200000);
     const [price, setPrice] = useState([0, 200000]);
     const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([]);
     const [ratings, setRatings] = useState(0);
     const [discount, setDiscount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortOption, setSortOption] = useState('relevance');
 
+    const [pageContent, setPageContent] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [viewMode, setViewMode] = useState('grid');
 
-    const resultPerPage = 8;
+    const resultPerPage = viewMode === 'grid' ? 8 : 5;
 
     useEffect(() => {
         setLoading(true);
         setError(null);
-        const fetchProducts = async () => {
+        
+        const fetchPageContent = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);
-                console.log(data.results);
+                const { data } = await axios.get(`http://localhost:8000/search?q=${keyword}`);                
+
+                setPageContent(data.page_content || []);
+                setViewMode(data.view_preference || 'grid');
+
+                const productsOnly = (data.page_content || []).filter(item => item.type === 'product').map(item => item.data);
+                setAllProducts(productsOnly);
+
+                const topDepartments = (data.facets?.departments || []).map(dep => dep.key);
+                setCategories(topDepartments);
                 
-                setAllProducts(data.results || []);
+                const calculatedMaxPrice = productsOnly.reduce((max, product) => {
+                    return product.final_price > max ? product.final_price : max;
+                }, 0);
+                
+                const finalMaxPrice = calculatedMaxPrice > 0 ? calculatedMaxPrice : 200000;
+                setMaxPrice(finalMaxPrice);
+                setPrice([0, finalMaxPrice]);
+                setCategory("");
+                setRatings(0);
+                setDiscount(0);
+
             } catch (err) {
                 setError(err.message);
+                setPageContent([]);
                 setAllProducts([]);
             } finally {
                 setLoading(false);
             }
         };
-        fetchProducts();
+        
+        fetchPageContent();
     }, [keyword]);
 
     useEffect(() => {
@@ -62,23 +92,51 @@ const Products = () => {
             tempProducts = tempProducts.filter(p => p.discount_percentage >= discount);
         }
 
+        switch (sortOption) {
+            case 'popularity':
+                tempProducts.sort((a, b) => b.bought_past_month - a.bought_past_month);
+                break;
+            case 'price_asc':
+                tempProducts.sort((a, b) => a.final_price - b.final_price);
+                break;
+            case 'price_desc':
+                tempProducts.sort((a, b) => b.final_price - a.final_price);
+                break;
+            case 'newest':
+                break;
+            case 'relevance':
+            default:
+                break;
+        }
+
         setFilteredProducts(tempProducts);
         setCurrentPage(1);
-    }, [allProducts, price, category, ratings, discount]);
-
-    const priceHandler = (e, newPrice) => {
-        setPrice(newPrice);
-    };
+    }, [allProducts, price, category, ratings, discount, sortOption]);
 
     const clearFilters = () => {
-        setPrice([0, 200000]);
+        setPrice([0, maxPrice]);
         setCategory("");
         setRatings(0);
         setDiscount(0);
+        setSortOption('relevance');
     };
 
+    const nonProductContent = pageContent.filter(item => item.type !== 'product');
     const pageCount = Math.ceil(filteredProducts.length / resultPerPage);
     const currentPagedProducts = filteredProducts.slice((currentPage - 1) * resultPerPage, currentPage * resultPerPage);
+
+    const renderProductView = () => {
+        if (currentPagedProducts.length === 0 && !loading) {
+            return (
+                <div className="no-results-container">
+                    <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="No Results Found" />
+                    <h1 className="no-results-title">Sorry, no results found!</h1>
+                    <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
+                </div>
+            );
+        }
+        return viewMode === 'grid' ? <GridView products={currentPagedProducts} /> : <ListView products={currentPagedProducts} />;
+    };
 
     return (
         <>
@@ -88,37 +146,36 @@ const Products = () => {
                 <div className="products-page-layout">
                     <FilterSidebar
                         price={price}
-                        priceHandler={priceHandler}
+                        priceHandler={(e, newPrice) => setPrice(newPrice)}
+                        maxPrice={maxPrice}
                         category={category}
                         setCategory={setCategory}
+                        categories={categories}
                         ratings={ratings}
                         setRatings={setRatings}
                         discount={discount}
                         setDiscount={setDiscount}
                         clearFilters={clearFilters}
                     />
-
                     <div className="products-column">
-                        {loading ? (
-                            <Loader />
-                        ) : error ? (
+                        <SortBar
+                            totalResults={filteredProducts.length}
+                            keyword={keyword}
+                            sortOption={sortOption}
+                            setSortOption={setSortOption}
+                        />
+                        {loading ? <Loader /> : error ? (
                             <div className="error-container">
-                                <h1>Error</h1>
-                                <p>{error}</p>
-                            </div>
-                        ) : currentPagedProducts.length === 0 ? (
-                            <div className="no-results-container">
-                                <img draggable="false" className="no-results-image" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/error-no-search-results_2353c5.png" alt="No Results Found" />
-                                <h1 className="no-results-title">Sorry, no results found!</h1>
-                                <p className="no-results-subtitle">Please check the spelling or try searching for something else</p>
+                                <h1>Error</h1> <p>{error}</p>
                             </div>
                         ) : (
                             <div className="products-view">
-                                <div className="products-grid">
-                                    {currentPagedProducts.map((product) => (
-                                        <Product {...product} key={product.asin} />
-                                    ))}
-                                </div>
+                                {nonProductContent.map((item, index) => {
+                                    if (item.type === 'banner') return <BannerComponent {...item.data} key={`banner-${index}`} />;
+                                    if (item.type === 'ad') return <AdComponent {...item.data} key={`ad-${index}`} />;
+                                    return null;
+                                })}
+                                {renderProductView()}
                                 {pageCount > 1 && (
                                     <div className="pagination-container">
                                         <Pagination

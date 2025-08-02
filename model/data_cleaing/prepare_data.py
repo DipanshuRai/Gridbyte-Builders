@@ -21,6 +21,20 @@ def generate_synthetic_engagement_data(df):
     df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
     df['rating'] = df.apply(assign_rating, axis=1)
 
+    def assign_rating_count(row):
+        price = row['final_price']
+        if price > 10000:
+            base_count = random.randint(50, 5000)
+        elif price > 2000:
+            base_count = random.randint(10, 1000)
+        else:
+            base_count = random.randint(1, 200)
+        
+        rating_multiplier = max(1, (row['rating'] - 2.5))
+        return int(base_count * rating_multiplier)
+
+    df['rating_count'] = df.apply(assign_rating_count, axis=1)
+
     def assign_reviews(row):
         price = row['final_price']
         if price > 10000:
@@ -36,10 +50,10 @@ def generate_synthetic_engagement_data(df):
     df['reviews_count'] = df.apply(assign_reviews, axis=1)
     
     def assign_sales(row):
-        reviews = row['reviews_count']
-        if reviews > 1000:
+        rating_count = row['rating_count']
+        if rating_count > 1000:
             base_sales = random.randint(200, 10000)
-        elif reviews > 200:
+        elif rating_count > 200:
             base_sales = random.randint(50, 1000)
         else:
             base_sales = random.randint(0, 200)
@@ -51,8 +65,8 @@ def generate_synthetic_engagement_data(df):
     
     return df
 
-def clean_new_dataset(input_path, output_path):
-    print("--- Starting Data Preparation with Product Specifications ---")
+def clean_new_dataset(input_path, output_path, departments_output_path):
+    print("--- Starting Data Preparation with Top Department Calculation ---")
 
     try:
         df = pd.read_csv(input_path)
@@ -68,7 +82,7 @@ def clean_new_dataset(input_path, output_path):
         'retail_price': 'initial_price',
         'discounted_price': 'final_price',
         'product_rating': 'rating',
-        'image': 'image_url',
+        'image': 'images',
         'product_category_tree': 'category_tree',
         'product_specifications': 'product_specifications'
     }
@@ -86,17 +100,21 @@ def clean_new_dataset(input_path, output_path):
     df = generate_synthetic_engagement_data(df)
 
     def parse_specifications(spec_string):
-        if pd.isna(spec_string):
+        if not isinstance(spec_string, str):
             return []
         try:
-            json_compatible_string = spec_string.replace('=>', ':')
-            specs = ast.literal_eval(json_compatible_string)
-            if isinstance(specs, list) and all(isinstance(item, dict) for item in specs):
-                return specs[0].get('product_specification', [])
+            json_compatible_string = spec_string.replace('=>', ':').replace('\\"', '"')
+            data = ast.literal_eval(json_compatible_string)
+            if isinstance(data, dict):
+                spec_list = data.get("product_specification")
+            
+            if isinstance(spec_list, list) and all(isinstance(item, dict) for item in spec_list):
+                return spec_list
+                
             return []
         except (ValueError, SyntaxError, KeyError):
             return []
-
+        
     if 'product_specifications' in df.columns:
         df['product_specifications'] = df['product_specifications'].apply(parse_specifications)
         df['product_specifications'] = df['product_specifications'].apply(json.dumps)
@@ -104,15 +122,20 @@ def clean_new_dataset(input_path, output_path):
         df['product_specifications'] = '[]'
         print("Warning: 'product_specifications' column not found. Creating empty column.")
 
-    def parse_first_image(url_string):
+    def parse_all_images(url_string):
+        if not isinstance(url_string, str):
+            return []
         try:
             url_list = ast.literal_eval(url_string)
             if isinstance(url_list, list) and len(url_list) > 0:
-                return url_list[0]
-            return ''
+                return url_list
+            return []
         except (ValueError, SyntaxError):
-            return ''
-    df['image_url'] = df['image_url'].apply(parse_first_image)
+            return []
+            
+    df['images'] = df['images'].apply(parse_all_images)
+    df['image_url'] = df['images'].apply(lambda x: x[0] if x else '')
+    df['images'] = df['images'].apply(json.dumps)
 
     def parse_category_tree(tree_string):
         try:
@@ -126,17 +149,34 @@ def clean_new_dataset(input_path, output_path):
     df['department'] = df['categories'].apply(lambda cats: cats[0] if cats else 'NA')
     df.drop(columns=['category_tree'], inplace=True)
     
+    print("Calculating and saving top 15 departments by product count...")
+    top_departments = df['department'].value_counts().head(15)
+    top_departments_list = top_departments.index.tolist()
+    
+    try:
+        with open(departments_output_path, 'w') as f:
+            json.dump(top_departments_list, f)
+        print(f"✅ Top 15 departments saved to {departments_output_path}")
+    except Exception as e:
+        print(f"❌ Error saving top departments file: {e}")
+        
     try:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         df.to_csv(output_path, index=False)
-        print(f"✅ Success! Cleaned data saved.")
+        print(f"✅ Success! Cleaned data saved to {output_path}.")
     except Exception as e:
         print(f"❌ Error saving file: {e}")
 
 if __name__ == '__main__':
     INPUT_FILE_PATH = '../central_data/flipkart-products.csv'
     OUTPUT_FILE_PATH = '../central_data/cleaned-flipkart-products.csv'
-    clean_new_dataset(input_path=INPUT_FILE_PATH, output_path=OUTPUT_FILE_PATH)
+    DEPARTMENTS_JSON_PATH = '../central_data/top_departments.json'
+    
+    clean_new_dataset(
+        input_path=INPUT_FILE_PATH, 
+        output_path=OUTPUT_FILE_PATH,
+        departments_output_path=DEPARTMENTS_JSON_PATH
+    )
 
 # import pandas as pd
 # import numpy as np

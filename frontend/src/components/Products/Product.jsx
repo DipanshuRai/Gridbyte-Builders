@@ -5,34 +5,39 @@ import { Link } from 'react-router-dom';
 import { getDiscount } from '../../utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishlistAction';
+import { useFirstWorkingImage } from '../../Hooks/useFirstWorkingImage';
 import { useSnackbar } from 'notistack';
 
-const Product = ({ _id, title, image, rating, reviews_count, final_price, discount_percentage }) => {
+const Product = ({ asin, title, images, rating, reviews_count, final_price, discount_percentage }) => {
+
+    const displayImage = useFirstWorkingImage(images);
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const discountAmount = Math.abs(Math.random() - 0.5);
     const { wishlistItems } = useSelector((state) => state.wishlist);
 
-    const itemInWishlist = wishlistItems.some((i) => i.product === _id);
+
+
+    const itemInWishlist = wishlistItems.some((i) => i.product === asin);
 
     const addToWishlistHandler = () => {
         if (itemInWishlist) {
-            dispatch(removeFromWishlist(_id));
+            dispatch(removeFromWishlist(asin));
             enqueueSnackbar("Removed From Wishlist", { variant: "success" });
         } else {
-            dispatch(addToWishlist(_id));
+            dispatch(addToWishlist(asin));
             enqueueSnackbar("Added To Wishlist", { variant: "success" });
         }
     };
 
     return (
         <div className="product-card">
-            <Link to={`/product/${_id}`} className="product-link">
+            <Link to={`/product/${asin}`} className="product-link">
                 <div className="product-image">
                     <img
                         draggable="false"
                         className="product-img"
-                        src={image}
+                        src={displayImage}
                         alt=""
                     />
                 </div>

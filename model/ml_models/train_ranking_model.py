@@ -3,6 +3,7 @@ import lightgbm as lgb
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, roc_auc_score
+from sentence_transformers import SentenceTransformer, util
 import joblib
 import os
 import numpy as np
@@ -15,7 +16,7 @@ MODEL_OUTPUT_PATH = os.path.join(ROOT_DIR, 'ml_models', 'ltr_model.joblib')
 VECTORIZER_OUTPUT_PATH = os.path.join(ROOT_DIR, 'ml_models', 'tfidf_vectorizer.joblib')
 
 def train_ranking_model():
-    print("--- Starting LTR Model Training (with synthetic features) ---")
+    print("--- Starting LTR Model Training with ENHANCED Features ---")
 
     try:
         log_df = pd.read_csv(LOG_PATH)
@@ -25,26 +26,39 @@ def train_ranking_model():
         return
     
     training_data = pd.merge(log_df, products_df, left_on='clicked_asin', right_on='asin')
+    if training_data.empty:
+        print("Error: No matching data found between query log and products. Aborting training.")
+        return
+        
     print(f"Loaded and merged data, creating a training set of {len(training_data)} interactions.")
-
-    print("Performing feature engineering...")
+    print("Performing advanced feature engineering...")
     
-    training_data['search_query'] = training_data['search_query'].fillna('')
-    training_data['title'] = training_data['title'].fillna('')
+    training_data.fillna({'search_query': '', 'title': ''}, inplace=True)
 
     vectorizer = TfidfVectorizer()
-    query_vectors = vectorizer.fit_transform(training_data['search_query'])
-    title_vectors = vectorizer.transform(training_data['title'])
+    query_vectors_tfidf = vectorizer.fit_transform(training_data['search_query'])
+    title_vectors_tfidf = vectorizer.transform(training_data['title'])
+    training_data['text_similarity'] = np.asarray(query_vectors_tfidf.multiply(title_vectors_tfidf).sum(axis=1)).flatten()
+
+    print("Calculating semantic similarity scores...")
+    embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+    query_embeddings = embedding_model.encode(training_data['search_query'].tolist(), convert_to_tensor=True, show_progress_bar=True)
+    title_embeddings = embedding_model.encode(training_data['title'].tolist(), convert_to_tensor=True, show_progress_bar=True)
     
-    elementwise_prod = query_vectors.multiply(title_vectors)
-    similarity_scores = elementwise_prod.sum(axis=1)
-    training_data['text_similarity'] = np.asarray(similarity_scores).flatten()
+    cosine_scores = util.cos_sim(query_embeddings, title_embeddings)
+    training_data['semantic_similarity'] = cosine_scores.diag()
 
     training_data['query_length'] = training_data['search_query'].apply(len)
     
     features = [
-        'text_similarity', 'query_length', 'rating', 'reviews_count', 
-        'quality_score', 'discount_percentage', 'bought_past_month'
+        'text_similarity',
+        'semantic_similarity',
+        'query_length', 
+        'rating', 
+        'rating_count', 
+        'quality_score', 
+        'discount_percentage', 
+        'bought_past_month'
     ]
     label = 'is_purchase'
 

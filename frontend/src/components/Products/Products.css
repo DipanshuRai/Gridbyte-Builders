@@ -1,58 +1,29 @@
-/* Sets a background color for the entire page, similar to Flipkart */
 .products-page-main {
-    background-color: #f1f3f6;
-    padding-top: 1.25rem;
-    min-height: calc(100vh - 56px); /* Ensure it takes full height */
+    background-color: #ffffff;
+    padding-top: 0.5rem;
+    min-height: calc(100vh - 56px);
 }
 
-/* Main flex container for sidebar and products */
 .products-page-layout {
     display: flex;
     gap: 1rem;
-    max-width: 1280px; /* Standard container width */
     margin: 0 auto;
     padding: 0 1rem;
 }
 
-/* The right-hand column that holds the product grid */
 .products-column {
     flex: 1;
-    min-width: 0; /* Important for flexbox to prevent overflow */
+    min-width: 0;
 }
 
-/* Container for when products are successfully loaded */
 .products-view {
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    /* background-color: #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
+    border-radius: 2px; */
 }
 
-/* The grid that holds all product cards */
-.products-grid {
-    display: grid;
-    gap: 1rem; /* Space between products */
-    padding: 1rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns on mobile */
-}
-
-/* Media query for tablets */
-@media (min-width: 768px) {
-    .products-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns on tablet */
-    }
-}
-
-/* Media query for desktops */
-@media (min-width: 1024px) {
-    .products-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 columns on desktop */
-        gap: 1.5rem;
-    }
-}
-
-/* Container to center the pagination component */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -60,7 +31,6 @@
     border-top: 1px solid #f0f0f0;
 }
 
-/* Styles for the "No Results Found" message */
 .no-results-container {
     display: flex;
     flex-direction: column;
@@ -93,9 +63,8 @@
     color: #6b7280;
 }
 
-/* Basic error message styling */
 .error-container {
     padding: 2rem;
     text-align: center;
-    color: #ef4444; /* A red color for errors */
+    color: #ef4444;
 }

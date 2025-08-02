@@ -7,9 +7,12 @@ import axiosInstance from '../../../utils/axiosInstance';
 import SearchIcon from '@mui/icons-material/Search';
 import HistoryIcon from '@mui/icons-material/History';
 import MicIcon from '@mui/icons-material/Mic';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useDetectOutsideClick } from '../../../Hooks/useDetectOutsideClick';
+import placeholderImage from '../../../assets/image-placeholder.png';
+import SuggestionIcon from './SuggestionIcon';
 import './Searchbar.css';
 
 const Searchbar = () => {
@@ -22,13 +25,31 @@ const Searchbar = () => {
     
     const searchContainerRef = useRef(null);
     const searchInputRef = useRef(null);
+    const categoryDropdownRef = useRef(null);
+
+    const [topDepartments, setTopDepartments] = useState([]);
+    const [isCategoryDropdownVisible, setIsCategoryDropdownVisible] = useState(false);    
     
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
     useDetectOutsideClick(searchContainerRef, () => setIsDropdownVisible(false));
-    
+    useDetectOutsideClick(categoryDropdownRef, () => setIsCategoryDropdownVisible(false));
+
     const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
     
     const baseURL = process.env.REACT_APP_API_BASE_URL;
+
+    useEffect(() => {
+        const fetchTopDepartments = async () => {
+            try {
+                const { data } = await axios.get(`${baseURL}/autosuggest/departments`);
+                setTopDepartments(data.departments || []);
+            } catch (err) {
+                console.error("Failed to fetch top departments:", err);
+            }
+        };
+        fetchTopDepartments();
+    }, [baseURL]);
 
     useEffect(() => {
         const fetchSuggestions = async () => {
@@ -38,6 +59,8 @@ const Searchbar = () => {
             }
             try {
                 const { data } = await axios.get(`${baseURL}/autosuggest?q=${keyword}`);
+                // console.log(data.suggestions);
+                
                 setSuggestions(data.suggestions || []);
             } catch (err) {
                 console.error("Autosuggest error:", err);
@@ -56,7 +79,7 @@ const Searchbar = () => {
         if (keyword.trim() === '' && isDropdownVisible) {
             fetchHistory();
         }
-    }, [keyword, isDropdownVisible]);
+    }, [keyword, isDropdownVisible, isAuthenticated]);
 
     const fetchHistory = async () => {
         if (!isAuthenticated) return;
@@ -114,11 +137,18 @@ const Searchbar = () => {
     };
     
     const handleSuggestionClick = (item) => {
-        const suggestionText = item.suggestion;
-        setKeyword(suggestionText);
+        // const suggestionText = item.suggestion;
+        // setKeyword(suggestionText);
+        // setSuggestions([]);
+        // saveSearch(suggestionText); 
+        // navigate(`/products/${suggestionText}`);
+        // setIsDropdownVisible(false);
+
+        const searchTerm = item.original_name || item.suggestion;
+        setKeyword(searchTerm);
         setSuggestions([]);
-        saveSearch(suggestionText); 
-        navigate(`/products/${suggestionText}`);
+        saveSearch(searchTerm); 
+        navigate(`/products/${searchTerm}`);
         setIsDropdownVisible(false);
     };
 
@@ -128,6 +158,13 @@ const Searchbar = () => {
         setIsDropdownVisible(false);
     };
 
+    const handleCategorySelect = (department) => {
+        setIsCategoryDropdownVisible(false);
+        setKeyword(department);
+        saveSearch(department);
+        navigate(`/products/${department}`);
+    };
+
     if (!browserSupportsSpeechRecognition) return null;
 
     const renderDropdownContent = () => {
@@ -135,11 +172,7 @@ const Searchbar = () => {
             return suggestions.map((item, index) => (
                 <li key={index} className="suggestion-item" onMouseDown={() => handleSuggestionClick(item)}>
                     <div className="suggestion-image-container">
-                        {item.image ? (
-                            <img src={item.image} alt={item.suggestion} className="suggestion-image" />
-                        ) : (
-                            <SearchIcon className="suggestion-icon" />
-                        )}
+                        <SuggestionIcon item={item} />
                     </div>
                     <span className="suggestion-text">{item.suggestion}</span>
                 </li>
@@ -162,6 +195,22 @@ const Searchbar = () => {
     return (
         <div ref={searchContainerRef} className="search-container">
             <form onSubmit={handleSubmit} className="searchbar">
+                <div ref={categoryDropdownRef} className="category-dropdown-container">
+                    <button type="button" className="category-dropdown-button" onClick={() => setIsCategoryDropdownVisible(!isCategoryDropdownVisible)}>
+                        <span>All</span>
+                        <ArrowDropDownIcon />
+                    </button>
+                    {isCategoryDropdownVisible && (
+                        <ul className="category-dropdown-list">
+                            {topDepartments.map((dept, i) => (
+                                <li key={i} onMouseDown={() => handleCategorySelect(dept)}>
+                                    {dept}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
                 <button type="submit" className="search-button">
                     <SearchIcon />
                 </button>

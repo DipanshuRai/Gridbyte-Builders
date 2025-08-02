@@ -8,14 +8,69 @@
 
 .searchbar {
   width: 100%;
-  height: 45px;
-  padding: 0 1rem;
+  height: 40px;
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: #eff3fd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
+}
+
+.category-dropdown-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.category-dropdown-button {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding-left: 1rem;
+    padding-right: 0.6rem;
+    margin-right: 0.6rem;
+    background-color: #397dea;
+    border: none;
+    border-right: 1px solid #cdcdcd;
+    cursor: pointer;
+    font-size: 13px;
+    color: #ececec;
+    font-weight: 700;
+    transition: background-color 0.2s;
+}
+
+.category-dropdown-button:hover {
+    background-color: #1d6ae7;
+}
+.category-dropdown-button .MuiSvgIcon-root {
+    color: #f1f0f0;
+}
+
+.category-dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: #ffffff;
+    border: 1px solid #cdcdcd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    list-style: none;
+    padding: 0;
+    margin-top: 2px;
+    z-index: 1001; 
+    max-height: 400px;
+    overflow-y: auto;
+}
+.category-dropdown-list li {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.category-dropdown-list li:hover {
+    background-color: #f0f0f0;
 }
 
 .search-input {
@@ -25,6 +80,7 @@
   border: none;
   background: transparent;
   color: #212121;
+  padding: 0 10px;
 }
 
 .search-input::placeholder {
@@ -54,7 +110,6 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding-right: 12px; 
 }
 
 .search-dropdown {

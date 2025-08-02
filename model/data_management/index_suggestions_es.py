@@ -41,11 +41,13 @@ def create_index(client: Elasticsearch, embedding_dim: int):
             "title_hi": {"type": "text", "analyzer": "hindi"},
             "brand": {"type": "keyword"},
             "image": {"type": "keyword"},
+            "images": {"type": "keyword"},
             "description": {"type": "text", "analyzer": "english"},
             "description_hi": {"type": "text", "analyzer": "hindi"},
             "department": {"type": "keyword"},
             "embedding": {"type": "dense_vector", "dims": embedding_dim},
             "rating": {"type": "float"},
+            "rating_count": {"type": "integer"},
             "reviews_count": {"type": "integer"},
             "final_price": {"type": "integer"},
             "discount_percentage": {"type": "float"},
@@ -75,6 +77,7 @@ def index_products():
         return
 
     data_df = pd.merge(products_df, embeddings_df, on='asin')
+    data_df.fillna({'images': '[]', 'product_specifications': '[]'}, inplace=True)
     data_df.fillna(0, inplace=True)
 
     first_embedding = json.loads(data_df['embedding'].iloc[0])
@@ -90,16 +93,23 @@ def index_products():
         except (TypeError, json.JSONDecodeError):
             spec_list = []
 
+        try:
+            all_images_list = json.loads(row['images'])
+        except (TypeError, json.JSONDecodeError):
+            all_images_list = []
+
         doc = {
             "title": row['title'],
             "title_hi": row['title_hi'],
             "brand": row['brand'],
             "image": row['image_url'],
+            "images": all_images_list,
             "description": row['description'],
             "description_hi": row['description_hi'],
             "department": row['department'],
             "embedding": json.loads(row['embedding']),
             "rating": row['rating'],
+            "rating_count": row['rating_count'],
             "reviews_count": row['reviews_count'],
             "final_price": row['final_price'],
             "discount_percentage": row['discount_percentage'],
