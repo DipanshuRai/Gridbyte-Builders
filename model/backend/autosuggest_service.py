@@ -110,7 +110,7 @@ class AutosuggestService:
                     "text": prefix, 
                     "query_suggester": {
                         "completion": {
-                            "field": "suggest_field", 
+                            "field": suggest_field, 
                             "size": limit,
                             "skip_duplicates": True,
                             "fuzzy": {"fuzziness": "AUTO"}
