@@ -4,7 +4,7 @@ import numpy as np
 import os
 import json
 
-DB_PATH = '../central_data/cleaned-flipkart-products.csv'
+DB_PATH = '../central_data/flipkart-cleaned-dataset-hi.csv'
 OUTPUT_PATH = '../central_data/product_embeddings.csv'
 
 def create_semantic_text(row):
@@ -40,11 +40,12 @@ def generate_embeddings():
 
 
     print("Loading the embedding model...")
-    model = SentenceTransformer('all-MiniLM-L6-v2')
+    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
     print("Model loaded successfully.")
 
     try:
         df = pd.read_csv(DB_PATH)
+        print(df.columns)
         df.dropna(subset=['title'], inplace=True)
     except FileNotFoundError:
         print(f"Error: Database not found at {DB_PATH}")

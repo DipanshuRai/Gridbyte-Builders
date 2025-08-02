@@ -1,10 +1,35 @@
 import pandas as pd
 import random
+from google.cloud import translate_v3 as translate
 import os
 
-DB_PATH = '../central_data/cleaned-flipkart-products.csv'
+
+DB_PATH = '../central_data/flipkart-cleaned-dataset-hi.csv'
 USER_PREF_PATH = '../central_data/user_preference_history.csv'
 OUTPUT_PATH = '../central_data/query_product_log.csv'
+PROJECT_ID="axial-rigging-450317-d3"
+
+def translate_text(text, target_language):
+
+    if not isinstance(text, str) or text == 'NA':
+        return text  # return original text
+    
+    client = translate.TranslationServiceClient()
+    location = "global"
+    
+    parent = f"projects/{PROJECT_ID}/locations/{location}"
+    
+    response = client.translate_text(
+        request={
+            "parent": parent,
+            "contents": [text],
+            "mime_type": "text/plain",  # or "text/html" for HTML content
+            "source_language_code": "en",  # optional, auto-detected if omitted
+            "target_language_code": target_language,
+        }
+    )
+    
+    return response.translations[0].translated_text
 
 def generate_realistic_queries(product_title, product_brand, product_department):
     """Generates a list of potential search queries for a single product."""
@@ -57,6 +82,33 @@ def generate_interaction_log():
                 target_product['title'], 
                 target_product['brand'], 
                 target_product['department']
+            )
+            
+            if not queries:
+                continue 
+
+           
+            search_query = random.choice(queries)
+            
+
+            clicked_asin = target_product['asin']
+            
+            is_purchase = random.random() < 0.20
+            
+            interaction_log.append({
+                'user_id': user_id,
+                'search_query': search_query,
+                'clicked_asin': clicked_asin,
+                'is_purchase': is_purchase
+            })
+
+        for _ in range(num_searches):
+            target_product = products_df.sample(1).iloc[0]
+            
+            queries = generate_realistic_queries(
+                target_product['title_hi'], 
+                translate_text(target_product['brand'],"hi"), 
+                translate_text(target_product['department'],"hi")
             )
             
             if not queries:
