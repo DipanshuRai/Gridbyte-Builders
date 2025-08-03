@@ -93,7 +93,6 @@ const Register = () => {
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
 
-                {/* <!-- row --> */}
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
 
                     <FormSidebar
@@ -101,10 +100,8 @@ const Register = () => {
                         tag="Sign up with your mobile number to get started"
                     />
 
-                    {/* <!-- signup column --> */}
                     <div className="flex-1 overflow-hidden">
 
-                        {/* <!-- personal info procedure container --> */}
                         <form
                             onSubmit={handleRegister}
                             encType="multipart/form-data"
@@ -112,7 +109,6 @@ const Register = () => {
                         >
                             <div className="flex flex-col gap-4 items-start">
 
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-col gap-3 items-center">
                                     <TextField
                                         fullWidth
@@ -134,9 +130,7 @@ const Register = () => {
                                         required
                                     />
                                 </div>
-                                {/* <!-- input container column --> */}
 
-                                {/* <!-- gender input --> */}
                                 <div className="flex gap-4 items-center">
                                     <h2 className="text-md">Your Gender :</h2>
                                     <div className="flex items-center gap-6" id="radioInput">
@@ -150,9 +144,7 @@ const Register = () => {
                                         </RadioGroup>
                                     </div>
                                 </div>
-                                {/* <!-- gender input --> */}
 
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-row gap-3 items-center">
                                     <TextField
                                         id="password"
@@ -173,7 +165,6 @@ const Register = () => {
                                         required
                                     />
                                 </div>
-                                {/* <!-- input container column --> */}
 
                                 <div className="flex flex-col w-full justify-between sm:flex-row gap-3 items-center">
                                     <Avatar
@@ -197,12 +188,9 @@ const Register = () => {
                             </div>
 
                         </form>
-                        {/* <!-- personal info procedure container --> */}
 
                     </div>
-                    {/* <!-- signup column --> */}
                 </div>
-                {/* <!-- row --> */}
 
             </main>
         </>

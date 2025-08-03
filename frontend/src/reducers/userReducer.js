@@ -55,9 +55,9 @@ export const userReducer = (state = initialState, { type, payload }) => {
         case REGISTER_USER_REQUEST:
         case LOAD_USER_REQUEST:
             return {
-                ...state, // Spread the existing state to keep user/error info if needed
+                ...state, 
                 loading: true,
-                isAuthenticated: false, // Explicitly set isAuthenticated to false on new load
+                isAuthenticated: false, 
             };
 
         case LOGIN_USER_SUCCESS:
@@ -68,11 +68,10 @@ export const userReducer = (state = initialState, { type, payload }) => {
                 loading: false,
                 isAuthenticated: true,
                 user: payload,
-                error: null, // Clear previous errors on success
+                error: null, 
             };
 
         case LOGOUT_USER_SUCCESS:
-            // Return to the clean initial state on logout
             return {
                 loading: false,
                 user: null,
@@ -95,7 +94,7 @@ export const userReducer = (state = initialState, { type, payload }) => {
                 loading: false,
                 isAuthenticated: false,
                 user: null,
-                error: payload, // You might want to set this to null if "no user" isn't an "error"
+                error: payload,
             };
 
         case LOGOUT_USER_FAIL:

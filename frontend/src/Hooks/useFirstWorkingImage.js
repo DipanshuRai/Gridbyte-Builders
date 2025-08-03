@@ -30,7 +30,6 @@ export const useFirstWorkingImage = (imageUrls) => {
                         return;
                     }
                 } catch (error) {
-                    // Image failed to load, loop will continue to the next one
                 }
             }
             if (isMounted) {

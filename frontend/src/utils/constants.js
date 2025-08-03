@@ -1,4 +1,3 @@
-// Categories Used In Entire App
 export const categories = [
     "Electronics",
     "Mobiles",
@@ -8,7 +7,6 @@ export const categories = [
     "Home",
 ];
 
-// Product Sliders Offers
 export const offerProducts = [
     {
         image: "https://rukminim1.flixcart.com/image/150/150/jqgy3rk0/computer-table/j/2/v/particle-board-dkl-comp-tb-09-delite-kom-brown-original-imafcheqbgers37z.jpeg",

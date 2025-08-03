@@ -12,13 +12,9 @@ The final implementation features a sophisticated **Autosuggest** that provides 
 
 ## 2. Live Demo
 
-[![Project Demo Video](https://img.youtube.com/vi/YOUR_YOUTUBE_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID)
+[Demo Video](https://drive.google.com/file/d/1ysJt1MMp5gC0mrrnpzdClFUbdJKnvYIB/view)
 
-**Click the image above to watch a 3-minute video demonstration of the project.**
-
-*(Note: To use the thumbnail, replace `YOUTUBE_VIDEO_ID` with the ID of YouTube video, e.g., `dQw4w9WgXcQ`)*
-
-## 3. Answering the Hackathon Problem Statement
+## 3. Answering the Problem Statement
 
 Our project is a direct and comprehensive answer to the challenge, addressing every specified objective.
 
@@ -39,8 +35,6 @@ Our project is a direct and comprehensive answer to the challenge, addressing ev
 ## 4. System Architecture and Technology Stack
 
 Our project utilizes a modern, robust, and scalable **microservices-based architecture**, allowing for the independent development and scaling of different system components.
-
-![Architecture Diagram](path/to/your/architecture_diagram.png)  
 
 ### Frontend (UI Layer)
 *   **Technology:** **React**
@@ -65,111 +59,101 @@ Our project utilizes a modern, robust, and scalable **microservices-based archit
 Follow these steps precisely to set up and run the entire project.
 
 ### Prerequisites
-*   Python 3.9+
-*   Node.js 16+
-*   Docker and Docker Compose (for Elasticsearch) or a local Elasticsearch 8.x installation
-*   MongoDB (local or cloud instance)
+*   **Python 3.9+** and `pip`
+*   **Node.js 16+** and `npm`
+*   **Java Development Kit (JDK)** version 11 or newer (required by Elasticsearch)
+*   A local **MongoDB** instance (or a cloud connection string)
 
-### Step 1: Clone the Repository
+### Step 1: Clone the Repository & Initial Setup
+
 ```bash
 git clone https://github.com/DipanshuRai/Gridbyte-Builders.git
 cd Gridbyte-Builders
 ```
 
-### Step 2: Set Up Backend Services
+### Step 2: Set Up and Run Backend Services
 
-#### A. Start Elasticsearch and MongoDB
-Ensure your Elasticsearch and MongoDB instances are running. If using Docker, a `docker-compose.yml` file may be provided.
-```bash
-# Example if using Docker
-docker-compose up -d
-```
-Verify Elasticsearch is running by navigating to `http://localhost:9200` in your browser.
-
-#### B. Set Up the Python Search Service
-1.  Navigate to the Python backend directory:
+#### A. Download and Run Elasticsearch
+1.  Download Elasticsearch 8.x from the [official website](https://www.elastic.co/downloads/elasticsearch) and unzip it to a memorable location (e.g., `C:\elasticsearch-8.x.x`).
+2.  Open a dedicated terminal, navigate to the Elasticsearch directory, and run it. **Keep this terminal open.**
     ```bash
-    cd model/backend
+    cd C:\elasticsearch-8.x.x\bin
+    ./elasticsearch.bat
     ```
-2.  Create a virtual environment and install dependencies:
+3.  In browser, verify it's running:
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    pip install -r requirements.txt
+    Go to "localhost:9200"
     ```
+    You should see a JSON response.
 
-#### C. Set Up the Node.js User Service
-1.  Navigate to the Node.js backend directory:
-
+#### B. Set Up the Node.js User Service
+1.  Navigate to the Node.js backend directory from the project root:
+    ```bash
+    cd backend  # This is your Node.js user service folder
+    ```
 2.  Install dependencies:
     ```bash
     npm install
     ```
 
+#### C. Set Up the Python Search Service
+1.  Navigate to the Python backend directory from the project root:
+    ```bash
+    cd model
+    ```
+2.  Install dependencies:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
 ### Step 3: Run the Data Pipeline
 
-This is a mandatory, one-time setup process that prepares all the data for the search engine. **Execute these scripts in the exact order provided.**
+This is a mandatory, one-time setup process that prepares and indexes all data. **Execute these scripts from the project root in the exact order provided.**
 
-1.  **Delete Old Indices (Important!)**:
-    Open a new terminal and run the following commands to ensure a clean slate:
+1.  **Run Data Preparation & Indexing Scripts**:
+    All the following commands should be run from the `model/data_management/` directory. Navigate there first:
     ```bash
-    curl -X DELETE "localhost:9200/products_index"
-    curl -X DELETE "localhost:9200/queries_index"
-    curl -X DELETE "localhost:9200/categories_index"
-    curl -X DELETE "localhost:9200/brands_index"
+    cd model/data_management
     ```
-
-2.  **Run Data Preparation Scripts**:
-    Navigate to the `model/data_management/` directory.
+    Now, run the scripts in sequence:
     ```bash
-    # 1. Clean data, generate synthetic features, and create translations
-    python prepare_data.py
     
-    # 2. Add calculated features like quality_score
-    python add_ranking_features.py
-    
-    # 3. Create supporting datasets and user history
-    python create_specialized_datasets.py
-    
-    # 4. Generate the simulated user search log
-    python generate_query_log.py
-    
-    # 5. Generate rich, multilingual semantic embeddings
+    # 1. Generates rich, multilingual semantic embeddings
     python generate_embeddings.py
-    ```
-
-3.  **Run Indexing Scripts**:
-    Stay in the `model/data_management/` directory.
-    ```bash
-    # 6. Index the main product data
+    
+    # 2. Indexes the main product data into Elasticsearch
     python index_suggestions_es.py
     
-    # 7. Index the multilingual user queries for autosuggest
-    python index_queries.py
+    # 3. Indexes the multilingual user queries for autosuggest
+    python index_multilingual_queries.py
     
-    # 8. Index the unique categories and brands for autosuggest
+    # 4. Indexes the unique categories and brands for autosuggest
     python index_entities.py
     ```
 
 ### Step 4: Run the Application
 
+You will need three separate terminals for this step.
+
 1.  **Start the Python Search API**:
-    In the `model/backend/` directory, run:
+    In a terminal, navigate to `model/backend/` and run:
     ```bash
     uvicorn app:app --reload
     ```
 
 2.  **Start the Node.js User API**:
-    In the `/backend` directory, run:
+    In a second terminal, navigate to `backend/` (the Node.js folder) and run:
     ```bash
     npm run dev
     ```
 
 3.  **Start the React Frontend**:
-    Navigate to your frontend project directory.
-    
+    In a third terminal, navigate to your frontend project directory (e.g., `frontend/`) and run:
     ```bash
-    npm start
+    npm install
+    npm run dev
     ```
 
 ## 6. Team Members

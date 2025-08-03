@@ -32,19 +32,14 @@ const Account = () => {
                     <MinCategory />
                     <main className="w-full mt-12 sm:mt-0">
 
-                        {/* <!-- row --> */}
                         <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
 
                             <Sidebar activeTab={"profile"} />
 
-                            {/* <!-- details column --> */}
                             <div className="flex-1 overflow-hidden shadow bg-white">
-                                {/* <!-- edit info container --> */}
                                 <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
-                                    {/* <!-- personal info --> */}
                                     <div className="flex flex-col gap-5 items-start">
                                         <span className="font-medium text-lg">Personal Information <Link to="/account/update" className="text-sm text-primary-blue font-medium ml-8 cursor-pointer">Edit</Link></span>
-
                                         <div className="flex flex-col sm:flex-row items-center gap-3" id="personalInputs">
                                             <div className="flex flex-col gap-0.5 w-64 px-3 py-1.5 rounded-sm border inputs cursor-not-allowed bg-gray-100 focus-within:border-primary-blue">
                                                 <label className="text-xs text-gray-500">First Name</label>
@@ -56,7 +51,6 @@ const Account = () => {
                                             </div>
                                         </div>
 
-                                        {/* <!-- gender --> */}
                                         <div className="flex flex-col gap-2">
                                             <h2 className="text-sm">Your Gender</h2>
                                             <div className="flex items-center gap-8" id="radioInput">
@@ -70,12 +64,9 @@ const Account = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <!-- gender --> */}
 
                                     </div>
-                                    {/* <!-- personal info --> */}
 
-                                    {/* <!-- email address info --> */}
                                     <div className="flex flex-col gap-5 items-start">
                                         <span className="font-medium text-lg">Email Address
                                             <Link to="/account/update" className="text-sm text-primary-blue font-medium ml-3 sm:ml-8 cursor-pointer">Edit</Link>
@@ -90,9 +81,7 @@ const Account = () => {
                                         </div>
 
                                     </div>
-                                    {/* <!-- email address info --> */}
 
-                                    {/* <!-- mobile number info --> */}
                                     <div className="flex flex-col gap-5 items-start">
                                         <span className="font-medium text-lg">Mobile Number
                                             <span className="text-sm text-primary-blue font-medium ml-3 sm:ml-8 cursor-pointer" id="mobEditBtn">Edit</span>
@@ -106,9 +95,7 @@ const Account = () => {
                                         </div>
 
                                     </div>
-                                    {/* <!-- mobile number info --> */}
 
-                                    {/* <!-- faqs --> */}
                                     <div className="flex flex-col gap-4 mt-4">
                                         <span className="font-medium text-lg mb-2">FAQS</span>
                                         <h4 className="text-sm font-medium">What happens when I update my email address (or mobile number)?</h4>
@@ -124,17 +111,12 @@ const Account = () => {
                                         <p className="text-sm">Flipkart has a 'single sign-on' policy. Any changes will reflect in your Seller account also.</p>
 
                                     </div>
-                                    {/* <!-- faqs --> */}
 
-                                    {/* <!-- deactivate account --> */}
                                     <Link className="text-sm text-primary-blue font-medium" to="/">Deactivate Account</Link>
-                                    {/* <!-- deactivate account --> */}
                                 </div>
-                                {/* <!-- edit info container --> */}
 
                                 <img draggable="false" className="w-full object-contain" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/myProfileFooter_4e9fe2.png" alt="footer" />
                             </div>
-                            {/* <!-- details column --> */}
                         </div>
                     </main>
                 </>

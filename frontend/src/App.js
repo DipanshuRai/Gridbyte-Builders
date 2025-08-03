@@ -61,7 +61,6 @@ function App() {
     // getStripeApiKey();
   }, [dispatch]);
 
-  // always scroll to top on route/path change
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -70,7 +69,6 @@ function App() {
     });
   }, [pathname])
 
-  // disable right click
   // window.addEventListener("contextmenu", (e) => e.preventDefault());
   // window.addEventListener("keydown", (e) => {
   //   if (e.keyCode === 123) e.preventDefault();
@@ -92,7 +90,6 @@ function App() {
 
         <Route path="/cart" element={<Cart />} />
 
-        {/* order process */}
         <Route path="/shipping" element={
           <ProtectedRoute>
             <Shipping />
@@ -107,17 +104,12 @@ function App() {
 
         <Route path="/process/payment" element={
           <ProtectedRoute>
-            {/* // stripeApiKey && ( */}
-            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
             <Payment />
-            {/* // </Elements> */}
-            {/* ) */}
           </ProtectedRoute>
         } ></Route>
 
         <Route path="/orders/success" element={<OrderSuccess success={true} />} />
         <Route path="/orders/failed" element={<OrderSuccess success={false} />} />
-        {/* order process */}
 
         <Route path="/order/:id" element={
           <ProtectedRoute>

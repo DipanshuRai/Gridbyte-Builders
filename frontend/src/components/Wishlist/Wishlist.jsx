@@ -20,7 +20,6 @@ const Wishlist = () => {
                     <Sidebar activeTab={"wishlist"} />
 
                     <div className="flex-1 shadow bg-white">
-                        {/* <!-- wishlist container --> */}
                         <div className="flex flex-col">
                             <span className="font-medium text-lg px-4 sm:px-8 py-4 border-b">My Wishlist ({wishlistItems.length})</span>
 
@@ -38,7 +37,6 @@ const Wishlist = () => {
                             ).reverse()}
 
                         </div>
-                        {/* <!-- wishlist container --> */}
 
                     </div>
 

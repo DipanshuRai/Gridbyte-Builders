@@ -76,20 +76,15 @@ const UpdateProfile = () => {
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
 
-                {/* <!-- row --> */}
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
-                    {/* <!-- sidebar column  --> */}
                     <div className="loginSidebar bg-primary-blue px-9 py-10 hidden sm:flex flex-col gap-4 w-2/5">
                         <h1 className="font-medium text-white text-3xl">Looks like you're new here!</h1>
                         <p className="text-gray-200 text-lg pr-2">Sign up with your mobile number to get started</p>
                     </div>
-                    {/* <!-- sidebar column  --> */}
 
-                    {/* <!-- signup column --> */}
                     <div className="flex-1 overflow-hidden">
 
                         <h2 className="text-center text-2xl font-medium mt-6 text-gray-800">Update Profile</h2>
-                        {/* <!-- personal info procedure container --> */}
                         <form
                             onSubmit={updateProfileHandler}
                             encType="multipart/form-data"
@@ -97,7 +92,6 @@ const UpdateProfile = () => {
                         >
                             <div className="flex flex-col gap-4 items-start">
 
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-col gap-3 items-center">
                                     <TextField
                                         fullWidth
@@ -117,9 +111,7 @@ const UpdateProfile = () => {
                                         required
                                     />
                                 </div>
-                                {/* <!-- input container column --> */}
 
-                                {/* <!-- gender input --> */}
                                 <div className="flex gap-4 items-center">
                                     <h2 className="text-md">Your Gender :</h2>
                                     <div className="flex items-center gap-6" id="radioInput">
@@ -133,7 +125,6 @@ const UpdateProfile = () => {
                                         </RadioGroup>
                                     </div>
                                 </div>
-                                {/* <!-- gender input --> */}
 
                                 <div className="flex flex-col w-full justify-between sm:flex-row gap-3 items-center">
                                     <Avatar
@@ -157,13 +148,9 @@ const UpdateProfile = () => {
                             </div>
 
                         </form>
-                        {/* <!-- personal info procedure container --> */}
 
                     </div>
-                    {/* <!-- signup column --> */}
                 </div>
-                {/* <!-- row --> */}
-
             </main>
         </>
     );

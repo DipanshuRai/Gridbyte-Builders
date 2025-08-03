@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-// Import your reducers:
 import {
   forgotPasswordReducer,
   profileReducer,
@@ -79,9 +78,8 @@ const store = configureStore({
   preloadedState: initialState,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      // you can disable serializable check if needed, but RTK handles it by default
       serializableCheck: {
-        ignoredActions: [], // default, override if you have non-serializable actions
+        ignoredActions: [],
       },
     }).concat(thunk),
   devTools: process.env.NODE_ENV !== 'production',

@@ -1,0 +1,47 @@
+# The HTTP port to run the application on
+PORT=4000
+
+# MongoDB connection string
+MONGO_URI=
+
+FRONTEND_URL=
+
+# JWT secret and expiry
+JWT_SECRET=
+JWT_EXPIRE=
+
+# Cookie expiry
+COOKIE_EXPIRE=5
+
+# Stripe API Key & Secret Key (Optional) **Alternative Paytm**
+STRIPE_API_KEY=
+STRIPE_SECRET_KEY=
+
+# Any SMTP Credentials (Optional) **Alternative Sendgrid**
+SMTP_HOST=
+SMTP_PORT=
+SMTP_SERVICE=
+SMTP_MAIL=
+SMTP_PASSWORD=
+
+# Sendgrid Credentials
+SENDGRID_API_KEY=
+SENDGRID_MAIL=
+SENDGRID_RESET_TEMPLATEID=
+SENDGRID_ORDER_TEMPLATEID=
+
+# Cloudinary Credentials
+CLOUDINARY_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Paytm Credentials
+PAYTM_MID=
+PAYTM_MERCHANT_KEY=
+PAYTM_WEBSITE=
+PAYTM_CHANNEL_ID=
+PAYTM_INDUSTRY_TYPE=
+PAYTM_CUST_ID=
+
+# The environment to run the application in
+NODE_ENV=development

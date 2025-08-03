@@ -6,7 +6,7 @@ const MinCategory = ({ categories }) => {
     return (
         <section className="min-category">
             <div className="min-category-wrapper">
-                {categories.slice(0, 8).map((el, i) => (
+                {categories?.slice(0, 8).map((el, i) => (
                     <Link to="/products" key={i} className="category-link">
                         {el}
                         <span className="category-icon">

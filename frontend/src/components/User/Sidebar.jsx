@@ -27,24 +27,18 @@ const Sidebar = ({ activeTab }) => {
     return (
         <div className="hidden sm:flex flex-col gap-4 w-1/4 px-1">
 
-            {/* <!-- profile card --> */}
             <div className="flex items-center gap-4 p-3 bg-white rounded-sm shadow">
-                {/* <!-- user icon --> */}
                 <div className="w-12 h-12 rounded-full">
                     <img draggable="false" className="h-full w-full object-cover rounded-full" src={user.avatar.url} alt="Avatar" />
                 </div>
-                {/* <!-- user icon --> */}
                 <div className="flex flex-col gap-1">
                     <p className="text-xs">Hello,</p>
                     <h2 className="font-medium">{user.name}</h2>
                 </div>
             </div>
-            {/* <!-- profile card --> */}
 
-            {/* <!-- nav tiles --> */}
             <div className="flex flex-col bg-white rounded-sm shadow">
 
-                {/* <!-- my orders tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4 border-b">
                     <span className="text-primary-blue"><FolderIcon /></span>
                     <Link className="flex w-full justify-between font-medium text-gray-500 hover:text-primary-blue" to="/orders">
@@ -52,9 +46,7 @@ const Sidebar = ({ activeTab }) => {
                         <span><ChevronRightIcon /></span>
                     </Link>
                 </div>
-                {/* <!-- my orders tab --> */}
 
-                {/* <!-- account settings tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4">
                     <span className="text-primary-blue"><PersonIcon /></span>
                     <p className="flex w-full justify-between font-medium text-gray-500">ACCOUNT SETTINGS</p>
@@ -64,9 +56,7 @@ const Sidebar = ({ activeTab }) => {
                     <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">Manage Addresses</Link>
                     <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">PAN Card Information</Link>
                 </div>
-                {/* <!-- account settings tab --> */}
 
-                {/* <!-- payments tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4">
                     <span className="text-primary-blue"><AccountBalanceWalletIcon /></span>
                     <p className="flex w-full justify-between font-medium text-gray-500">PAYMENTS</p>
@@ -76,9 +66,7 @@ const Sidebar = ({ activeTab }) => {
                     <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">Saved UPI</Link>
                     <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">Saved Cards</Link>
                 </div>
-                {/* <!-- payments tab --> */}
 
-                {/* <!-- my chats tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4 border-b">
                     <span className="text-primary-blue"><ChatIcon /></span>
                     <Link className="flex w-full justify-between font-medium text-gray-500 hover:text-primary-blue" to="/">
@@ -86,9 +74,7 @@ const Sidebar = ({ activeTab }) => {
                         <span><ChevronRightIcon /></span>
                     </Link>
                 </div>
-                {/* <!-- my chats tab --> */}
 
-                {/* <!-- my stuff tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4">
                     <span className="text-primary-blue"><FolderSharedIcon /></span>
                     <p className="flex w-full justify-between font-medium text-gray-500">MY STUFF</p>
@@ -99,9 +85,7 @@ const Sidebar = ({ activeTab }) => {
                     <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">All Notifications</Link>
                     <Link to="/wishlist" className={`${activeTab === "wishlist" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`}>My Wishlist</Link>
                 </div>
-                {/* <!-- my stuff tab --> */}
 
-                {/* <!-- logout tab --> */}
                 <div className="flex items-center gap-5 px-4 py-4 border-b">
                     <span className="text-primary-blue"><PowerSettingsNewIcon /></span>
                     <div className="flex w-full justify-between font-medium text-gray-500 hover:text-primary-blue cursor-pointer" onClick={handleLogout}>
@@ -109,12 +93,9 @@ const Sidebar = ({ activeTab }) => {
                         <span><ChevronRightIcon /></span>
                     </div>
                 </div>
-                {/* <!-- logout tab --> */}
 
             </div>
-            {/* <!-- nav tiles --> */}
 
-            {/* <!-- frequenty visited tab --> */}
             <div className="flex flex-col items-start gap-2 p-4 bg-white rounded-sm shadow">
                 <span className="text-xs font-medium">Frequently Visited:</span>
                 <div className="flex gap-2.5 text-xs text-gray-500">
@@ -123,7 +104,6 @@ const Sidebar = ({ activeTab }) => {
                     <Link to="/">Help Center</Link>
                 </div>
             </div>
-            {/* <!-- frequenty visited tab --> */}
         </div>
     );
 };
