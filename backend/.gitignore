@@ -39,4 +39,8 @@ coverage/
 
 # Misc
 *.tgz
-package-lock.json yarn.lock # optionally ignore lock files (only if you know why)
+
+# Lock files (optional - only if you know why)
+package-lock.json
+yarn.lock
+
